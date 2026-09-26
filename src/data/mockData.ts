@@ -1,0 +1,185 @@
+import type { ServiceItem, WorkshopItem, PortfolioItem, GarmentOption, TechniqueOption } from '../types';
+
+export const COMPANY_INFO = {
+  name: 'Art2Art Estampados',
+  tagline: 'Taller & Academia Textil',
+  experience: '+10 Años',
+  city: 'Guadalajara de Buga',
+  department: 'Valle del Cauca, Colombia',
+  address: 'Cra 9A #12-53, Guadalajara de Buga, Valle del Cauca',
+  phone: '324 677 0272',
+  whatsappRaw: '573182660432',
+  whatsappDisplay: '+57 318 266 0432',
+  schedule: 'Lunes a Sábado: 8:00 AM - 6:30 PM',
+  instagramUrl: 'https://www.instagram.com/art2art_estampados/',
+  facebookUrl: 'https://www.facebook.com/profile.php?id=100064875279647',
+  mapsUrl: 'https://maps.google.com/?q=Cra+9A+%2312-53+Guadalajara+de+Buga',
+  avatarUrl: 'https://lh3.googleusercontent.com/aida/AEtjO1WuBfFiUmlnYhC42k15MHxH_P8qjYajUFpfrIYi1r2FPCC6MoYz-4Dmf766EK4qNsbrsGY8Oh---I_it5f9NwvF_4RTZq7OLylY6qeTewrRCinrWayfCuk18nD2bv-2fAVClxjTP4Yk8b-jPY_tLinuDExi5EtqrMCzMukIkylVRVHznBaIPZm6jVX1fz-j_Ji9DGgTxHCrdfQZBFV6va4JmfP64RgmPP7kcJ32wufe9xdodPq6YCnawJc',
+};
+
+export const getWhatsAppLink = (message: string) => {
+  return `https://wa.me/${COMPANY_INFO.whatsappRaw}?text=${encodeURIComponent(message)}`;
+};
+
+export const SERVICES_DATA: ServiceItem[] = [
+  {
+    id: 'serigrafia',
+    name: 'Serigrafía',
+    badge: 'Ideal para grandes tirajes',
+    badgeColor: 'petal-yellow',
+    dotColor: '#F9DF1B',
+    shortDesc: 'Técnica tradicional de estampado de alta calidad para grandes volúmenes. Perfecta para camisetas, bolsas y textiles. Colores vibrantes y durabilidad excepcional.',
+    fullDesc: 'La serigrafía es el estándar de oro para producciones a escala. Utilizamos tintas plastisol, discharge y base agua ecológicas que aseguran una fijación permanente a la fibra de algodón. Ideal para marcas de ropa, dotaciones empresariales y eventos masivos.',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA-jPs4gtwgmJMQM8_e8WYtQnivIRACIu6aNLwcv9ZhtnO9k2s5eCN7NXrpYmZDLIqhMP_Jdj3oRbEs4eKOvPvlPF1UU4EDDUtkgU10jxpb-CfQ_fh4EimReOenxCJ5oj7w3A_AC7nnCdlw3tTSWKah8IS-NHa-fjuYs7oDGHxNAIUgvlKmZEsuAniyp57_LQwj0AwiERFZBPiXtVOx-zdhflygM0l10hxw7ZqB8sffGKIt5KIT1cfB',
+    imageAlt: 'Proceso artesanal de serigrafía en taller con manigueta y malla azul',
+    quoteMessage: 'Hola, deseo cotizar estampado en Serigrafía.',
+    features: [
+      'Costo ultracompetitivo por volumen',
+      'Tacto suave y tintas de alta opacidad',
+      'Acabados especiales (dorado, plateado, relieve)',
+      'Máxima resistencia al lavado industrial',
+    ],
+    idealFor: 'Camisetas promocionales, uniformes, marcas de streetwear y tirajes de 20 a 5,000+ unidades',
+    minQuantity: 'Desde 12 unidades',
+    durability: '50+ lavadas sin perder intensidad',
+    materials: ['100% Algodón', 'Mezclas Poliéster/Algodón', 'Lienzo', 'Dril'],
+  },
+  {
+    id: 'sublimacion',
+    name: 'Sublimación',
+    badge: 'Detalle fotográfico',
+    badgeColor: 'petal-red',
+    dotColor: '#E02424',
+    shortDesc: 'Impresión digital de alta definición en poliéster y superficies especiales. Ideal para diseños fotográficos complejos con colores ilimitados y detalles precisos.',
+    fullDesc: 'La sublimación química integra los pigmentos en estado gaseoso directamente en el polímero del tejido. El resultado es un estampado con cero tacto (completamente transpirable) y degradados fotográficos impecables en prendas deportivas, tazas y artículos promocionales.',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDDKrvJ5C1Di1mHv5R_ZSOZpK_sEh_i841HjkV-E5BQSmIN6ANW23wKMPXQMrLQXlIbNZQsV0Z3bxivTXr_ExFyvJ333A7lWACaDPvE69WpHVESI50qsb5UKje-vkw6oZrT6zsXUDV3qZI_-4lbS-ugkD6BJDqygK1wFV6T5U7FaxPw7se5kRoL1c0-rJzybr6DSxtLiLgY_FBe_PjhXGa5oJgJ29-ixJe1CcNuoA2GzknofeTDX_Rj',
+    imageAlt: 'Muestra de sublimación HD con colores vibrantes y tazas personalizadas',
+    quoteMessage: 'Hola, deseo cotizar estampado en Sublimación.',
+    features: [
+      'Gama cromática ilimitada y calidad fotográfica',
+      'Cero tacto: la tinta penetra en la tela',
+      'No se cuartea ni se decolora jamás',
+      'Apta para tazas, cojines, banderas y licras',
+    ],
+    idealFor: 'Camisetas deportivas, muffs, mugs cerámicos, mousepads y regalos corporativos',
+    minQuantity: 'Desde 1 unidad',
+    durability: 'Vida útil indefinida de la prenda',
+    materials: ['Poliéster blanco o claro', 'Microfibra deportiva', 'Cerámica polimerizada', 'Neopreno'],
+  },
+  {
+    id: 'vinilo-textil',
+    name: 'Vinilo Textil',
+    badge: 'Personalización unitaria',
+    badgeColor: 'petal-orange',
+    dotColor: '#F37023',
+    shortDesc: 'Corte de precisión en vinilo termoadhesivo para diseños personalizados. Excelente para nombres, números y gráficos vectoriales con acabado profesional.',
+    fullDesc: 'El vinilo textil térmico de corte computarizado ofrece acabados de nitidez geométrica absoluta. Es ideal para personalización de camisetas de fútbol con números y nombres individuales, así como vinilos especiales metalizados, glitter, reflectivos de seguridad vial y fotoluminiscentes.',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDEekKmgynNv_bCwRBIZMHQyiAmnzMg6M1c8vhvfR3oKPA9fh0stm7va37rHuFeSPUT2S21ORUMzq5cN6M9dK9Di3qxs2cL7_Er4espV6G4-1hchtVe4JVHBJFyRa9z2iZey9bW0LGy9KGqpbkTsBvFK0hfUQuPbqCXVVHWdHqK0XHpbn1jBpsz7qH29yWIea4-k0rC9gO9FiiZHpKO-wofzLsgwlYUsdM6nIm2qqp-qu_ySO_14M64',
+    imageAlt: 'Corte y pelado de vinilo termoadhesivo para personalización de camisetas',
+    quoteMessage: 'Hola, deseo cotizar estampado en Vinilo Textil.',
+    features: [
+      'Precisión milimétrica en textos y números',
+      'Acabados reflectivos de seguridad y neón',
+      'Excelente adherencia en cualquier color de prenda',
+      'Sin costos de matrices para pedidos unitarios',
+    ],
+    idealFor: 'Numeración deportiva, nombres individuales, gorras, chalecos reflectivos',
+    minQuantity: 'Desde 1 unidad',
+    durability: '40+ lavadas en ciclo delicado',
+    materials: ['Algodón', 'Poliéster', 'Nylon', 'Lona'],
+  },
+  {
+    id: 'dtf',
+    name: 'DTF Direct to Film',
+    badge: 'Tecnología de punta',
+    badgeColor: 'petal-cyan',
+    dotColor: '#00A5E3',
+    shortDesc: 'Tecnología de transferencia directa a film. Camisetas personalizadas en Buga de la mejor calidad. Calidad fotográfica con tacto suave y gran durabilidad.',
+    fullDesc: 'El DTF (Direct to Film) es la última revolución en estampación textil mundial. Imprime diseños a todo color con base blanca sobre una película que luego se termofija a la prenda. Permite estampar sobre algodón negro u oscuro con una fidelidad de color espectacular, líneas ultra delgadas y elasticidad que no se agrieta.',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuARM--lMZhXFKvBgeAE7go4ketY--klFP7qx3KAfqI6DQNQRjQcSYSSwaEAAPcpG4ee4kWcDHBPQMabDbUEUZBCItsQvUkbOC7FW4a97fw5HhNLhm-Ti2Gj5tT3s3x7uxmOl-ZyzEWB115HFyQD7wzK-66HrA7C-VES_KJnrrnMZ_vuoqn590bt8rPfaWvMFmo9Eu12UIs4761289wL2V-lc1oQKAI1UwAg_SbhdflMPe-7qy9jiPlX',
+    imageAlt: 'Transferencia DTF de alta resolución sobre camisetas de streetwear oscuras',
+    quoteMessage: 'Hola, deseo cotizar estampado en DTF.',
+    features: [
+      'Estampa cualquier color y cualquier tipo de tela',
+      'Detalles hiperfinos imposibles en serigrafía tradicional',
+      'Tacto elástico y textura suave',
+      'Excelente resistencia al estiramiento',
+    ],
+    idealFor: 'Marcas de streetwear anime/gamer, ilustraciones complejas, hoodies oscuros',
+    minQuantity: 'Desde 1 unidad hasta miles',
+    durability: '50+ lavadas con excelente elasticidad',
+    materials: ['100% Algodón', 'Poliéster', 'Mezclas', 'Dril', 'Denim/Jean'],
+  },
+];
+
+export const WORKSHOP_DATA: WorkshopItem = {
+  id: 'taller-serigrafia-textil',
+  title: 'Talleres Especializados',
+  subtitle: 'Aprende de los expertos con talleres prácticos y personalizados. Desarrolla habilidades profesionales en técnicas de estampado de vanguardia.',
+  description: 'Aprende la técnica tradicional de serigrafía desde cero: incluye preparación de pantallas, mezcla de tintas, registro de colores y técnicas de impresión profesional.',
+  level: 'Desde Nivel Cero hasta Avanzado',
+  duration: '16 Horas intensivas (2 jornadas)',
+  schedule: 'Sábados y Domingos 8:30 AM - 4:30 PM',
+  includes: [
+    'Práctico 100% en taller real',
+    'Materiales y tintas incluidos',
+    'Pantalla serigráfica de regalo para tus proyectos',
+    'Certificado de participación Art2Art Academia',
+    'Cupos limitados (máximo 6 estudiantes por grupo)',
+  ],
+  maxSeats: 6,
+  availableSeats: 2,
+  imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCn-1tQdg8zjBCyC2ITqYgtLM3wK3g-mGaGx5NBxR0cMCKbGGbH6CXxSrPJKdqhVuOxZcvR0lS2qvUuMXkEUjJh3vTqdT15HQYfJc0TkjVVzXBAgDWfVHWrBKRCi9dwLEI5q_2lAtBURIeBxvyrEiLB9Ajp7yEHi3rKstpsL5J-kfUWlvMCy3LTl5z507zNOKJPaY_R_M6HFBpSAuaH8tVwNYwaY8fZsrItLyZJfJEkjkZx_BAmJ_Ms',
+  quoteMessage: 'Hola, deseo inscribirme al Taller Especializado de Serigrafía.',
+};
+
+export const PORTFOLIO_ITEMS: PortfolioItem[] = [
+  {
+    id: 'portfolio-1',
+    title: 'Streetwear Anime Cyber Striker',
+    category: 'DTF',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuASy1AQePV9CPVv3AWh-5p_DqrSEkUak45nyw-WUVtghZrA3N-EDT4lxBj6plsnjekB6MFnn8hXvZir6iu4FTwDygv9FC0iNzVYDP0QRQ06VF_3dXbXrBEMDKfoi-b8TLtkHufyT3tP1bsdtb9yvm_qb7wSdmgVXLGZdGhT-64xG5JG73XoSo1ogI7YXbjFRNBAHR_rTLpsZRT4zO6vnbCqSJFVaeBEdewyiJGLo2m9XXN3jPJgj7dp',
+    alt: 'Camiseta negra estampada con diseño cyberpunk anime en alta definición',
+    aspect: 'square',
+  },
+  {
+    id: 'portfolio-2',
+    title: 'Línea de Mugs Cerámicos de Autor',
+    category: 'Sublimación',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBmZII0K5oegwUCrHxt9_wDBZ0T212sJjdCoR6wtj5K8rArnsfwl2bFxbvo2O0xapM9fboqg7HM2jcwBOTGoIVL0nGgdORfokloJQi0kfHklTRzeHyn87GyiOvcQ71-Bg5FZBuuQYYHuvRGs3UCOL9_FQjAzazFB_3_vV22Mlc4w2x82mG6jl3eNOWZ-PyVDONFNVlnDIqRyVLRkQlsvp1DeOol7t8JHxKomyRudPviJXWFYJkt1gB8',
+    alt: 'Colección de pocillos y mugs de cerámica con estampados tropicales y coloridos',
+    aspect: 'portrait',
+  },
+  {
+    id: 'portfolio-3',
+    title: 'Colección Urbana Urban Tribe',
+    category: 'Streetwear',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC9AhnpBE7xjCzhHX5qLuFCl80s7Eg5eL7ehKfjpTakENralmE6tYbWrd8oQAV9w0jWR-v0uqshfNaUozDQxo4cVYVzhmaAVVfeBBGA2An95HuvbbDqTqgSzXM4pdlqiUrZvXDe3NutiyBk8NqJjiMSiqZsbMRMSDpG1CQdinXHh_PiezxgtTas55xjAVtvA52EQJdKEMcVp8NebuM0jNt-5oEmLbHmTFd776SgHXBSKZvJJaPagEf_',
+    alt: 'Prendas urbanas negras con estampado de alta fidelidad colgadas en estudio',
+    aspect: 'portrait',
+  },
+  {
+    id: 'portfolio-4',
+    title: 'Cojines y Bolsas Ecológicas Artísticas',
+    category: 'Sublimación',
+    imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuAQp9y1IBSnMSfR90FWCTVMreFPCvoGJ4-EyTkK4FQhDAVjlHZ6qR35OLno2sf7uZEDJkyY-m83QPu8r9-EV0wCM_A6fVa4ZqzYLnTDjao20S4L6xzB2qPgdrvhE3PcjVdsWsQVSrv_LEJrO6EFN4EJf1uZWo3njXy_MuA5ustva9-2l8MU6sW7_ArF29x0qAjShrSCTKzWrQMG5on2x7NdzpAAil4BVaziRj7-Mp4Puc_wxIluXEhr',
+    alt: 'Cojines y tote bags personalizadas en el showroom de Art2Art',
+    aspect: 'square',
+  },
+];
+
+export const GARMENT_OPTIONS: GarmentOption[] = [
+  { id: 'camiseta-algodon', name: 'Camiseta 100% Algodón (Cuello Redondo)', basePrice: 18000, imageIcon: 'checkroom' },
+  { id: 'camiseta-poliester', name: 'Camiseta Deportiva Poliéster / Tacto Algodón', basePrice: 14000, imageIcon: 'dry_cleaning' },
+  { id: 'hoodie', name: 'Buso con Capota (Hoodie Perchado)', basePrice: 48000, imageIcon: 'styler' },
+  { id: 'mug', name: 'Mug Cerámico 11oz', basePrice: 9000, imageIcon: 'coffee' },
+  { id: 'gorra', name: 'Gorra Dril o Malla Trucker', basePrice: 12000, imageIcon: 'sports_baseball' },
+  { id: 'tula', name: 'Tula / Tote Bag Lienzo Ecológico', basePrice: 8500, imageIcon: 'shopping_bag' },
+];
+
+export const TECHNIQUE_OPTIONS: TechniqueOption[] = [
+  { id: 'dtf', name: 'DTF Full Color (Cualquier prenda)', costPerUnit: 12000, minUnits: 1, recommendedGarment: 'Algodón y busos oscuros' },
+  { id: 'serigrafia', name: 'Serigrafía Textil (Tirajes medianos/grandes)', costPerUnit: 5500, minUnits: 12, recommendedGarment: 'Algodón 100%' },
+  { id: 'sublimacion', name: 'Sublimación Digital HD', costPerUnit: 7000, minUnits: 1, recommendedGarment: 'Poliéster claro y tazas' },
+  { id: 'vinilo', name: 'Vinilo Térmico Vectorial', costPerUnit: 9000, minUnits: 1, recommendedGarment: 'Uniformes y nombres' },
+];
