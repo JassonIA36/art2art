@@ -16,6 +16,7 @@ interface GarmentVectorPreviewProps {
   offsetY: number; // percentage offset -50 to 50
   onDragOffsetChange: (newX: number, newY: number) => void;
   printZone: GarmentZone;
+  position?: 'frente' | 'espalda' | 'ambos';
 }
 
 export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
@@ -31,6 +32,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
   offsetY,
   onDragOffsetChange,
   printZone,
+  position = 'frente',
 }) => {
   const containerRef = useRef<SVGSVGElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -234,11 +236,11 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
             <rect
               x={printZone.x + 6}
               y={printZone.y + 6}
-              width="100"
+              width="130"
               height="18"
               rx="4"
-              fill="#00A5E3"
-              opacity="0.85"
+              fill="#e6197e"
+              opacity="0.9"
             />
             <text
               x={printZone.x + 12}
@@ -249,7 +251,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
               fontFamily="sans-serif"
               letterSpacing="0.5"
             >
-              ÁREA MÁXIMA
+              ÁREA {position === 'ambos' ? 'FRENTE + ESPALDA' : position.toUpperCase()}
             </text>
           </g>
         )}
@@ -353,8 +355,8 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
       </svg>
 
       {/* Floating Interactive Badge Helper */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-surface-card/90 backdrop-blur-md px-3 py-1 rounded-full border border-surface-border text-xs text-secondary shadow-md flex items-center gap-1.5 pointer-events-none">
-        <span className="material-symbols-outlined text-[15px] text-primary">touch_app</span>
+      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-[#1a1a20]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#2a2a36] text-xs text-[#9ca3af] shadow-lg flex items-center gap-1.5 pointer-events-none">
+        <span className="material-symbols-outlined text-[15px] text-[#e6197e]">touch_app</span>
         <span>Arrastra el arte libremente sobre la prenda</span>
       </div>
     </div>

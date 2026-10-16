@@ -14,22 +14,22 @@ export const WorkshopsSection: React.FC = () => {
   return (
     <section className="w-full py-space-xl bg-background" id="talleres">
       <div className="max-w-7xl mx-auto px-margin">
-        <div className="bg-inverse-surface rounded-xl overflow-hidden text-inverse-on-surface shadow-2xl border border-white/10">
+        <div className="bg-gradient-to-br from-[#0F172A] via-[#1E293B] to-[#0B1120] rounded-2xl overflow-hidden text-inverse-on-surface shadow-2xl border border-white/15">
           <div className="grid grid-cols-1 lg:grid-cols-12">
             {/* Image side */}
-            <div className="lg:col-span-6 relative min-h-[320px] lg:min-h-[460px]">
+            <div className="lg:col-span-6 relative min-h-[340px] lg:min-h-[480px]">
               <img
                 className="w-full h-full object-cover"
                 alt="Clase práctica de serigrafía textil en el taller de Art2Art Buga"
                 src={WORKSHOP_DATA.imageUrl}
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-inverse-surface via-transparent to-transparent lg:hidden"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0F172A] via-transparent to-transparent lg:hidden"></div>
               
               {/* Floating Live Cohort Tag */}
-              <div className="absolute top-4 left-4 bg-on-surface/85 backdrop-blur-md px-3 py-1.5 rounded-full flex items-center gap-2 border border-white/20 shadow">
-                <span className="w-2 h-2 rounded-full bg-petal-yellow animate-ping"></span>
-                <span className="text-xs font-label-sm text-surface-card tracking-wide">
+              <div className="absolute top-4 left-4 glass-panel-dark px-3.5 py-1.5 rounded-full flex items-center gap-2 border border-white/25 shadow-lg">
+                <span className="w-2.5 h-2.5 rounded-full bg-petal-yellow animate-ping"></span>
+                <span className="text-xs font-label-sm text-surface-card tracking-wide font-medium">
                   Próxima cohorte en curso • Buga
                 </span>
               </div>
@@ -40,12 +40,12 @@ export const WorkshopsSection: React.FC = () => {
               <div className="space-y-space-md">
                 {/* Badge */}
                 <div className="flex items-center justify-between flex-wrap gap-2">
-                  <div className="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-petal-yellow/20 text-petal-yellow font-label-sm text-label-sm uppercase tracking-wider">
+                  <div className="inline-flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-petal-yellow/20 text-petal-yellow font-label-sm text-label-sm uppercase tracking-wider border border-petal-yellow/30 shadow-sm font-semibold">
                     <span className="material-symbols-outlined text-[16px]">school</span>
-                    <span>Formación Profesional</span>
+                    <span>Academia Textil • Buga</span>
                   </div>
 
-                  <span className="text-xs px-2.5 py-0.5 rounded-full bg-primary/20 text-petal-red border border-petal-red/30 font-medium">
+                  <span className="text-xs px-3 py-1 rounded-full bg-petal-red/20 text-petal-red border border-petal-red/40 font-semibold shadow-sm">
                     ¡Solo {WORKSHOP_DATA.availableSeats} cupos disponibles!
                   </span>
                 </div>

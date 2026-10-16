@@ -3,60 +3,67 @@ import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { ServicesSection } from './components/ServicesSection';
 import { MockupStudioSection } from './components/MockupStudioSection';
-import { WorkshopsSection } from './components/WorkshopsSection';
+import { HowItWorksSection } from './components/HowItWorksSection';
 import { WholesaleSection } from './components/WholesaleSection';
+import { ReviewsSection } from './components/ReviewsSection';
+import { FaqSection } from './components/FaqSection';
+import { WorkshopsSection } from './components/WorkshopsSection';
 import { LocationSection } from './components/LocationSection';
 import { QuickChatBanner } from './components/QuickChatBanner';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
-import { QuoteCalculatorModal } from './components/QuoteCalculatorModal';
 import { TechniqueDetailModal } from './components/TechniqueDetailModal';
 import { ImageLightboxModal } from './components/ImageLightboxModal';
 import type { ServiceItem, PortfolioItem } from './types';
 
 export const App: React.FC = () => {
-  const [quoteModalOpen, setQuoteModalOpen] = useState(false);
-  const [initialTechniqueId, setInitialTechniqueId] = useState<string | undefined>(undefined);
   const [selectedTechnique, setSelectedTechnique] = useState<ServiceItem | null>(null);
   const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<PortfolioItem | null>(null);
 
-  const handleOpenQuoteModal = () => {
-    setInitialTechniqueId(undefined);
-    setQuoteModalOpen(true);
-  };
-
-  const handleOpenQuoteWithTechnique = (techniqueId: string) => {
-    setInitialTechniqueId(techniqueId);
-    setQuoteModalOpen(true);
-  };
-
   return (
-    <div className="min-h-screen bg-background text-on-surface flex flex-col selection:bg-petal-yellow/40">
+    <div className="min-h-screen bg-[#0f0f12] text-[#f3f4f6] flex flex-col selection:bg-[#e6197e]/40 selection:text-white">
       {/* Fixed Header */}
-      <Header onOpenQuoteModal={handleOpenQuoteModal} />
+      <Header />
 
       {/* Main Content Sections */}
-      <main className="w-full flex-grow bg-background">
-        <Hero onOpenQuoteModal={handleOpenQuoteModal} />
-        
+      <main className="w-full flex-grow bg-[#0f0f12]">
+        <Hero />
+
+        {/* Interactive Customizer Studio */}
+        <MockupStudioSection />
+
+        {/* 4-Step How It Works Section */}
+        <div id="como-funciona">
+          <HowItWorksSection />
+        </div>
+
+        {/* Professional Techniques Section */}
         <ServicesSection
           onSelectTechnique={(service) => setSelectedTechnique(service)}
-          onOpenQuoteWithTechnique={handleOpenQuoteWithTechnique}
         />
 
-        <MockupStudioSection
-          onOpenQuoteModalWithConfig={handleOpenQuoteWithTechnique}
-        />
-
-        <WorkshopsSection />
-
+        {/* Wholesale & Realized Portfolio Gallery */}
         <WholesaleSection
           onOpenLightbox={(item) => setSelectedPortfolioItem(item)}
-          onOpenQuoteModal={handleOpenQuoteModal}
         />
 
+        {/* Customer Reviews Section */}
+        <div id="opiniones">
+          <ReviewsSection />
+        </div>
+
+        {/* Accordion FAQ Section */}
+        <div id="faq">
+          <FaqSection />
+        </div>
+
+        {/* Academia & Workshops Section */}
+        <WorkshopsSection />
+
+        {/* Workshop Physical Location */}
         <LocationSection />
 
+        {/* Quick WhatsApp Support Banner */}
         <QuickChatBanner />
       </main>
 
@@ -67,16 +74,9 @@ export const App: React.FC = () => {
       <FloatingWhatsApp />
 
       {/* Interactive Modals */}
-      <QuoteCalculatorModal
-        isOpen={quoteModalOpen}
-        onClose={() => setQuoteModalOpen(false)}
-        initialTechniqueId={initialTechniqueId}
-      />
-
       <TechniqueDetailModal
         service={selectedTechnique}
         onClose={() => setSelectedTechnique(null)}
-        onOpenQuoteWithTechnique={handleOpenQuoteWithTechnique}
       />
 
       <ImageLightboxModal

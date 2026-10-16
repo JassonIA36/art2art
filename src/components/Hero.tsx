@@ -1,134 +1,121 @@
 import React from 'react';
 import { getWhatsAppLink } from '../data/mockData';
 
-interface HeroProps {
-  onOpenQuoteModal: () => void;
-}
-
-export const Hero: React.FC<HeroProps> = ({ onOpenQuoteModal }) => {
+export const Hero: React.FC = () => {
   return (
-    <section id="inicio" className="relative w-full overflow-hidden bg-gradient-to-b from-surface-container-low via-background to-background py-space-xl pt-28 sm:pt-32">
-      <div className="max-w-7xl mx-auto px-margin">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-xl items-center">
+    <section id="inicio" className="relative w-full overflow-hidden bg-[#0f0f12] py-16 pt-28 sm:pt-36 border-b border-[#2a2a36]">
+      {/* Ink Glow Background Accents */}
+      <div className="absolute top-10 left-10 w-96 h-96 bg-[#e6197e]/10 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse-glow"></div>
+      <div className="absolute bottom-10 right-10 w-96 h-96 bg-[#00b4d8]/10 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse-glow"></div>
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#ffd60a]/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           {/* Left Column: Copy & Conversions */}
-          <div className="lg:col-span-6 flex flex-col items-start space-y-space-md z-10">
+          <div className="lg:col-span-6 flex flex-col items-start space-y-5 z-10">
             {/* Chromatic Pill Tag */}
-            <div className="inline-flex items-center gap-space-xs px-space-md py-1.5 rounded-full bg-surface-container shadow-sm border border-surface-border/60">
-              <span className="flex h-2 w-2 rounded-full bg-petal-yellow"></span>
-              <span className="flex h-2 w-2 rounded-full bg-petal-red"></span>
-              <span className="flex h-2 w-2 rounded-full bg-petal-orange"></span>
-              <span className="flex h-2 w-2 rounded-full bg-petal-cyan"></span>
-              <span className="font-label-sm text-label-sm text-on-surface uppercase tracking-wider ml-1">
-                Taller Creativo en Buga
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1a1a20] shadow-md border border-[#2a2a36] hover:border-[#e6197e]/50 transition-colors">
+              <span className="flex h-2.5 w-2.5 rounded-full bg-[#ffd60a] ring-2 ring-[#ffd60a]/30"></span>
+              <span className="flex h-2.5 w-2.5 rounded-full bg-[#e6197e] ring-2 ring-[#e6197e]/30"></span>
+              <span className="flex h-2.5 w-2.5 rounded-full bg-[#00b4d8] ring-2 ring-[#00b4d8]/30"></span>
+              <span className="text-xs uppercase tracking-wider ml-1 font-bold text-white">
+                Taller Textil Urbano • Buga, Valle
               </span>
             </div>
 
             {/* Main Impact Title */}
-            <h1 className="font-headline-xl text-headline-xl text-on-surface tracking-tight leading-tight">
-              Transforma tus ideas en{' '}
-              <span className="relative inline-block text-primary">
-                Arte Impreso
-                <svg
-                  className="absolute -bottom-2 left-0 w-full h-3 text-petal-yellow -z-10"
-                  fill="currentColor"
-                  preserveAspectRatio="none"
-                  viewBox="0 0 100 12"
-                >
-                  <path d="M0,8 Q50,0 100,6 L100,12 Q50,6 0,12 Z"></path>
-                </svg>
+            <h1 className="text-5xl sm:text-7xl font-display text-white tracking-wider leading-[0.95]">
+              TRANSFORMA TUS IDEAS EN{' '}
+              <span className="relative inline-block text-[#e6197e]">
+                <span className="relative z-10 text-shimmer">ARTE IMPRESO</span>
+                <span className="absolute -bottom-1 left-0 w-full h-3 bg-[#ffd60a]/20 -z-10 rounded"></span>
               </span>
             </h1>
 
             {/* Body Description */}
-            <p className="font-body-lg text-body-lg text-secondary max-w-xl">
-              Ofrecemos las mejores técnicas de estampados en Buga y alrededores con tecnología de vanguardia y más de 10 años de experiencia para garantizar resultados de alta fidelidad textil.
+            <p className="text-base sm:text-lg text-[#9ca3af] max-w-xl leading-relaxed">
+              Estampado profesional en Buga: Serigrafía, DTF, Sublimación y Vinilo Textil de máxima durabilidad. Personaliza tu prenda en línea y cotiza con hasta 20% de descuento por cantidad.
             </p>
 
             {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-space-sm pt-space-xs w-full sm:w-auto">
+            <div className="flex flex-wrap items-center gap-3 pt-2 w-full sm:w-auto">
+              {/* Primary CTA: Personaliza ahora */}
               <a
-                className="w-full sm:w-auto text-center font-label-lg text-label-lg px-space-lg py-space-sm rounded-full bg-primary text-on-primary shadow-md hover:bg-primary-container transition-all hover:scale-[1.02] active:scale-[0.98]"
-                href="#nuestros-servicios-de-estampado"
+                className="w-full sm:w-auto text-center font-display text-2xl tracking-wider px-8 py-3.5 rounded-xl bg-[#e6197e] hover:bg-[#c9126b] text-white shadow-magenta-glow transition-all hover:scale-[1.03] active:scale-[0.98] flex items-center justify-center gap-2"
+                href="#personalizador"
               >
-                Explorar Servicios
+                <span>Personaliza ahora</span>
+                <span className="material-symbols-outlined text-[20px]">arrow_forward</span>
               </a>
 
+              {/* Secondary CTA: WhatsApp */}
               <a
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs font-label-lg text-label-lg px-space-md py-space-sm rounded-full bg-surface-card hover:bg-surface-bright text-on-surface border border-petal-yellow/60 shadow-sm hover:border-primary/40 transition-all hover:scale-[1.02]"
-                href="#simulador"
-              >
-                <span className="material-symbols-outlined text-petal-red text-[20px]">palette</span>
-                <span>Simulador 2D</span>
-              </a>
-
-              <a
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs font-label-lg text-label-lg px-space-md py-space-sm rounded-full bg-whatsapp-green text-on-primary shadow-[0_8px_20px_-4px_rgba(37,211,102,0.35)] hover:bg-whatsapp-dark transition-all hover:scale-[1.02] active:scale-[0.98]"
-                href={getWhatsAppLink('Hola, deseo cotizar un proyecto de estampado.')}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 font-semibold text-sm px-6 py-3.5 rounded-xl bg-[#25D366] hover:bg-[#1da851] text-[#0f0f12] shadow-whatsapp-glow transition-all hover:scale-[1.03] active:scale-[0.98]"
+                href={getWhatsAppLink('Hola Art2Art, deseo cotizar un proyecto de estampado.')}
                 rel="noopener noreferrer"
                 target="_blank"
               >
                 <span className="material-symbols-outlined text-[20px]">chat</span>
-                <span>WhatsApp</span>
+                <span>WhatsApp Directo</span>
               </a>
 
-              <button
-                type="button"
-                onClick={onOpenQuoteModal}
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-space-xs font-label-lg text-label-lg px-space-md py-space-sm rounded-full bg-surface-card hover:bg-surface-bright text-on-surface border border-surface-border shadow-sm hover:border-primary/40 transition-all hover:scale-[1.02]"
+              {/* Quick Link to Services */}
+              <a
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-1.5 font-semibold text-sm px-5 py-3.5 rounded-xl bg-[#1a1a20] hover:bg-[#22222b] text-white border border-[#2a2a36] hover:border-[#00b4d8] transition-all"
+                href="#nuestros-servicios-de-estampado"
               >
-                <span className="material-symbols-outlined text-primary text-[20px]">calculate</span>
-                <span>Cotizador</span>
-              </button>
+                <span className="material-symbols-outlined text-[#00b4d8] text-[18px]">category</span>
+                <span>Ver Servicios</span>
+              </a>
             </div>
 
             {/* Value Chips Bar */}
-            <div className="pt-space-md grid grid-cols-3 gap-space-sm w-full">
-              <div className="bg-surface-card rounded-lg p-space-sm shadow-sm flex flex-col border border-surface-border/50 hover:border-primary/30 transition-colors">
-                <span className="font-headline-sm text-headline-sm text-primary">+10 Años</span>
-                <span className="font-label-sm text-label-sm text-secondary">de Experiencia</span>
+            <div className="pt-4 grid grid-cols-3 gap-3 w-full">
+              <div className="bg-[#1a1a20] rounded-xl p-3.5 border border-[#2a2a36] hover:border-[#e6197e]/50 hover:-translate-y-1 transition-all">
+                <span className="text-2xl font-display text-[#e6197e] block">+10 AÑOS</span>
+                <span className="text-xs text-[#9ca3af]">Experiencia Real</span>
               </div>
-              <div className="bg-surface-card rounded-lg p-space-sm shadow-sm flex flex-col border border-surface-border/50 hover:border-tertiary/30 transition-colors">
-                <span className="font-headline-sm text-headline-sm text-tertiary">Mayor y Detal</span>
-                <span className="font-label-sm text-label-sm text-secondary">Desde 1 unidad</span>
+              <div className="bg-[#1a1a20] rounded-xl p-3.5 border border-[#2a2a36] hover:border-[#00b4d8]/50 hover:-translate-y-1 transition-all">
+                <span className="text-2xl font-display text-[#00b4d8] block">DESDE 1 UND</span>
+                <span className="text-xs text-[#9ca3af]">Mayor y Detal</span>
               </div>
-              <div className="bg-surface-card rounded-lg p-space-sm shadow-sm flex flex-col border border-surface-border/50 hover:border-petal-orange/30 transition-colors">
-                <span className="font-headline-sm text-headline-sm text-petal-orange">100% Local</span>
-                <span className="font-label-sm text-label-sm text-secondary">Envíos Valle</span>
+              <div className="bg-[#1a1a20] rounded-xl p-3.5 border border-[#2a2a36] hover:border-[#ffd60a]/50 hover:-translate-y-1 transition-all">
+                <span className="text-2xl font-display text-[#ffd60a] block">DESPACHOS</span>
+                <span className="text-xs text-[#9ca3af]">Buga y Colombia</span>
               </div>
             </div>
           </div>
 
-          {/* Right Column: Visual Composition / Showcase */}
+          {/* Right Column: Visual Showcase */}
           <div className="lg:col-span-6 relative">
-            <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden shadow-2xl bg-surface-container-high border border-white/60 group">
+            <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-[#1a1a20] border-2 border-[#2a2a36] group">
               <img
                 className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                alt="High quality studio mockup of custom printed colorful apparel from Art2Art workshop including vivid parrot illustration on cotton t-shirt, sublimation tote bag, thermo mug, and embroidered cap arranged with screen printing squeegees in clean studio daylight."
+                alt="Prendas estampadas de alta calidad en el taller Art2Art de Buga con ilustraciones a todo color"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuDEIkXMs1qcd-j2xy7OeGhviO-NURx1q-SfiHd0MmjFmogXuCGbHZ6x2FkCySoWVgKWAArjb8oW557dH29Qj3BTQ4L9qCMjs78gS-We4ltmVAiYGSxk7ocFKv1oEeZ1ygsO5BqoahizKF7oTWck2rnkgYZvY8TwL2MgnZAJttnQ5uE-8gEuqOHmJyjhDEfqN61CMgmY_o15oGlQT3fOTKbwb0eXb2e42DRsyzEeb0d7K9rDxdG-q8-n"
                 loading="eager"
               />
 
-              {/* Floating Technique Badge */}
-              <div className="absolute bottom-4 left-4 right-4 bg-surface-card/95 backdrop-blur-md p-space-md rounded-lg shadow-lg flex items-center justify-between border border-white/50">
-                <div className="flex items-center gap-space-sm">
-                  <span className="relative flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-whatsapp-green opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-whatsapp-green"></span>
+              {/* Gradient overlay for depth */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0f0f12] via-transparent to-transparent opacity-60"></div>
+
+              {/* Floating Workshop Badge */}
+              <div className="absolute bottom-4 left-4 right-4 glass-panel p-3.5 sm:p-4 rounded-xl shadow-xl flex items-center justify-between border border-[#2a2a36]">
+                <div className="flex items-center gap-3">
+                  <span className="relative flex h-3.5 w-3.5">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#25D366] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-[#25D366]"></span>
                   </span>
                   <div>
-                    <p className="font-label-md text-label-md text-on-surface">Taller Activo en Guadalajara de Buga</p>
-                    <p className="font-body-sm text-body-sm text-secondary">Pedidos urgentes y producciones masivas</p>
+                    <p className="text-xs sm:text-sm text-white font-bold tracking-tight">Taller Activo en Guadalajara de Buga</p>
+                    <p className="text-[11px] sm:text-xs text-[#9ca3af]">Producción inmediata y atención personalizada</p>
                   </div>
                 </div>
-                <span className="material-symbols-outlined text-primary text-[24px]" title="Taller verificado">
-                  verified
-                </span>
+                <div className="w-9 h-9 rounded-full bg-[#e6197e]/15 text-[#e6197e] flex items-center justify-center shrink-0">
+                  <span className="material-symbols-outlined text-[20px]">verified</span>
+                </div>
               </div>
             </div>
-
-            {/* Decorative Color Blobs */}
-            <div className="absolute -top-6 -right-6 w-36 h-36 bg-petal-yellow/30 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse-glow"></div>
-            <div className="absolute -bottom-8 -left-8 w-44 h-44 bg-petal-cyan/30 rounded-full blur-3xl -z-10 pointer-events-none animate-pulse-glow"></div>
           </div>
         </div>
       </div>

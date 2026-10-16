@@ -4,12 +4,10 @@ import type { ServiceItem } from '../types';
 
 interface ServicesSectionProps {
   onSelectTechnique: (service: ServiceItem) => void;
-  onOpenQuoteWithTechnique: (techniqueId: string) => void;
 }
 
 export const ServicesSection: React.FC<ServicesSectionProps> = ({
   onSelectTechnique,
-  onOpenQuoteWithTechnique,
 }) => {
   const [filter, setFilter] = useState<'all' | 'serigrafia' | 'sublimacion' | 'vinilo-textil' | 'dtf'>('all');
 
@@ -18,38 +16,37 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
     : SERVICES_DATA.filter((s) => s.id === filter);
 
   return (
-    <section className="w-full py-space-xl bg-surface-subtle" id="nuestros-servicios-de-estampado">
-      <div className="max-w-7xl mx-auto px-margin space-y-space-lg">
+    <section className="w-full py-16 sm:py-24 bg-[#0f0f12] text-white border-t border-[#2a2a36]" id="nuestros-servicios-de-estampado">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
         {/* Section Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
-          <div className="space-y-space-xs max-w-2xl">
-            <div className="inline-flex items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-wider text-primary">
-              <span className="w-2 h-2 rounded-full bg-primary"></span>
-              <span>Precisión & Color</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3 max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1a1a20] border border-[#2a2a36] text-xs font-semibold uppercase tracking-wider text-[#00b4d8]">
+              <span className="w-2 h-2 rounded-full bg-[#00b4d8]"></span>
+              <span>Técnicas Profesionales de Estampado</span>
             </div>
-            <h2 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+            <h2 className="text-4xl sm:text-6xl font-display text-white tracking-wider">
               Nuestros Servicios de Estampado
             </h2>
-            <p className="font-body-md text-body-md text-secondary">
-              Ofrecemos las mejores técnicas de estampados en Buga y alrededores con tecnología de vanguardia y años de experiencia para garantizar resultados excepcionales en cada prenda.
+            <p className="text-sm sm:text-base text-[#9ca3af] leading-relaxed">
+              Tecnología de última generación y más de 10 años de experiencia para garantizar resultados excepcionales y duraderos en cada textil.
             </p>
           </div>
 
-          <div className="flex flex-col items-start md:items-end gap-2">
-            <div className="font-label-md text-label-md text-secondary flex items-center gap-space-xs">
-              <span>Selecciona tu técnica preferida</span>
-              <span className="material-symbols-outlined text-[18px]">south</span>
-            </div>
+          <div className="flex flex-col items-start md:items-end gap-2.5">
+            <span className="text-xs text-[#9ca3af] font-semibold uppercase tracking-wider">
+              Filtrar por técnica:
+            </span>
 
-            {/* Quick Filter Chips */}
-            <div className="flex flex-wrap gap-1.5 p-1 bg-surface-container rounded-full border border-surface-border/60">
+            {/* Filter Chips */}
+            <div className="flex flex-wrap gap-1.5 p-1 bg-[#1a1a20] rounded-xl border border-[#2a2a36]">
               <button
                 type="button"
                 onClick={() => setFilter('all')}
-                className={`px-3 py-1 rounded-full font-label-sm text-label-sm transition-all ${
+                className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                   filter === 'all'
-                    ? 'bg-primary text-on-primary shadow-sm'
-                    : 'text-secondary hover:text-on-surface'
+                    ? 'bg-[#e6197e] text-white shadow-md'
+                    : 'text-[#9ca3af] hover:text-white'
                 }`}
               >
                 Todas
@@ -59,10 +56,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   key={srv.id}
                   type="button"
                   onClick={() => setFilter(srv.id as any)}
-                  className={`px-3 py-1 rounded-full font-label-sm text-label-sm transition-all ${
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                     filter === srv.id
-                      ? 'bg-on-surface text-surface-card shadow-sm'
-                      : 'text-secondary hover:text-on-surface'
+                      ? 'bg-[#22222b] text-white border border-[#2a2a36] shadow-md'
+                      : 'text-[#9ca3af] hover:text-white'
                   }`}
                 >
                   {srv.name.split(' ')[0]}
@@ -72,40 +69,58 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
           </div>
         </div>
 
-        {/* 4 Service Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-md">
+        {/* 4 Service Cards Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {filteredServices.map((service) => {
             const getBadgeClasses = (color: string) => {
               switch (color) {
                 case 'petal-yellow':
-                  return 'bg-petal-yellow text-on-surface';
+                  return 'bg-[#ffd60a] text-[#0f0f12] font-bold shadow-md';
                 case 'petal-red':
-                  return 'bg-petal-red text-on-primary';
+                  return 'bg-[#e6197e] text-white font-bold shadow-md';
                 case 'petal-orange':
-                  return 'bg-petal-orange text-on-primary';
+                  return 'bg-[#f37023] text-white font-bold shadow-md';
                 case 'petal-cyan':
-                  return 'bg-petal-cyan text-on-primary';
+                  return 'bg-[#00b4d8] text-[#0f0f12] font-bold shadow-md';
                 default:
-                  return 'bg-primary text-on-primary';
+                  return 'bg-[#e6197e] text-white font-bold shadow-md';
+              }
+            };
+
+            const getHoverBorder = (color: string) => {
+              switch (color) {
+                case 'petal-yellow':
+                  return 'hover:border-[#ffd60a] hover:shadow-[0_10px_30px_-5px_rgba(255,214,10,0.25)]';
+                case 'petal-red':
+                  return 'hover:border-[#e6197e] hover:shadow-[0_10px_30px_-5px_rgba(230,25,126,0.3)]';
+                case 'petal-orange':
+                  return 'hover:border-[#f37023] hover:shadow-[0_10px_30px_-5px_rgba(243,112,35,0.25)]';
+                case 'petal-cyan':
+                  return 'hover:border-[#00b4d8] hover:shadow-[0_10px_30px_-5px_rgba(0,180,216,0.25)]';
+                default:
+                  return 'hover:border-[#e6197e] hover:shadow-[0_10px_30px_-5px_rgba(230,25,126,0.3)]';
               }
             };
 
             return (
               <div
                 key={service.id}
-                className="bg-surface-card rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 group flex flex-col justify-between border border-surface-border/60 hover:border-primary/30"
+                className={`bg-[#1a1a20] rounded-2xl overflow-hidden border border-[#2a2a36] hover:-translate-y-2 transition-all duration-300 group flex flex-col justify-between shadow-xl ${getHoverBorder(
+                  service.badgeColor
+                )}`}
               >
                 <div>
-                  {/* Image container with floating badge */}
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-surface-container">
+                  {/* Image container */}
+                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#141418]">
                     <img
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-700"
                       src={service.imageUrl}
                       alt={service.imageAlt}
                       loading="lazy"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#1a1a20] via-transparent to-transparent opacity-50"></div>
                     <span
-                      className={`absolute top-3 left-3 px-space-sm py-1 rounded-full font-label-sm text-label-sm shadow-sm ${getBadgeClasses(
+                      className={`absolute top-3 left-3 px-3 py-1 rounded-full text-xs ${getBadgeClasses(
                         service.badgeColor
                       )}`}
                     >
@@ -116,7 +131,7 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     <button
                       type="button"
                       onClick={() => onSelectTechnique(service)}
-                      className="absolute bottom-2 right-2 px-2.5 py-1 rounded-md bg-on-surface/80 hover:bg-on-surface text-surface-card text-xs font-label-sm backdrop-blur-md transition-opacity opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow"
+                      className="absolute bottom-3 right-3 px-2.5 py-1 rounded-lg bg-black/80 hover:bg-black text-white text-xs backdrop-blur-md transition-opacity opacity-0 group-hover:opacity-100 flex items-center gap-1 shadow-md border border-white/20"
                     >
                       <span className="material-symbols-outlined text-[14px]">info</span>
                       <span>Ficha técnica</span>
@@ -124,27 +139,28 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   </div>
 
                   {/* Body description */}
-                  <div className="p-space-md space-y-space-xs">
+                  <div className="p-5 space-y-3">
                     <div className="flex items-center justify-between">
-                      <h3 className="font-headline-sm text-headline-sm text-on-surface group-hover:text-primary transition-colors">
+                      <h3 className="text-2xl font-display text-white group-hover:text-[#e6197e] transition-colors">
                         {service.name}
                       </h3>
                       <span
                         className="w-3 h-3 rounded-full"
                         style={{ backgroundColor: service.dotColor }}
-                        title={`Color distintivo ${service.name}`}
+                        title={`Técnica ${service.name}`}
                       ></span>
                     </div>
-                    <p className="font-body-sm text-body-sm text-secondary line-clamp-4">
+
+                    <p className="text-xs text-[#9ca3af] leading-relaxed line-clamp-4">
                       {service.shortDesc}
                     </p>
 
-                    {/* Material tags preview */}
-                    <div className="pt-2 flex flex-wrap gap-1">
+                    {/* Material tags */}
+                    <div className="pt-1 flex flex-wrap gap-1.5">
                       {service.materials.slice(0, 2).map((mat) => (
                         <span
                           key={mat}
-                          className="inline-block text-[11px] px-2 py-0.5 rounded bg-surface-container-low text-secondary"
+                          className="text-[11px] px-2 py-0.5 rounded-md bg-[#22222b] text-[#9ca3af] border border-[#2a2a36]"
                         >
                           {mat}
                         </span>
@@ -153,10 +169,10 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                   </div>
                 </div>
 
-                {/* Actions bottom */}
-                <div className="p-space-md pt-0 space-y-2">
+                {/* Card Actions Bottom */}
+                <div className="p-5 pt-0 space-y-2">
                   <a
-                    className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md flex items-center justify-center gap-space-xs transition-colors shadow-sm active:scale-[0.98]"
+                    className="w-full py-2.5 rounded-xl bg-[#e6197e] hover:bg-[#c9126b] text-white font-bold text-xs flex items-center justify-center gap-2 transition-all shadow-md active:scale-95"
                     href={getWhatsAppLink(service.quoteMessage)}
                     rel="noopener noreferrer"
                     target="_blank"
@@ -165,25 +181,14 @@ export const ServicesSection: React.FC<ServicesSectionProps> = ({
                     <span>Cotizar {service.name.split(' ')[0]}</span>
                   </a>
 
-                  <div className="flex items-center justify-between gap-1 text-xs">
-                    <button
-                      type="button"
-                      onClick={() => onSelectTechnique(service)}
-                      className="flex-1 py-1 text-center font-label-sm text-secondary hover:text-primary transition-colors flex items-center justify-center gap-1"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">visibility</span>
-                      <span>Ver detalles</span>
-                    </button>
-                    <span className="text-surface-border">|</span>
-                    <button
-                      type="button"
-                      onClick={() => onOpenQuoteWithTechnique(service.id)}
-                      className="flex-1 py-1 text-center font-label-sm text-tertiary hover:underline flex items-center justify-center gap-1"
-                    >
-                      <span className="material-symbols-outlined text-[14px]">calculate</span>
-                      <span>Simular costo</span>
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={() => onSelectTechnique(service)}
+                    className="w-full py-1.5 text-center text-xs font-semibold text-[#9ca3af] hover:text-white transition-colors flex items-center justify-center gap-1"
+                  >
+                    <span className="material-symbols-outlined text-[14px]">visibility</span>
+                    <span>Ver detalles y ficha</span>
+                  </button>
                 </div>
               </div>
             );

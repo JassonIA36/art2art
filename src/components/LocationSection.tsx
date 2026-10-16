@@ -5,93 +5,93 @@ export const LocationSection: React.FC = () => {
   const [useInteractiveMap, setUseInteractiveMap] = useState(false);
 
   return (
-    <section className="w-full py-space-xl bg-background" id="ubicacion">
-      <div className="max-w-7xl mx-auto px-margin space-y-space-lg">
+    <section className="w-full py-16 sm:py-24 bg-[#0f0f12] text-white border-t border-[#2a2a36]" id="ubicacion">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-space-md">
-          <div className="space-y-space-xs">
-            <div className="inline-flex items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-wider text-tertiary">
-              <span className="w-2 h-2 rounded-full bg-tertiary"></span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div className="space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1a1a20] border border-[#2a2a36] text-xs font-semibold uppercase tracking-wider text-[#00b4d8]">
+              <span className="w-2 h-2 rounded-full bg-[#00b4d8]"></span>
               <span>Visítanos en Guadalajara de Buga</span>
             </div>
-            <h2 className="font-headline-lg text-headline-lg text-on-surface tracking-tight">
+            <h2 className="text-4xl sm:text-6xl font-display text-white tracking-wider">
               Nuestra Ubicación
             </h2>
-            <p className="font-body-md text-body-md text-secondary">
-              Encuéntranos en pleno corazón de Buga. Atendemos solicitudes presenciales y envíos a todo el departamento.
+            <p className="text-sm sm:text-base text-[#9ca3af] max-w-xl leading-relaxed">
+              Encuéntranos en pleno centro de Buga. Atendemos solicitudes presenciales y realizamos despachos a todo el Valle del Cauca y Colombia.
             </p>
           </div>
 
-          <div className="flex items-center gap-space-sm flex-wrap">
+          <div className="flex items-center gap-3 flex-wrap">
             <button
               type="button"
               onClick={() => setUseInteractiveMap(!useInteractiveMap)}
-              className="inline-flex items-center gap-space-xs font-label-md text-label-md px-space-md py-2 rounded-full bg-surface-card hover:bg-surface-bright text-on-surface border border-surface-border transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-[#1a1a20] hover:bg-[#22222b] text-white border border-[#2a2a36] transition-colors shadow-md"
             >
-              <span className="material-symbols-outlined text-[18px]">
+              <span className="material-symbols-outlined text-[18px] text-[#00b4d8]">
                 {useInteractiveMap ? 'image' : 'layers'}
               </span>
-              <span>{useInteractiveMap ? 'Ver mapa de referencia' : 'Ver mapa interactivo'}</span>
+              <span>{useInteractiveMap ? 'Ver foto de referencia' : 'Ver mapa interactivo'}</span>
             </button>
 
             <a
-              className="inline-flex items-center gap-space-xs font-label-md text-label-md px-space-md py-2 rounded-full bg-surface-container hover:bg-surface-container-high text-on-surface transition-colors shadow-sm"
+              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-[#22222b] hover:bg-[#2c2c38] text-white border border-[#2a2a36] hover:border-[#ffd60a] transition-colors shadow-md"
               href={COMPANY_INFO.mapsUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
-              <span className="material-symbols-outlined text-[18px]">open_in_new</span>
+              <span className="material-symbols-outlined text-[18px] text-[#ffd60a]">open_in_new</span>
               <span>Abrir en Google Maps</span>
             </a>
           </div>
         </div>
 
         {/* Map & Contact Card Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Contact Details Left */}
-          <div className="lg:col-span-5 bg-surface-card p-space-lg rounded-xl shadow-sm border border-surface-border/60 flex flex-col justify-between space-y-space-lg">
-            <div className="space-y-space-md">
+          <div className="lg:col-span-5 bg-[#1a1a20] p-6 rounded-2xl shadow-xl border border-[#2a2a36] flex flex-col justify-between space-y-6">
+            <div className="space-y-5">
               {/* Address */}
-              <div className="flex items-start gap-space-sm">
-                <div className="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5">
-                  <span className="material-symbols-outlined text-[20px]">location_on</span>
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#e6197e]/15 text-[#e6197e] flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="material-symbols-outlined text-[22px]">location_on</span>
                 </div>
                 <div>
-                  <p className="font-label-md text-label-md text-on-surface">Dirección Taller</p>
-                  <p className="font-body-md text-body-md text-secondary">{COMPANY_INFO.address}</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-wider">Dirección del Taller</p>
+                  <p className="text-sm text-[#9ca3af] mt-0.5">{COMPANY_INFO.address}</p>
                 </div>
               </div>
 
               {/* WhatsApp */}
-              <div className="flex items-start gap-space-sm">
-                <div className="w-10 h-10 rounded-full bg-whatsapp-green/10 text-whatsapp-green flex items-center justify-center shrink-0 mt-0.5">
-                  <span className="material-symbols-outlined text-[20px]">chat</span>
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#25D366]/15 text-[#25D366] flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="material-symbols-outlined text-[22px]">chat</span>
                 </div>
                 <div>
-                  <p className="font-label-md text-label-md text-on-surface">WhatsApp Oficial</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-wider">WhatsApp Oficial</p>
                   <a
-                    className="font-body-md text-body-md text-whatsapp-dark font-medium hover:underline block"
-                    href={getWhatsAppLink('Hola Art2Art, me gustaría consultar información sobre su taller en Buga.')}
+                    className="text-sm text-[#25D366] font-semibold hover:underline block mt-0.5"
+                    href={getWhatsAppLink('Hola Art2Art, deseo consultar sobre su taller en Buga.')}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     {COMPANY_INFO.whatsappDisplay}
                   </a>
-                  <p className="font-body-sm text-body-sm text-secondary">
-                    Respuesta inmediata en horario comercial
+                  <p className="text-[11px] text-[#9ca3af] mt-0.5">
+                    Respuesta rápida en horario laboral
                   </p>
                 </div>
               </div>
 
               {/* Phone Line */}
-              <div className="flex items-start gap-space-sm">
-                <div className="w-10 h-10 rounded-full bg-tertiary/10 text-tertiary flex items-center justify-center shrink-0 mt-0.5">
-                  <span className="material-symbols-outlined text-[20px]">call</span>
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#00b4d8]/15 text-[#00b4d8] flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="material-symbols-outlined text-[22px]">call</span>
                 </div>
                 <div>
-                  <p className="font-label-md text-label-md text-on-surface">Línea Telefónica</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-wider">Línea Telefónica</p>
                   <a
-                    className="font-body-md text-body-md text-tertiary font-medium hover:underline block"
+                    className="text-sm text-[#00b4d8] font-semibold hover:underline block mt-0.5"
                     href={`tel:+57${COMPANY_INFO.phone.replace(/\s+/g, '')}`}
                   >
                     {COMPANY_INFO.phone}
@@ -100,40 +100,40 @@ export const LocationSection: React.FC = () => {
               </div>
 
               {/* Schedule */}
-              <div className="flex items-start gap-space-sm">
-                <div className="w-10 h-10 rounded-full bg-secondary/10 text-secondary flex items-center justify-center shrink-0 mt-0.5">
-                  <span className="material-symbols-outlined text-[20px]">schedule</span>
+              <div className="flex items-start gap-3.5">
+                <div className="w-10 h-10 rounded-xl bg-[#ffd60a]/15 text-[#ffd60a] flex items-center justify-center shrink-0 mt-0.5">
+                  <span className="material-symbols-outlined text-[22px]">schedule</span>
                 </div>
                 <div>
-                  <p className="font-label-md text-label-md text-on-surface">Horario de Atención</p>
-                  <p className="font-body-md text-body-md text-secondary">{COMPANY_INFO.schedule}</p>
+                  <p className="text-xs font-bold text-white uppercase tracking-wider">Horario de Atención</p>
+                  <p className="text-sm text-[#9ca3af] mt-0.5">{COMPANY_INFO.schedule}</p>
                 </div>
               </div>
             </div>
 
-            {/* Social Links Module */}
-            <div className="pt-space-md bg-surface-container-low p-space-md rounded-lg space-y-space-xs border border-surface-border/40">
-              <h4 className="font-label-md text-label-md text-on-surface">Nuestras Redes Sociales</h4>
-              <p className="font-body-sm text-body-sm text-secondary">
-                Descubre nuevos lanzamientos, muestras y tutoriales:
+            {/* Social Links */}
+            <div className="pt-4 bg-[#141418] p-4 rounded-xl space-y-2 border border-[#2a2a36]">
+              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Nuestras Redes Oficiales</h4>
+              <p className="text-xs text-[#9ca3af]">
+                Mira fotos de producciones reales, historias y novedades:
               </p>
-              <div className="flex items-center gap-space-xs pt-1">
+              <div className="flex items-center gap-2 pt-1">
                 <a
-                  className="flex-1 py-2 px-space-sm rounded-full bg-surface-card hover:bg-surface-bright text-on-surface font-label-sm text-label-sm text-center shadow-sm flex items-center justify-center gap-1 border border-surface-border/50 hover:border-primary/40 transition-all hover:scale-[1.02]"
+                  className="flex-1 py-2 px-3 rounded-xl bg-[#22222b] hover:bg-[#2c2c38] text-white text-xs font-semibold text-center flex items-center justify-center gap-1.5 border border-[#2a2a36] hover:border-[#e6197e] transition-all"
                   href={COMPANY_INFO.instagramUrl}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-petal-red">photo_camera</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#e6197e]">photo_camera</span>
                   <span>Instagram</span>
                 </a>
                 <a
-                  className="flex-1 py-2 px-space-sm rounded-full bg-surface-card hover:bg-surface-bright text-on-surface font-label-sm text-label-sm text-center shadow-sm flex items-center justify-center gap-1 border border-surface-border/50 hover:border-tertiary/40 transition-all hover:scale-[1.02]"
+                  className="flex-1 py-2 px-3 rounded-xl bg-[#22222b] hover:bg-[#2c2c38] text-white text-xs font-semibold text-center flex items-center justify-center gap-1.5 border border-[#2a2a36] hover:border-[#00b4d8] transition-all"
                   href={COMPANY_INFO.facebookUrl}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-tertiary">groups</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#00b4d8]">groups</span>
                   <span>Facebook</span>
                 </a>
               </div>
@@ -141,12 +141,12 @@ export const LocationSection: React.FC = () => {
           </div>
 
           {/* Styled Map Right */}
-          <div className="lg:col-span-7 h-[380px] lg:h-auto min-h-[360px] rounded-xl overflow-hidden shadow-sm relative border border-surface-border/60">
+          <div className="lg:col-span-7 h-[380px] lg:h-auto min-h-[380px] rounded-2xl overflow-hidden shadow-2xl relative border border-[#2a2a36] bg-[#141418]">
             {useInteractiveMap ? (
               <iframe
                 title="Ubicación Art2Art Estampados Buga"
                 src="https://maps.google.com/maps?q=Cra+9A+%2312-53+Guadalajara+de+Buga+Valle+del+Cauca&t=&z=16&ie=UTF8&iwloc=&output=embed"
-                className="w-full h-full border-0 min-h-[360px]"
+                className="w-full h-full border-0 min-h-[380px]"
                 loading="lazy"
               ></iframe>
             ) : (
@@ -159,13 +159,13 @@ export const LocationSection: React.FC = () => {
             )}
 
             {/* Map Overlay Label */}
-            <div className="absolute bottom-4 left-4 bg-surface-card/95 backdrop-blur-md px-space-md py-space-xs rounded-full shadow-lg flex items-center gap-space-xs border border-white/60">
+            <div className="absolute bottom-4 left-4 bg-[#1a1a20]/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-xl flex items-center gap-2 border border-[#2a2a36]">
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e6197e] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#e6197e]"></span>
               </span>
-              <span className="font-label-md text-label-md text-on-surface">
-                Art2Art Estampados • Buga
+              <span className="text-xs font-bold text-white">
+                Art2Art Estampados • Guadalajara de Buga
               </span>
             </div>
           </div>

@@ -1,4 +1,4 @@
-/**
+ /**
  * Realistic apparel processor for Art2Art
  * Performs flood-fill background segmentation, realistic textile colorization,
  * and crease/shadow map extraction for real photographic mockups.
