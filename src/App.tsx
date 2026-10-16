@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
-import { Hero } from './components/Hero';
-import { ServicesSection } from './components/ServicesSection';
+import { ExelentexHero } from './components/ExelentexHero';
+import { WhatWeDoSection } from './components/WhatWeDoSection';
+import { ProductsInBriefSection } from './components/ProductsInBriefSection';
+import { ApplicationsSliderSection } from './components/ApplicationsSliderSection';
 import { MockupStudioSection } from './components/MockupStudioSection';
 import { HowItWorksSection } from './components/HowItWorksSection';
+import { ImproveYourBusinessSection } from './components/ImproveYourBusinessSection';
+import { TechnologiesSection } from './components/TechnologiesSection';
 import { WholesaleSection } from './components/WholesaleSection';
 import { ReviewsSection } from './components/ReviewsSection';
 import { FaqSection } from './components/FaqSection';
-import { WorkshopsSection } from './components/WorkshopsSection';
 import { LocationSection } from './components/LocationSection';
-import { QuickChatBanner } from './components/QuickChatBanner';
 import { Footer } from './components/Footer';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { TechniqueDetailModal } from './components/TechniqueDetailModal';
@@ -21,56 +23,65 @@ export const App: React.FC = () => {
   const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<PortfolioItem | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#0f0f12] text-[#f3f4f6] flex flex-col selection:bg-[#e6197e]/40 selection:text-white">
-      {/* Fixed Header */}
+    <div className="min-h-screen bg-[#0a0d14] text-[#f3f4f6] flex flex-col font-sans selection:bg-[#dc0c1c]/40 selection:text-white">
+      {/* Fixed eXelentex Minimalist Header */}
       <Header />
 
       {/* Main Content Sections */}
-      <main className="w-full flex-grow bg-[#0f0f12]">
-        <Hero />
+      <main className="w-full flex-grow bg-[#0a0d14]">
+        {/* 1. Hero with Interactive Three.js 3D Particle Mesh & Signature Slogan */}
+        <ExelentexHero />
 
-        {/* Interactive Customizer Studio */}
-        <MockupStudioSection />
+        {/* 2. What We Do (Editorial Two-Column Grid) */}
+        <WhatWeDoSection />
 
-        {/* 4-Step How It Works Section */}
-        <div id="como-funciona">
-          <HowItWorksSection />
+        {/* 3. Products in Brief (Grid with existing photos) */}
+        <div id="productos">
+          <ProductsInBriefSection />
         </div>
 
-        {/* Professional Techniques Section */}
-        <ServicesSection
-          onSelectTechnique={(service) => setSelectedTechnique(service)}
-        />
+        {/* 4. Applications of Our Expertise (Interactive Bullet Tabs) */}
+        <div id="aplicaciones">
+          <ApplicationsSliderSection />
+        </div>
 
-        {/* Wholesale & Realized Portfolio Gallery */}
+        {/* 5. Live Interactive Customizer Studio */}
+        <MockupStudioSection />
+
+        {/* 6. How It Works (4-Step Workflow) */}
+        <HowItWorksSection />
+
+        {/* 7. Improve Your Business (Signature eXelentex Dark CTA with Circular Arrow) */}
+        <ImproveYourBusinessSection />
+
+        {/* 8. Technologies in Depth */}
+        <TechnologiesSection />
+
+        {/* 9. Realized Portfolio Gallery & Wholesale */}
         <WholesaleSection
           onOpenLightbox={(item) => setSelectedPortfolioItem(item)}
         />
 
-        {/* Customer Reviews Section */}
+        {/* 10. Verified Client Reviews */}
         <div id="opiniones">
           <ReviewsSection />
         </div>
 
-        {/* Accordion FAQ Section */}
+        {/* 11. Interactive FAQ Accordion */}
         <div id="faq">
           <FaqSection />
         </div>
 
-        {/* Academia & Workshops Section */}
-        <WorkshopsSection />
-
-        {/* Workshop Physical Location */}
-        <LocationSection />
-
-        {/* Quick WhatsApp Support Banner */}
-        <QuickChatBanner />
+        {/* 12. Physical Location & Map */}
+        <div id="contacto">
+          <LocationSection />
+        </div>
       </main>
 
       {/* Footer */}
       <Footer />
 
-      {/* Floating WhatsApp Action Button with radar pulse */}
+      {/* Floating WhatsApp Action Button */}
       <FloatingWhatsApp />
 
       {/* Interactive Modals */}
