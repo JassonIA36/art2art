@@ -16,8 +16,11 @@ export const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     const currentMount = mountRef.current;
     if (!currentMount) return;
 
-    // Scene, Camera, Renderer
+    // 1. Scene, Camera, Renderer
     const scene = new THREE.Scene();
+    // Subtle white fog to softly blend distant 3D elements into pure white background
+    scene.fog = new THREE.Fog(0xffffff, 18, 62);
+
     const camera = new THREE.PerspectiveCamera(
       55,
       currentMount.clientWidth / currentMount.clientHeight,
@@ -31,30 +34,49 @@ export const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     currentMount.appendChild(renderer.domElement);
 
-    // 1. Particle Wave Grid (Textile digital fabric mesh)
-    const countX = 45;
-    const countZ = 45;
+    // Helper: Anti-aliased circular particle texture
+    const createCircleTexture = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext('2d');
+      if (ctx) {
+        ctx.beginPath();
+        ctx.arc(32, 32, 28, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+      }
+      return new THREE.CanvasTexture(canvas);
+    };
+    const circleTexture = createCircleTexture();
+
+    // 2. Particle Wave Grid (Textile digital fabric mesh adapted for high-contrast WHITE background)
+    const countX = 46;
+    const countZ = 46;
     const numParticles = countX * countZ;
     const positions = new Float32Array(numParticles * 3);
     const colors = new Float32Array(numParticles * 3);
 
-    // Color palette: eXelentex red (#dc0c1c) and slate blue (#8691a8)
-    const colorRed = new THREE.Color(0xdc0c1c);
-    const colorSlate = new THREE.Color(0x8691a8);
-    const colorDark = new THREE.Color(0x25293d);
+    // High contrast palette against white:
+    // Deep carbon/graphite (#0b0e17), rich navy slate (#1e293b), vibrant eXelentex crimson (#dc0c1c)
+    const colorCrimson = new THREE.Color(0xdc0c1c);
+    const colorCarbon = new THREE.Color(0x0b0e17);
+    const colorSlate = new THREE.Color(0x334155);
 
     let idx = 0;
     for (let ix = 0; ix < countX; ix++) {
       for (let iz = 0; iz < countZ; iz++) {
         // Positions
-        positions[idx * 3] = (ix - countX / 2) * 1.2;
+        positions[idx * 3] = (ix - countX / 2) * 1.25;
         positions[idx * 3 + 1] = 0;
-        positions[idx * 3 + 2] = (iz - countZ / 2) * 1.2;
+        positions[idx * 3 + 2] = (iz - countZ / 2) * 1.25;
 
-        // Colors
-        const mixedColor = colorSlate.clone().lerp(colorDark, Math.random() * 0.5);
-        if (Math.random() < 0.12) {
-          mixedColor.lerp(colorRed, 0.9);
+        // Color blending for white background:
+        // Majority are crisp dark carbon / slate, with ~18% vibrant crimson ink drops
+        const mixedColor = colorCarbon.clone().lerp(colorSlate, Math.random() * 0.4);
+        const rand = Math.random();
+        if (rand < 0.18) {
+          mixedColor.lerp(colorCrimson, 0.95);
         }
 
         colors[idx * 3] = mixedColor.r;
@@ -70,10 +92,12 @@ export const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-      size: 0.18,
+      size: 0.28,
+      map: circleTexture,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.92,
+      depthWrite: false,
     });
 
     const particleSystem = new THREE.Points(particlesGeometry, particlesMaterial);
@@ -81,28 +105,41 @@ export const ThreeBackground: React.FC<ThreeBackgroundProps> = ({
     particleSystem.rotation.x = 0.2;
     scene.add(particleSystem);
 
-    // 2. Geometric Wireframe Sphere (Signature eXelentex 3D orb)
+    // 3. Geometric Wireframe Sphere (Signature eXelentex 3D orb in high-contrast graphite & crimson)
     let sphereGroup: THREE.Group | null = null;
     if (showSphere) {
       sphereGroup = new THREE.Group();
 
+      // Outer crisp dark graphite wireframe
       const sphereGeo = new THREE.IcosahedronGeometry(7, 3);
       const wireframeMat = new THREE.MeshBasicMaterial({
-        color: 0x8691a8,
+        color: 0x0b0e17,
         wireframe: true,
         transparent: true,
-        opacity: 0.22,
+        opacity: 0.28,
       });
       const wireframeMesh = new THREE.Mesh(sphereGeo, wireframeMat);
       sphereGroup.add(wireframeMesh);
 
-      // Inner points of sphere
+      // Accent crimson outer ring
+      const ringGeo = new THREE.TorusGeometry(8.2, 0.04, 16, 100);
+      const ringMat = new THREE.MeshBasicMaterial({
+        color: 0xdc0c1c,
+        transparent: true,
+        opacity: 0.45,
+      });
+      const ringMesh = new THREE.Mesh(ringGeo, ringMat);
+      ringMesh.rotation.x = Math.PI / 3;
+      sphereGroup.add(ringMesh);
+
+      // Inner points of sphere in vibrant crimson red
       const spherePointsGeo = new THREE.IcosahedronGeometry(6.8, 2);
       const spherePointsMat = new THREE.PointsMaterial({
         color: 0xdc0c1c,
-        size: 0.14,
+        size: 0.22,
+        map: circleTexture,
         transparent: true,
-        opacity: 0.65,
+        opacity: 0.90,
       });
       const spherePointsMesh = new THREE.Points(spherePointsGeo, spherePointsMat);
       sphereGroup.add(spherePointsMesh);

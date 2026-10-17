@@ -34,45 +34,45 @@ export const TechnologiesSection: React.FC = () => {
   ];
 
   return (
-    <section id="tecnologias" className="w-full py-20 sm:py-28 bg-[#0a0d14] text-white border-b border-[#25293d]/40">
+    <section id="tecnologias" className="w-full py-20 sm:py-28 bg-white text-[#0b0e17] border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-14 sm:mb-20">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#8691a8] font-semibold flex items-center gap-2 mb-3">
+          <span className="text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold flex items-center gap-2 mb-3">
             <span className="w-2 h-2 rounded-full bg-[#dc0c1c]"></span>
             <span>Tecnologías de Estampado</span>
           </span>
-          <h2 className="text-3xl sm:text-5xl font-light text-white tracking-tight max-w-3xl leading-snug">
+          <h2 className="text-3xl sm:text-5xl font-light text-[#0b0e17] tracking-tight max-w-3xl leading-snug">
             Procesos técnicos certificados para cada tipo de tejido y volumen.
           </h2>
         </div>
 
         {/* eXelentex style List of Technologies */}
-        <div className="divide-y divide-[#25293d]/60 border-y border-[#25293d]/60">
+        <div className="divide-y divide-slate-200 border-y border-slate-200">
           {technologies.map((tech) => (
             <div
               key={tech.id}
-              className="py-10 sm:py-14 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-baseline group hover:bg-[#121622]/40 transition-colors px-2 sm:px-4 rounded-xl"
+              className="py-10 sm:py-14 grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-12 items-baseline group hover:bg-slate-50 transition-colors px-2 sm:px-4 rounded-xl"
             >
               {/* Left Column: Number & Title */}
               <div className="lg:col-span-5 space-y-2">
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-mono text-[#dc0c1c] tracking-widest">
+                  <span className="text-xs font-mono text-[#dc0c1c] font-bold tracking-widest">
                     {tech.id}
                   </span>
-                  <span className="text-xs uppercase tracking-wider text-[#8691a8]">
+                  <span className="text-xs uppercase tracking-wider text-slate-500 font-medium">
                     {tech.tag}
                   </span>
                 </div>
 
-                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-light text-white group-hover:text-[#dc0c1c] transition-colors leading-tight">
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-light text-[#0b0e17] group-hover:text-[#dc0c1c] transition-colors leading-tight">
                   {tech.title}
                 </h3>
               </div>
 
               {/* Right Column: Description & Action */}
               <div className="lg:col-span-7 space-y-4">
-                <p className="text-sm sm:text-base text-[#8691a8] leading-relaxed">
+                <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
                   {tech.desc}
                 </p>
 
@@ -81,7 +81,7 @@ export const TechnologiesSection: React.FC = () => {
                     href={getWhatsAppLink(tech.quoteMsg)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-white hover:text-[#dc0c1c] font-semibold transition-colors"
+                    className="inline-flex items-center gap-2 text-xs uppercase tracking-wider text-[#0b0e17] hover:text-[#dc0c1c] font-semibold transition-colors"
                   >
                     <span>Cotizar en esta técnica</span>
                     <span className="material-symbols-outlined text-[16px]">arrow_forward</span>

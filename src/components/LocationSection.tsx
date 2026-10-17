@@ -5,19 +5,19 @@ export const LocationSection: React.FC = () => {
   const [useInteractiveMap, setUseInteractiveMap] = useState(false);
 
   return (
-    <section className="w-full py-16 sm:py-24 bg-[#0f0f12] text-white border-t border-[#2a2a36]" id="ubicacion">
+    <section className="w-full py-16 sm:py-24 bg-white text-[#0b0e17] border-t border-slate-200" id="ubicacion">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
           <div className="space-y-3">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1a1a20] border border-[#2a2a36] text-xs font-semibold uppercase tracking-wider text-[#00b4d8]">
-              <span className="w-2 h-2 rounded-full bg-[#00b4d8]"></span>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold uppercase tracking-wider text-slate-800">
+              <span className="w-2 h-2 rounded-full bg-[#dc0c1c]"></span>
               <span>Visítanos en Guadalajara de Buga</span>
             </div>
-            <h2 className="text-4xl sm:text-6xl font-display text-white tracking-wider">
+            <h2 className="text-4xl sm:text-6xl font-display text-[#0b0e17] tracking-wider">
               Nuestra Ubicación
             </h2>
-            <p className="text-sm sm:text-base text-[#9ca3af] max-w-xl leading-relaxed">
+            <p className="text-sm sm:text-base text-slate-600 max-w-xl leading-relaxed">
               Encuéntranos en pleno centro de Buga. Atendemos solicitudes presenciales y realizamos despachos a todo el Valle del Cauca y Colombia.
             </p>
           </div>
@@ -26,21 +26,21 @@ export const LocationSection: React.FC = () => {
             <button
               type="button"
               onClick={() => setUseInteractiveMap(!useInteractiveMap)}
-              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-[#1a1a20] hover:bg-[#22222b] text-white border border-[#2a2a36] transition-colors shadow-md"
+              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition-colors shadow-sm"
             >
-              <span className="material-symbols-outlined text-[18px] text-[#00b4d8]">
+              <span className="material-symbols-outlined text-[18px] text-[#dc0c1c]">
                 {useInteractiveMap ? 'image' : 'layers'}
               </span>
               <span>{useInteractiveMap ? 'Ver foto de referencia' : 'Ver mapa interactivo'}</span>
             </button>
 
             <a
-              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-[#22222b] hover:bg-[#2c2c38] text-white border border-[#2a2a36] hover:border-[#ffd60a] transition-colors shadow-md"
+              className="inline-flex items-center gap-2 text-xs font-semibold px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 hover:border-[#dc0c1c] transition-colors shadow-sm"
               href={COMPANY_INFO.mapsUrl}
               rel="noopener noreferrer"
               target="_blank"
             >
-              <span className="material-symbols-outlined text-[18px] text-[#ffd60a]">open_in_new</span>
+              <span className="material-symbols-outlined text-[18px] text-[#dc0c1c]">open_in_new</span>
               <span>Abrir en Google Maps</span>
             </a>
           </div>
@@ -49,16 +49,16 @@ export const LocationSection: React.FC = () => {
         {/* Map & Contact Card Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           {/* Contact Details Left */}
-          <div className="lg:col-span-5 bg-[#1a1a20] p-6 rounded-2xl shadow-xl border border-[#2a2a36] flex flex-col justify-between space-y-6">
+          <div className="lg:col-span-5 bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex flex-col justify-between space-y-6">
             <div className="space-y-5">
               {/* Address */}
               <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#e6197e]/15 text-[#e6197e] flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-xl bg-[#dc0c1c]/10 text-[#dc0c1c] flex items-center justify-center shrink-0 mt-0.5">
                   <span className="material-symbols-outlined text-[22px]">location_on</span>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">Dirección del Taller</p>
-                  <p className="text-sm text-[#9ca3af] mt-0.5">{COMPANY_INFO.address}</p>
+                  <p className="text-xs font-bold text-slate-900 uppercase tracking-wider">Dirección del Taller</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{COMPANY_INFO.address}</p>
                 </div>
               </div>
 
@@ -68,7 +68,7 @@ export const LocationSection: React.FC = () => {
                   <span className="material-symbols-outlined text-[22px]">chat</span>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">WhatsApp Oficial</p>
+                  <p className="text-xs font-bold text-slate-900 uppercase tracking-wider">WhatsApp Oficial</p>
                   <a
                     className="text-sm text-[#25D366] font-semibold hover:underline block mt-0.5"
                     href={getWhatsAppLink('Hola Art2Art, deseo consultar sobre su taller en Buga.')}
@@ -77,7 +77,7 @@ export const LocationSection: React.FC = () => {
                   >
                     {COMPANY_INFO.whatsappDisplay}
                   </a>
-                  <p className="text-[11px] text-[#9ca3af] mt-0.5">
+                  <p className="text-[11px] text-slate-500 mt-0.5">
                     Respuesta rápida en horario laboral
                   </p>
                 </div>
@@ -85,13 +85,13 @@ export const LocationSection: React.FC = () => {
 
               {/* Phone Line */}
               <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#00b4d8]/15 text-[#00b4d8] flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-xl bg-slate-100 text-[#0b0e17] flex items-center justify-center shrink-0 mt-0.5">
                   <span className="material-symbols-outlined text-[22px]">call</span>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">Línea Telefónica</p>
+                  <p className="text-xs font-bold text-slate-900 uppercase tracking-wider">Línea Telefónica</p>
                   <a
-                    className="text-sm text-[#00b4d8] font-semibold hover:underline block mt-0.5"
+                    className="text-sm text-slate-700 font-semibold hover:underline block mt-0.5"
                     href={`tel:+57${COMPANY_INFO.phone.replace(/\s+/g, '')}`}
                   >
                     {COMPANY_INFO.phone}
@@ -101,39 +101,39 @@ export const LocationSection: React.FC = () => {
 
               {/* Schedule */}
               <div className="flex items-start gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#ffd60a]/15 text-[#ffd60a] flex items-center justify-center shrink-0 mt-0.5">
+                <div className="w-10 h-10 rounded-xl bg-[#dc0c1c]/10 text-[#dc0c1c] flex items-center justify-center shrink-0 mt-0.5">
                   <span className="material-symbols-outlined text-[22px]">schedule</span>
                 </div>
                 <div>
-                  <p className="text-xs font-bold text-white uppercase tracking-wider">Horario de Atención</p>
-                  <p className="text-sm text-[#9ca3af] mt-0.5">{COMPANY_INFO.schedule}</p>
+                  <p className="text-xs font-bold text-slate-900 uppercase tracking-wider">Horario de Atención</p>
+                  <p className="text-sm text-slate-600 mt-0.5">{COMPANY_INFO.schedule}</p>
                 </div>
               </div>
             </div>
 
             {/* Social Links */}
-            <div className="pt-4 bg-[#141418] p-4 rounded-xl space-y-2 border border-[#2a2a36]">
-              <h4 className="text-xs font-bold text-white uppercase tracking-wider">Nuestras Redes Oficiales</h4>
-              <p className="text-xs text-[#9ca3af]">
+            <div className="pt-4 bg-slate-50 p-4 rounded-xl space-y-2 border border-slate-200">
+              <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">Nuestras Redes Oficiales</h4>
+              <p className="text-xs text-slate-600">
                 Mira fotos de producciones reales, historias y novedades:
               </p>
               <div className="flex items-center gap-2 pt-1">
                 <a
-                  className="flex-1 py-2 px-3 rounded-xl bg-[#22222b] hover:bg-[#2c2c38] text-white text-xs font-semibold text-center flex items-center justify-center gap-1.5 border border-[#2a2a36] hover:border-[#e6197e] transition-all"
+                  className="flex-1 py-2 px-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 text-xs font-semibold text-center flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#dc0c1c] transition-all shadow-sm"
                   href={COMPANY_INFO.instagramUrl}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-[#e6197e]">photo_camera</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#dc0c1c]">photo_camera</span>
                   <span>Instagram</span>
                 </a>
                 <a
-                  className="flex-1 py-2 px-3 rounded-xl bg-[#22222b] hover:bg-[#2c2c38] text-white text-xs font-semibold text-center flex items-center justify-center gap-1.5 border border-[#2a2a36] hover:border-[#00b4d8] transition-all"
+                  className="flex-1 py-2 px-3 rounded-xl bg-white hover:bg-slate-100 text-slate-900 text-xs font-semibold text-center flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#dc0c1c] transition-all shadow-sm"
                   href={COMPANY_INFO.facebookUrl}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <span className="material-symbols-outlined text-[16px] text-[#00b4d8]">groups</span>
+                  <span className="material-symbols-outlined text-[16px] text-[#0b0e17]">groups</span>
                   <span>Facebook</span>
                 </a>
               </div>
@@ -141,7 +141,7 @@ export const LocationSection: React.FC = () => {
           </div>
 
           {/* Styled Map Right */}
-          <div className="lg:col-span-7 h-[380px] lg:h-auto min-h-[380px] rounded-2xl overflow-hidden shadow-2xl relative border border-[#2a2a36] bg-[#141418]">
+          <div className="lg:col-span-7 h-[380px] lg:h-auto min-h-[380px] rounded-2xl overflow-hidden shadow-sm relative border border-slate-200 bg-slate-100">
             {useInteractiveMap ? (
               <iframe
                 title="Ubicación Art2Art Estampados Buga"
@@ -159,12 +159,12 @@ export const LocationSection: React.FC = () => {
             )}
 
             {/* Map Overlay Label */}
-            <div className="absolute bottom-4 left-4 bg-[#1a1a20]/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-xl flex items-center gap-2 border border-[#2a2a36]">
+            <div className="absolute bottom-4 left-4 bg-white/95 backdrop-blur-md px-4 py-2 rounded-xl shadow-md flex items-center gap-2 border border-slate-200">
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#e6197e] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#e6197e]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#dc0c1c] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-[#dc0c1c]"></span>
               </span>
-              <span className="text-xs font-bold text-white">
+              <span className="text-xs font-bold text-slate-900">
                 Art2Art Estampados • Guadalajara de Buga
               </span>
             </div>

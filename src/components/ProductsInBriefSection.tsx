@@ -38,16 +38,16 @@ export const ProductsInBriefSection: React.FC = () => {
   ];
 
   return (
-    <section className="w-full py-20 sm:py-28 bg-[#0a0d14] text-white border-b border-[#25293d]/40">
+    <section className="w-full py-20 sm:py-28 bg-white text-[#0b0e17] border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="mb-14 sm:mb-20">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#8691a8] font-semibold flex items-center gap-2 mb-4">
+          <span className="text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold flex items-center gap-2 mb-4">
             <span className="w-2 h-2 rounded-full bg-[#dc0c1c]"></span>
             <span>Nuestros productos</span>
           </span>
 
-          <h2 className="text-3xl sm:text-5xl font-light text-white tracking-tight max-w-3xl leading-snug">
+          <h2 className="text-3xl sm:text-5xl font-light text-[#0b0e17] tracking-tight max-w-3xl leading-snug">
             Prendas y soportes de calidad superior listos para estampar con tu identidad.
           </h2>
         </div>
@@ -57,47 +57,47 @@ export const ProductsInBriefSection: React.FC = () => {
           {products.map((item) => (
             <div
               key={item.id}
-              className="group relative bg-[#121622] rounded-2xl overflow-hidden border border-[#25293d] hover:border-[#dc0c1c]/60 transition-all duration-500 flex flex-col justify-between"
+              className="group relative bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:border-[#dc0c1c]/50 transition-all duration-500 flex flex-col justify-between"
             >
               {/* Image Preview with Hover Zoom */}
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#07090f]">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
                 <img
                   src={item.imageUrl}
                   alt={item.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#121622] via-transparent to-transparent opacity-80"></div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-60"></div>
 
                 {/* Number Badge */}
-                <span className="absolute top-4 left-4 text-xs font-mono tracking-widest text-white/80 bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
+                <span className="absolute top-4 left-4 text-xs font-mono tracking-widest text-[#0b0e17] bg-white/95 backdrop-blur-md px-3 py-1 rounded-full border border-slate-200 shadow-sm font-semibold">
                   {item.id} / 04
                 </span>
 
-                <span className="absolute top-4 right-4 text-xs tracking-wider uppercase text-[#dc0c1c] bg-[#dc0c1c]/10 border border-[#dc0c1c]/30 px-3 py-1 rounded-full font-semibold">
+                <span className="absolute top-4 right-4 text-xs tracking-wider uppercase text-[#dc0c1c] bg-white/95 border border-[#dc0c1c]/30 px-3 py-1 rounded-full font-semibold shadow-sm">
                   {item.badge}
                 </span>
               </div>
 
               {/* Text & Actions */}
               <div className="p-6 sm:p-8 space-y-4">
-                <span className="text-xs uppercase tracking-widest text-[#8691a8] font-medium block">
+                <span className="text-xs uppercase tracking-widest text-slate-500 font-medium block">
                   {item.technique}
                 </span>
 
-                <h3 className="text-2xl sm:text-3xl font-light text-white group-hover:text-[#dc0c1c] transition-colors">
+                <h3 className="text-2xl sm:text-3xl font-light text-[#0b0e17] group-hover:text-[#dc0c1c] transition-colors">
                   {item.title}
                 </h3>
 
-                <p className="text-sm text-[#8691a8] leading-relaxed">
+                <p className="text-sm text-slate-600 leading-relaxed">
                   {item.desc}
                 </p>
 
                 {/* Footer with Circular Action Icon */}
-                <div className="pt-4 border-t border-[#25293d]/50 flex items-center justify-between">
+                <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
                   <a
                     href="#personalizador"
-                    className="text-xs uppercase tracking-wider text-white font-semibold hover:text-[#dc0c1c] transition-colors flex items-center gap-2"
+                    className="text-xs uppercase tracking-wider text-[#0b0e17] font-semibold hover:text-[#dc0c1c] transition-colors flex items-center gap-2"
                   >
                     <span>Personalizar en línea</span>
                     <span className="material-symbols-outlined text-[16px]">arrow_forward</span>
@@ -107,7 +107,7 @@ export const ProductsInBriefSection: React.FC = () => {
                     href={getWhatsAppLink(`Hola Art2Art, deseo cotizar ${item.title}.`)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-[#182030] hover:bg-[#dc0c1c] text-white flex items-center justify-center transition-all shadow-md group-hover:scale-110"
+                    className="w-10 h-10 rounded-full bg-slate-100 hover:bg-[#dc0c1c] text-[#0b0e17] hover:text-white border border-slate-200 flex items-center justify-center transition-all shadow-sm group-hover:scale-110"
                     title="Consultar por WhatsApp"
                   >
                     <span className="material-symbols-outlined text-[18px]">chat</span>

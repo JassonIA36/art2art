@@ -23,12 +23,12 @@ export const App: React.FC = () => {
   const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<PortfolioItem | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#0a0d14] text-[#f3f4f6] flex flex-col font-sans selection:bg-[#dc0c1c]/40 selection:text-white">
+    <div className="min-h-screen bg-white text-[#0b0e17] flex flex-col font-sans selection:bg-[#dc0c1c]/15 selection:text-[#dc0c1c]">
       {/* Fixed eXelentex Minimalist Header */}
       <Header />
 
       {/* Main Content Sections */}
-      <main className="w-full flex-grow bg-[#0a0d14]">
+      <main className="w-full flex-grow bg-white">
         {/* 1. Hero with Interactive Three.js 3D Particle Mesh & Signature Slogan */}
         <ExelentexHero />
 

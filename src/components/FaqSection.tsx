@@ -31,20 +31,20 @@ export const FaqSection: React.FC = () => {
   };
 
   return (
-    <section className="w-full py-16 sm:py-20 bg-[#0f0f12] relative overflow-hidden border-t border-[#2a2a36]">
+    <section className="w-full py-16 sm:py-20 bg-[#f8fafc] text-[#0b0e17] relative overflow-hidden border-t border-slate-200">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center space-y-3 mb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1a1a20] border border-[#2a2a36] text-xs font-semibold uppercase tracking-wider text-[#e6197e]">
-            <span className="material-symbols-outlined text-[16px]">help</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-semibold uppercase tracking-wider text-slate-800 shadow-sm">
+            <span className="material-symbols-outlined text-[16px] text-[#dc0c1c]">help</span>
             <span>Resolvemos tus Dudas</span>
           </div>
 
-          <h2 className="text-4xl sm:text-5xl font-display text-white tracking-wider">
+          <h2 className="text-4xl sm:text-5xl font-display text-[#0b0e17] tracking-wider">
             Preguntas Frecuentes
           </h2>
 
-          <p className="text-[#9ca3af] text-sm sm:text-base leading-relaxed">
+          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
             Información clara sobre tiempos, logística, especificaciones técnicas y mínimos de compra.
           </p>
         </div>
@@ -58,8 +58,8 @@ export const FaqSection: React.FC = () => {
                 key={faq.q}
                 className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                   isOpen
-                    ? 'bg-[#1a1a20] border-[#e6197e]/60 shadow-lg'
-                    : 'bg-[#1a1a20]/70 border-[#2a2a36] hover:border-[#38384a]'
+                    ? 'bg-white border-[#dc0c1c]/60 shadow-md'
+                    : 'bg-white border-slate-200 hover:border-slate-300'
                 }`}
               >
                 <button
@@ -71,22 +71,22 @@ export const FaqSection: React.FC = () => {
                     <div
                       className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
                         isOpen
-                          ? 'bg-[#e6197e]/20 text-[#e6197e]'
-                          : 'bg-[#22222b] text-[#9ca3af]'
+                          ? 'bg-[#dc0c1c]/10 text-[#dc0c1c]'
+                          : 'bg-slate-100 text-slate-600'
                       }`}
                     >
                       <span className="material-symbols-outlined text-[22px]">
                         {faq.icon}
                       </span>
                     </div>
-                    <span className="text-base sm:text-lg font-semibold text-white tracking-tight">
+                    <span className="text-base sm:text-lg font-semibold text-slate-900 tracking-tight">
                       {faq.q}
                     </span>
                   </div>
 
                   <span
-                    className={`material-symbols-outlined text-[24px] text-[#9ca3af] transition-transform duration-300 shrink-0 ${
-                      isOpen ? 'rotate-180 text-[#e6197e]' : ''
+                    className={`material-symbols-outlined text-[24px] text-slate-400 transition-transform duration-300 shrink-0 ${
+                      isOpen ? 'rotate-180 text-[#dc0c1c]' : ''
                     }`}
                   >
                     expand_more
@@ -94,7 +94,7 @@ export const FaqSection: React.FC = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="px-5 sm:px-6 pb-6 pt-0 text-sm text-[#9ca3af] leading-relaxed border-t border-[#2a2a36]/50 mt-1 animate-fadeIn">
+                  <div className="px-5 sm:px-6 pb-6 pt-0 text-sm text-slate-600 leading-relaxed border-t border-slate-100 mt-1 animate-fadeIn">
                     <p className="pt-3">{faq.a}</p>
                   </div>
                 )}

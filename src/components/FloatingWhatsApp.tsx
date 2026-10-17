@@ -16,16 +16,16 @@ export const FloatingWhatsApp: React.FC = () => {
     <div className="fixed bottom-6 right-6 z-40 flex items-center gap-3">
       {/* Tooltip bubble on desktop */}
       {showTooltip && (
-        <div className="hidden sm:flex items-center gap-2 bg-[#1a1a20] text-white px-4 py-2.5 rounded-2xl shadow-2xl border border-[#2a2a36] text-xs font-medium animate-in slide-in-from-right duration-300 relative">
+        <div className="hidden sm:flex items-center gap-2 bg-white text-[#0b0e17] px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200 text-xs font-medium animate-in slide-in-from-right duration-300 relative">
           <span>¡Hola! ¿Deseas cotizar o asesoría técnica? 👋</span>
           <button
             onClick={() => setShowTooltip(false)}
-            className="text-[#9ca3af] hover:text-white ml-1 p-0.5"
+            className="text-slate-400 hover:text-slate-700 ml-1 p-0.5"
             aria-label="Cerrar mensaje"
           >
             <span className="material-symbols-outlined text-[14px]">close</span>
           </button>
-          <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-3 h-3 bg-[#1a1a20] rotate-45 border-r border-t border-[#2a2a36]"></div>
+          <div className="absolute right-[-6px] top-1/2 -translate-y-1/2 w-3 h-3 bg-white rotate-45 border-r border-t border-slate-200"></div>
         </div>
       )}
 

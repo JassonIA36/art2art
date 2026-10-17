@@ -117,21 +117,21 @@ export const ApplicationsSliderSection: React.FC = () => {
   const current = applications[activeTab];
 
   return (
-    <section className="w-full py-20 sm:py-28 bg-[#0b0e17] text-white border-b border-[#25293d]/40">
+    <section className="w-full py-20 sm:py-28 bg-[#f8fafc] text-[#0b0e17] border-b border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Label */}
         <div className="mb-10 sm:mb-14">
-          <span className="text-xs uppercase tracking-[0.25em] text-[#8691a8] font-semibold flex items-center gap-2 mb-3">
+          <span className="text-xs uppercase tracking-[0.25em] text-slate-500 font-semibold flex items-center gap-2 mb-3">
             <span className="w-2 h-2 rounded-full bg-[#dc0c1c]"></span>
             <span>Aplicaciones de nuestra experiencia</span>
           </span>
-          <h2 className="text-3xl sm:text-5xl font-light text-white tracking-tight">
+          <h2 className="text-3xl sm:text-5xl font-light text-[#0b0e17] tracking-tight">
             Sectores que confían en nuestro taller
           </h2>
         </div>
 
         {/* Horizontal Bullet Tabs (eXelentex Swiper Pagination style) */}
-        <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-10 sm:mb-14 scrollbar-none border-b border-[#25293d]/50">
+        <div className="flex items-center gap-2 sm:gap-3 overflow-x-auto pb-4 mb-10 sm:mb-14 scrollbar-none border-b border-slate-200">
           {applications.map((app, index) => {
             const isActive = activeTab === index;
             return (
@@ -141,8 +141,8 @@ export const ApplicationsSliderSection: React.FC = () => {
                 onClick={() => setActiveTab(index)}
                 className={`px-4 sm:px-6 py-2.5 rounded-full text-xs sm:text-sm font-medium tracking-wide uppercase transition-all shrink-0 border ${
                   isActive
-                    ? 'bg-[#dc0c1c] text-white border-[#dc0c1c] shadow-lg shadow-[#dc0c1c]/25'
-                    : 'bg-[#121622] text-[#8691a8] border-[#25293d] hover:text-white hover:border-[#8691a8]'
+                    ? 'bg-[#dc0c1c] text-white border-[#dc0c1c] shadow-md shadow-[#dc0c1c]/20'
+                    : 'bg-white text-slate-600 border-slate-200 hover:text-[#0b0e17] hover:border-slate-300 shadow-sm'
                 }`}
               >
                 {app.tabLabel}
@@ -154,10 +154,10 @@ export const ApplicationsSliderSection: React.FC = () => {
         {/* Active Content Display */}
         <div className="space-y-8 animate-fadeIn">
           <div>
-            <h3 className="text-2xl sm:text-4xl font-light text-white tracking-tight mb-3">
+            <h3 className="text-2xl sm:text-4xl font-light text-[#0b0e17] tracking-tight mb-3">
               {current.title}
             </h3>
-            <p className="text-base sm:text-lg text-[#8691a8] max-w-4xl leading-relaxed">
+            <p className="text-base sm:text-lg text-slate-600 max-w-4xl leading-relaxed">
               {current.lead}
             </p>
           </div>
@@ -167,15 +167,15 @@ export const ApplicationsSliderSection: React.FC = () => {
             {current.cols.map((col, idx) => (
               <div
                 key={idx}
-                className="bg-[#121622] p-6 rounded-xl border border-[#25293d] hover:border-[#dc0c1c]/40 transition-colors"
+                className="bg-white p-6 rounded-xl border border-slate-200 hover:border-[#dc0c1c]/40 hover:shadow-md transition-all"
               >
                 <div className="flex items-center gap-2 mb-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c]"></span>
-                  <h4 className="text-sm font-semibold text-white tracking-wide">
+                  <h4 className="text-sm font-semibold text-[#0b0e17] tracking-wide">
                     {col.title}
                   </h4>
                 </div>
-                <p className="text-xs sm:text-sm text-[#8691a8] leading-relaxed">
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                   {col.desc}
                 </p>
               </div>
