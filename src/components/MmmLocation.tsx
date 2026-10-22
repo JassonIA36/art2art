@@ -12,7 +12,7 @@ export const MmmLocation: React.FC = () => {
           </span>
 
           <h2 className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black max-w-[620px]">
-            Visítanos en Guadalajara de Buga
+            Taller de estampados en Guadalajara de Buga
           </h2>
 
           <p className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[500px]">

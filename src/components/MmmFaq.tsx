@@ -22,8 +22,8 @@ export const MmmFaq: React.FC = () => {
       a: '¡No hay mínimo para técnicas digitales! En DTF Direct to Film, Vinilo Textil y Sublimación puedes estampar desde 1 sola prenda. En Serigrafía tradicional el pedido mínimo sugerido es de 12 unidades para amortizar las matrices y ofrecerte el precio unitario más bajo.',
     },
     {
-      q: '¿Cómo aplican los descuentos por volumen?',
-      a: 'Los descuentos aplican automáticamente en nuestro personalizador: 10% de descuento a partir de 6 prendas del mismo tipo y 20% de descuento a partir de 12 prendas. Para tirajes superiores a 50 unidades, cotizamos tarifas especiales por WhatsApp.',
+      q: '¿Hay descuentos por volumen?',
+      a: 'Sí. Ofrecemos descuentos desde 6 prendas del mismo tipo y tarifas especiales para tirajes de más de 50 unidades. Escríbenos por WhatsApp con tu diseño y te cotizamos al instante.',
     },
   ];
 
@@ -31,8 +31,19 @@ export const MmmFaq: React.FC = () => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const faqJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
+  };
+
   return (
     <section id="faq" className="bg-white py-20 border-t border-black/5">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <div className="mx-auto flex w-full max-w-[840px] flex-col px-6 sm:px-8">
         {/* Header */}
         <div className="flex flex-col items-center gap-5 text-center mb-12">

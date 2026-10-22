@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://art2artestampados.com/sitemap.xml

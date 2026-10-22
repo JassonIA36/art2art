@@ -106,13 +106,13 @@ export const MmmHero: React.FC = () => {
 
           <Reveal delay={80}>
             <h1 className="text-[40px] sm:text-[54px] lg:text-[62px] font-semibold leading-[1.05] tracking-[-0.05em] text-black">
-              Estampados de alta calidad para <span className="text-shimmer">tu marca</span> o proyecto
+              Estampados en Buga de alta calidad para <span className="text-shimmer">tu marca</span>
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
             <p className="text-[17px] sm:text-[19px] tracking-[-0.025em] text-black/60 max-w-[580px] leading-relaxed">
-              Diseña tus prendas en línea, elige entre DTF full color, serigrafía y vinilo de precisión, y cotiza al instante por WhatsApp. Sin mínimos y con envíos a todo el país.
+              Taller de estampados en Guadalajara de Buga. Diseña tus prendas en línea, elige entre DTF full color, serigrafía y vinilo de precisión, y cotiza al instante por WhatsApp. Sin mínimos y con envíos a todo el país.
             </p>
           </Reveal>
 
