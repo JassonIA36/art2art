@@ -78,15 +78,15 @@ export const MmmTemplatesCarousel: React.FC = () => {
       <div className="mx-auto flex w-full max-w-[1280px] flex-col px-6 sm:px-8">
         {/* Section Header */}
         <div className="flex flex-col items-center gap-5 text-center mb-10">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
+          <span data-edit="catalogo_etiqueta" className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
             Catálogo
           </span>
 
-          <h2 className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black max-w-[620px]">
+          <h2 data-edit="catalogo_titulo" className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black max-w-[620px]">
             Prendas y soportes para cada negocio y marca
           </h2>
 
-          <p className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[540px]">
+          <p data-edit="catalogo_descripcion" className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[540px]">
             Explora siluetas seleccionadas listas para estampar. Desde streetwear y dotaciones corporativas hasta colecciones de autor.
           </p>
         </div>
@@ -152,24 +152,25 @@ export const MmmTemplatesCarousel: React.FC = () => {
                 <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-neutral-200/50">
                   <img
                     src={tpl.imageUrl}
+                    data-edit-img={`catalogo_${tpl.id}_foto`}
                     alt={tpl.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     loading="lazy"
                   />
-                  <span className="absolute top-3 left-3 rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-0.5 text-xs font-semibold text-black shadow-sm ring-1 ring-black/5">
+                  <span data-edit={`catalogo_${tpl.id}_etiqueta`} className="absolute top-3 left-3 rounded-full bg-white/90 backdrop-blur-sm px-2.5 py-0.5 text-xs font-semibold text-black shadow-sm ring-1 ring-black/5">
                     {tpl.badge}
                   </span>
-                  <span className="absolute bottom-3 right-3 rounded-full bg-black text-white px-2.5 py-0.5 text-xs font-mono font-medium shadow-sm">
+                  <span data-edit={`catalogo_${tpl.id}_precio`} className="absolute bottom-3 right-3 rounded-full bg-black text-white px-2.5 py-0.5 text-xs font-mono font-medium shadow-sm">
                     {tpl.price}
                   </span>
                 </div>
 
                 {/* Details */}
                 <div className="flex flex-col gap-1">
-                  <h3 className="text-base font-semibold text-black group-hover:opacity-80 transition-opacity">
+                  <h3 data-edit={`catalogo_${tpl.id}_nombre`} className="text-base font-semibold text-black group-hover:opacity-80 transition-opacity">
                     {tpl.title}
                   </h3>
-                  <p className="text-xs text-black/60 line-clamp-2 leading-relaxed">
+                  <p data-edit={`catalogo_${tpl.id}_descripcion`} className="text-xs text-black/60 line-clamp-2 leading-relaxed">
                     {tpl.subtitle}
                   </p>
                 </div>
@@ -181,7 +182,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
                     onClick={() => selectGarmentInStudio(tpl.garment)}
                     className="text-xs font-semibold text-black hover:text-[#dc0c1c] transition-colors inline-flex items-center gap-1"
                   >
-                    <span>Personalizar esta silueta</span>
+                    <span data-edit="catalogo_boton_personalizar">Personalizar esta silueta</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="14"
@@ -200,6 +201,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
 
                   <a
                     href={getWhatsAppLink(`Hola Art2Art, quiero cotizar ${tpl.title}.`)}
+                    data-edit-href={`catalogo_${tpl.id}_whatsapp`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-8 h-8 rounded-full bg-white hover:bg-black hover:text-white text-black ring-1 ring-black/10 flex items-center justify-center transition-all text-xs"

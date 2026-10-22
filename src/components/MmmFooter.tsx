@@ -14,17 +14,17 @@ export const MmmFooter: React.FC = () => {
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c]"></span>
             </div>
-            <p className="text-xs sm:text-sm text-black/60 leading-relaxed font-normal">
+            <p data-edit="footer_descripcion" className="text-xs sm:text-sm text-black/60 leading-relaxed font-normal">
               Taller de estampación textil de alta precisión en Guadalajara de Buga, Valle del Cauca. Soluciones para marcas, empresas y creadores con DTF, serigrafía y vinilo.
             </p>
             <div className="flex items-center gap-2 text-xs font-mono text-black/50">
-              <span>📍 {COMPANY_INFO.address}</span>
+              <span>📍 <span data-edit="contacto_direccion">{COMPANY_INFO.address}</span></span>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-black">
+            <h4 data-edit="footer_explorar_titulo" className="text-xs font-bold uppercase tracking-widest text-black">
               Explorar
             </h4>
             <ul className="space-y-2 text-sm text-black/70">
@@ -58,44 +58,45 @@ export const MmmFooter: React.FC = () => {
 
           {/* Techniques */}
           <div className="space-y-3">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-black">
+            <h4 data-edit="footer_tecnicas_titulo" className="text-xs font-bold uppercase tracking-widest text-black">
               Técnicas
             </h4>
             <ul className="space-y-2 text-sm text-black/70">
               <li>
-                <span className="text-black font-medium">DTF Full Color 300 DPI</span>
+                <span data-edit="footer_tecnica_1" className="text-black font-medium">DTF Full Color 300 DPI</span>
               </li>
               <li>
-                <span>Serigrafía Textil Tradicional</span>
+                <span data-edit="footer_tecnica_2">Serigrafía Textil Tradicional</span>
               </li>
               <li>
-                <span>Sublimación Digital HD</span>
+                <span data-edit="footer_tecnica_3">Sublimación Digital HD</span>
               </li>
               <li>
-                <span>Vinilo Textil Térmico & Reflectivo</span>
+                <span data-edit="footer_tecnica_4">Vinilo Textil Térmico & Reflectivo</span>
               </li>
               <li>
-                <span>Bordado & Acabados de Autor</span>
+                <span data-edit="footer_tecnica_5">Bordado & Acabados de Autor</span>
               </li>
             </ul>
           </div>
 
           {/* Direct WhatsApp CTA */}
           <div className="space-y-4">
-            <h4 className="text-xs font-bold uppercase tracking-widest text-black">
+            <h4 data-edit="footer_contacto_titulo" className="text-xs font-bold uppercase tracking-widest text-black">
               Contacto Inmediato
             </h4>
-            <p className="text-xs text-black/60 leading-relaxed">
+            <p data-edit="footer_contacto_texto" className="text-xs text-black/60 leading-relaxed">
               Atención directa por WhatsApp de lunes a sábado de 8:00 AM a 6:30 PM.
             </p>
             <a
               href={getWhatsAppLink('Hola Art2Art, quiero hacer una consulta sobre un pedido.')}
+              data-edit-href="footer_boton_whatsapp"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full bg-black text-white hover:bg-neutral-800 text-xs font-semibold uppercase tracking-wider py-3 px-5 transition-all shadow-sm w-full"
             >
               <span className="w-2 h-2 rounded-full bg-[#25D366]"></span>
-              <span>Chatear en WhatsApp</span>
+              <span data-edit="footer_boton_whatsapp_texto">Chatear en WhatsApp</span>
             </a>
           </div>
         </div>
@@ -104,13 +105,13 @@ export const MmmFooter: React.FC = () => {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-black/50">
           <p>© {new Date().getFullYear()} Art2Art Estampados. Todos los derechos reservados. Guadalajara de Buga, Colombia.</p>
           <div className="flex items-center gap-4">
-            <a href={COMPANY_INFO.instagramUrl} target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
+            <a href={COMPANY_INFO.instagramUrl} data-edit-href="redes_instagram" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
               Instagram
             </a>
-            <a href={COMPANY_INFO.facebookUrl} target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
+            <a href={COMPANY_INFO.facebookUrl} data-edit-href="redes_facebook" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
               Facebook
             </a>
-            <a href={COMPANY_INFO.mapsUrl} target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
+            <a href={COMPANY_INFO.mapsUrl} data-edit-href="contacto_mapa" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
               Google Maps
             </a>
           </div>

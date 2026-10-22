@@ -63,7 +63,7 @@ export const Header: React.FC = () => {
                       : 'text-black/70 hover:bg-black/5 hover:text-black font-normal'
                   }`}
                 >
-                  {link.label}
+                  <span data-edit={`nav_${link.id}`}>{link.label}</span>
                 </a>
               );
             })}
@@ -77,6 +77,7 @@ export const Header: React.FC = () => {
           >
             <img
               src="/logo.png"
+              data-edit-img="logo_principal"
               alt="Art2Art Logo"
               className="w-9 h-9 sm:w-10 sm:h-10 object-contain group-hover:scale-105 transition-transform"
             />
@@ -97,7 +98,7 @@ export const Header: React.FC = () => {
               href="#personalizador"
               className="inline-flex items-center justify-center gap-1.5 rounded-full bg-black text-white hover:bg-neutral-800 text-sm font-medium h-10 px-4 sm:px-5 transition-all shadow-sm active:scale-95"
             >
-              <span>Personalizar prenda</span>
+              <span data-edit="header_boton_personalizar">Personalizar prenda</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
@@ -156,6 +157,7 @@ export const Header: React.FC = () => {
                 <div className="flex items-center gap-2.5">
                   <img
                     src="/logo.png"
+                    data-edit-img="logo_principal"
                     alt="Art2Art Logo"
                     className="w-9 h-9 object-contain"
                   />
@@ -195,7 +197,7 @@ export const Header: React.FC = () => {
                     onClick={() => setMobileMenuOpen(false)}
                     className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-black/80 hover:bg-black/5 transition-colors"
                   >
-                    <span>{link.label}</span>
+                    <span data-edit={`nav_${link.id}`}>{link.label}</span>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       width="16"
@@ -218,7 +220,7 @@ export const Header: React.FC = () => {
                   onClick={() => setMobileMenuOpen(false)}
                   className="mt-4 flex items-center justify-center gap-2 px-4 py-3 rounded-full bg-black text-white text-sm font-medium shadow-sm"
                 >
-                  <span>Ir al Personalizador</span>
+                  <span data-edit="menu_boton_personalizar">Ir al Personalizador</span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="16"
@@ -241,13 +243,14 @@ export const Header: React.FC = () => {
             <div className="pt-6 border-t border-black/10 space-y-3">
               <a
                 href={getWhatsAppLink('Hola Art2Art, quiero cotizar un pedido textil.')}
+                data-edit-href="hero_boton_whatsapp"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[#25D366] text-black font-semibold text-xs uppercase tracking-wider py-3 shadow-md"
               >
-                <span>Chatear por WhatsApp</span>
+                <span data-edit="menu_boton_whatsapp_texto">Chatear por WhatsApp</span>
               </a>
-              <p className="text-center text-xs text-black/50">
+              <p className="text-center text-xs text-black/50" data-edit="contacto_direccion">
                 {COMPANY_INFO.address}
               </p>
             </div>

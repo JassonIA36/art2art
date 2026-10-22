@@ -21,11 +21,12 @@ export const WorkshopsSection: React.FC = () => {
               className="absolute inset-0 w-full h-full object-cover"
               alt="Clase práctica de serigrafía textil en el taller de Art2Art Buga"
               src={WORKSHOP_DATA.imageUrl}
+              data-edit-img="taller_foto"
               loading="lazy"
             />
             <div className="absolute top-4 left-4 flex items-center gap-2 rounded-full bg-black/60 backdrop-blur-md px-3.5 py-1.5 border border-white/20">
               <span className="w-2 h-2 rounded-full bg-[#ffd60a] animate-ping"></span>
-              <span className="text-xs font-medium tracking-wide">Próxima cohorte en curso • Buga</span>
+              <span data-edit="taller_aviso" className="text-xs font-medium tracking-wide">Próxima cohorte en curso • Buga</span>
             </div>
           </div>
 
@@ -33,7 +34,7 @@ export const WorkshopsSection: React.FC = () => {
           <div className="lg:col-span-6 p-6 sm:p-10 flex flex-col justify-between gap-8">
             <div className="space-y-5">
               <div className="flex items-center justify-between flex-wrap gap-2">
-                <span className="inline-flex items-center rounded-full bg-white/10 border border-white/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#ffd60a]">
+                <span data-edit="taller_etiqueta" className="inline-flex items-center rounded-full bg-white/10 border border-white/20 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-[#ffd60a]">
                   Taller de estampados • Buga
                 </span>
                 <span className="text-xs px-3 py-1 rounded-full bg-[#dc0c1c]/20 text-[#ff6b75] border border-[#dc0c1c]/40 font-semibold">
@@ -41,18 +42,18 @@ export const WorkshopsSection: React.FC = () => {
                 </span>
               </div>
 
-              <h2 className="text-3xl sm:text-4xl font-bold tracking-[-0.03em]">{WORKSHOP_DATA.title}</h2>
-              <p className="text-white/70 text-base">{WORKSHOP_DATA.subtitle}</p>
+              <h2 data-edit="taller_titulo" className="text-3xl sm:text-4xl font-bold tracking-[-0.03em]">{WORKSHOP_DATA.title}</h2>
+              <p data-edit="taller_subtitulo" className="text-white/70 text-base">{WORKSHOP_DATA.subtitle}</p>
 
               <div className="p-4 rounded-2xl bg-white/5 border border-white/10 space-y-3">
-                <p className="text-sm text-white/90 leading-relaxed">{WORKSHOP_DATA.description}</p>
+                <p data-edit="taller_descripcion" className="text-sm text-white/90 leading-relaxed">{WORKSHOP_DATA.description}</p>
                 <ul className="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs text-[#ffd60a]">
-                  <li>✓ Práctico 100%</li>
-                  <li>✓ Materiales incluidos</li>
-                  <li>✓ Cupos limitados</li>
+                  <li data-edit="taller_punto_1">✓ Práctico 100%</li>
+                  <li data-edit="taller_punto_2">✓ Materiales incluidos</li>
+                  <li data-edit="taller_punto_3">✓ Cupos limitados</li>
                 </ul>
                 <p className="text-xs text-white/60">
-                  {WORKSHOP_DATA.duration} · {WORKSHOP_DATA.schedule}
+                  <span data-edit="taller_duracion">{WORKSHOP_DATA.duration}</span> · <span data-edit="taller_horario">{WORKSHOP_DATA.schedule}</span>
                 </p>
               </div>
 
@@ -83,13 +84,14 @@ export const WorkshopsSection: React.FC = () => {
               <a
                 className="inline-flex items-center gap-2 rounded-full bg-white text-black hover:bg-neutral-200 text-sm font-medium h-11 px-6 transition-all active:scale-95"
                 href={getWhatsAppLink(WORKSHOP_DATA.quoteMessage)}
+                data-edit-href="taller_boton_inscribir"
                 rel="noopener noreferrer"
                 target="_blank"
               >
-                <span>Inscribirme al Taller</span>
+                <span data-edit="taller_boton_inscribir_texto">Inscribirme al Taller</span>
                 <span aria-hidden>→</span>
               </a>
-              <span className="text-sm text-white/70">Sede Guadalajara de Buga</span>
+              <span data-edit="taller_sede" className="text-sm text-white/70">Sede Guadalajara de Buga</span>
             </div>
           </div>
         </div>

@@ -7,15 +7,15 @@ export const MmmLocation: React.FC = () => {
       <div className="mx-auto flex w-full max-w-[1280px] flex-col px-6 sm:px-8">
         {/* Header */}
         <div className="flex flex-col items-center gap-5 text-center mb-16">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
+          <span data-edit="ubicacion_etiqueta" className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
             Ubicación & Taller
           </span>
 
-          <h2 className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black max-w-[620px]">
+          <h2 data-edit="ubicacion_titulo" className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black max-w-[620px]">
             Taller de estampados en Guadalajara de Buga
           </h2>
 
-          <p className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[500px]">
+          <p data-edit="ubicacion_descripcion" className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[500px]">
             Taller boutique y punto de entrega en el Valle del Cauca. Ven a conocer las telas y acabados en persona.
           </p>
         </div>
@@ -26,13 +26,13 @@ export const MmmLocation: React.FC = () => {
           <div className="lg:col-span-5 rounded-2xl bg-neutral-50 p-8 sm:p-10 border border-black/5 flex flex-col justify-between gap-8">
             <div className="space-y-6">
               <div className="space-y-2">
-                <span className="text-xs uppercase font-mono tracking-widest text-[#dc0c1c]">
+                <span data-edit="ubicacion_taller_etiqueta" className="text-xs uppercase font-mono tracking-widest text-[#dc0c1c]">
                   Taller & Atelier Textil
                 </span>
-                <h3 className="text-2xl font-bold tracking-tight text-black">
+                <h3 data-edit="ubicacion_nombre" className="text-2xl font-bold tracking-tight text-black">
                   Art2Art Estampados
                 </h3>
-                <p className="text-sm text-black/60 leading-relaxed">
+                <p data-edit="ubicacion_resumen" className="text-sm text-black/60 leading-relaxed">
                   Más de 10 años vistiendo marcas locales, emprendimientos y empresas con técnicas de alta durabilidad.
                 </p>
               </div>
@@ -41,24 +41,24 @@ export const MmmLocation: React.FC = () => {
                 <div className="flex items-start gap-3">
                   <span className="text-base">📍</span>
                   <div>
-                    <span className="font-semibold text-black block">Dirección</span>
-                    <span className="text-black/70">{COMPANY_INFO.address}</span>
+                    <span data-edit="ubicacion_dir_titulo" className="font-semibold text-black block">Dirección</span>
+                    <span data-edit="contacto_direccion" className="text-black/70">{COMPANY_INFO.address}</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <span className="text-base">⏰</span>
                   <div>
-                    <span className="font-semibold text-black block">Horario de Atención</span>
-                    <span className="text-black/70">{COMPANY_INFO.schedule}</span>
+                    <span data-edit="ubicacion_horario_titulo" className="font-semibold text-black block">Horario de Atención</span>
+                    <span data-edit="contacto_horario" className="text-black/70">{COMPANY_INFO.schedule}</span>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-3">
                   <span className="text-base">📞</span>
                   <div>
-                    <span className="font-semibold text-black block">Teléfono / WhatsApp</span>
-                    <span className="text-black/70">{COMPANY_INFO.phone}</span>
+                    <span data-edit="ubicacion_tel_titulo" className="font-semibold text-black block">Teléfono / WhatsApp</span>
+                    <span data-edit="contacto_telefono" className="text-black/70">{COMPANY_INFO.phone}</span>
                   </div>
                 </div>
               </div>
@@ -67,20 +67,22 @@ export const MmmLocation: React.FC = () => {
             <div className="flex flex-col sm:flex-row gap-3 pt-6 border-t border-black/10">
               <a
                 href={COMPANY_INFO.mapsUrl}
+                data-edit-href="contacto_mapa"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-black/15 bg-white text-black hover:bg-neutral-100 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all"
               >
-                <span>Abrir en Google Maps</span>
+                <span data-edit="ubicacion_boton_mapa_texto">Abrir en Google Maps</span>
               </a>
 
               <a
                 href={getWhatsAppLink('Hola Art2Art, quiero pasar por el taller a ver muestras.')}
+                data-edit-href="ubicacion_boton_visita"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-black text-white hover:bg-neutral-800 px-5 py-2.5 text-xs font-semibold uppercase tracking-wider transition-all"
               >
-                <span>Agendar visita</span>
+                <span data-edit="ubicacion_boton_visita_texto">Agendar visita</span>
               </a>
             </div>
           </div>

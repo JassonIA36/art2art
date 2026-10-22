@@ -17,7 +17,7 @@ export const FloatingWhatsApp: React.FC = () => {
       {/* Tooltip bubble on desktop */}
       {showTooltip && (
         <div className="hidden sm:flex items-center gap-2 bg-white text-[#0b0e17] px-4 py-2.5 rounded-2xl shadow-xl border border-slate-200 text-xs font-medium animate-in slide-in-from-right duration-300 relative">
-          <span>¡Hola! ¿Deseas cotizar o asesoría técnica? 👋</span>
+          <span data-edit="flotante_mensaje">¡Hola! ¿Deseas cotizar o asesoría técnica? 👋</span>
           <button
             onClick={() => setShowTooltip(false)}
             className="text-slate-400 hover:text-slate-700 ml-1 p-0.5"
@@ -34,6 +34,7 @@ export const FloatingWhatsApp: React.FC = () => {
         aria-label="Chatear por WhatsApp con Art2Art"
         className="relative group flex items-center justify-center w-14 h-14 rounded-full bg-whatsapp-green hover:bg-whatsapp-dark text-on-primary shadow-whatsapp-glow transition-all duration-300 hover:scale-110 active:scale-95"
         href={getWhatsAppLink('Hola Art2Art 👋, estoy navegando en su página web y quiero asesoría técnica.')}
+        data-edit-href="flotante_whatsapp"
         rel="noopener noreferrer"
         target="_blank"
       >

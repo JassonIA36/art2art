@@ -39,15 +39,15 @@ export const MmmReviews: React.FC = () => {
       <div className="mx-auto flex w-full max-w-[1280px] flex-col px-6 sm:px-8">
         {/* Header */}
         <div className="flex flex-col items-center gap-5 text-center mb-16">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
+          <span data-edit="opiniones_etiqueta" className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
             Opiniones
           </span>
 
-          <h2 className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black max-w-[620px]">
+          <h2 data-edit="opiniones_titulo" className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black max-w-[620px]">
             Lo que dicen quienes ya estamparon con nosotros
           </h2>
 
-          <p className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[500px]">
+          <p data-edit="opiniones_descripcion" className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[500px]">
             Marcas independientes, empresas y creadores que confían en la precisión de nuestro taller en Buga.
           </p>
         </div>
@@ -78,24 +78,24 @@ export const MmmReviews: React.FC = () => {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-xs font-mono text-black/40">{rev.date}</span>
+                  <span data-edit={`opinion_${rev.id}_fecha`} className="text-xs font-mono text-black/40">{rev.date}</span>
                 </div>
 
                 {/* Comment */}
                 <p className="text-sm leading-relaxed text-black/80 font-normal">
-                  «{rev.comment}»
+                  «<span data-edit={`opinion_${rev.id}_comentario`}>{rev.comment}</span>»
                 </p>
               </div>
 
               {/* Author Info */}
               <div className="pt-5 mt-6 border-t border-black/5 flex items-center justify-between">
                 <div>
-                  <h4 className="text-sm font-semibold text-black tracking-tight">
+                  <h4 data-edit={`opinion_${rev.id}_autor`} className="text-sm font-semibold text-black tracking-tight">
                     {rev.author}
                   </h4>
-                  <span className="text-xs text-black/50 block">{rev.role}</span>
+                  <span data-edit={`opinion_${rev.id}_cargo`} className="text-xs text-black/50 block">{rev.role}</span>
                 </div>
-                <span className="inline-flex items-center rounded-full bg-black/5 px-2.5 py-0.5 text-[11px] font-medium text-black">
+                <span data-edit={`opinion_${rev.id}_ciudad`} className="inline-flex items-center rounded-full bg-black/5 px-2.5 py-0.5 text-[11px] font-medium text-black">
                   {rev.city}
                 </span>
               </div>

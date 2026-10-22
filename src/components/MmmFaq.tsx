@@ -47,15 +47,15 @@ export const MmmFaq: React.FC = () => {
       <div className="mx-auto flex w-full max-w-[840px] flex-col px-6 sm:px-8">
         {/* Header */}
         <div className="flex flex-col items-center gap-5 text-center mb-12">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
+          <span data-edit="faq_etiqueta" className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
             Preguntas Frecuentes
           </span>
 
-          <h2 className="text-[32px] sm:text-[42px] font-semibold leading-[1.1] tracking-[-0.05em] text-black">
+          <h2 data-edit="faq_titulo" className="text-[32px] sm:text-[42px] font-semibold leading-[1.1] tracking-[-0.05em] text-black">
             Resolvemos tus dudas sobre estampados
           </h2>
 
-          <p className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[500px]">
+          <p data-edit="faq_descripcion" className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[500px]">
             Información clara sobre tiempos, logística, archivos técnicos y mínimos de compra.
           </p>
         </div>
@@ -71,7 +71,7 @@ export const MmmFaq: React.FC = () => {
                   onClick={() => toggleAccordion(index)}
                   className="w-full flex items-center justify-between text-left gap-4 group focus:outline-none"
                 >
-                  <span className="text-base sm:text-lg font-medium text-black tracking-tight group-hover:opacity-75 transition-opacity">
+                  <span data-edit={`faq_${index + 1}_pregunta`} className="text-base sm:text-lg font-medium text-black tracking-tight group-hover:opacity-75 transition-opacity">
                     {faq.q}
                   </span>
                   <div
@@ -98,7 +98,7 @@ export const MmmFaq: React.FC = () => {
 
                 {isOpen && (
                   <div className="pt-3 pr-8 text-sm sm:text-base leading-relaxed text-black/60 animate-in fade-in duration-200">
-                    <p>{faq.a}</p>
+                    <p data-edit={`faq_${index + 1}_respuesta`}>{faq.a}</p>
                   </div>
                 )}
               </div>
@@ -109,20 +109,21 @@ export const MmmFaq: React.FC = () => {
         {/* Bottom prompt */}
         <div className="mt-12 rounded-xl bg-neutral-50 p-6 border border-black/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
           <div>
-            <h4 className="text-sm font-semibold text-black">
+            <h4 data-edit="faq_banner_titulo" className="text-sm font-semibold text-black">
               ¿Tienes otra pregunta sobre tu diseño?
             </h4>
-            <p className="text-xs text-black/60">
+            <p data-edit="faq_banner_texto" className="text-xs text-black/60">
               Escríbenos en WhatsApp y te respondemos en pocos minutos.
             </p>
           </div>
           <a
             href={getWhatsAppLink('Hola Art2Art, tengo una duda antes de hacer mi pedido.')}
+            data-edit-href="faq_boton_whatsapp"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-full bg-black text-white hover:bg-neutral-800 text-xs uppercase tracking-wider font-semibold px-5 py-2.5 transition-all shadow-sm shrink-0"
           >
-            <span>Preguntar en WhatsApp</span>
+            <span data-edit="faq_boton_whatsapp_texto">Preguntar en WhatsApp</span>
           </a>
         </div>
       </div>

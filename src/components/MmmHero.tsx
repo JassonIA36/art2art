@@ -100,18 +100,19 @@ export const MmmHero: React.FC = () => {
           <Reveal>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
               <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c] animate-pulse"></span>
-              <span>Personalización Textil & Estampados • Buga, Valle</span>
+              <span data-edit="hero_etiqueta">Personalización Textil & Estampados • Buga, Valle</span>
             </span>
           </Reveal>
 
           <Reveal delay={80}>
             <h1 className="text-[40px] sm:text-[54px] lg:text-[62px] font-semibold leading-[1.05] tracking-[-0.05em] text-black">
-              Estampados en Buga de alta calidad para <span className="text-shimmer">tu marca</span>
+              <span data-edit="hero_titulo">Estampados en Buga de alta calidad para</span>{' '}
+              <span className="text-shimmer" data-edit="hero_titulo_destacado">tu marca</span>
             </h1>
           </Reveal>
 
           <Reveal delay={160}>
-            <p className="text-[17px] sm:text-[19px] tracking-[-0.025em] text-black/60 max-w-[580px] leading-relaxed">
+            <p data-edit="hero_descripcion" className="text-[17px] sm:text-[19px] tracking-[-0.025em] text-black/60 max-w-[580px] leading-relaxed">
               Taller de estampados en Guadalajara de Buga. Diseña tus prendas en línea, elige entre DTF full color, serigrafía y vinilo de precisión, y cotiza al instante por WhatsApp. Sin mínimos y con envíos a todo el país.
             </p>
           </Reveal>
@@ -122,7 +123,7 @@ export const MmmHero: React.FC = () => {
                 href="#personalizador"
                 className="group inline-flex items-center justify-center gap-2 rounded-full bg-black text-white hover:bg-neutral-800 h-12 px-7 text-base font-medium transition-all shadow-[0_8px_24px_-8px_rgba(0,0,0,0.5)] active:scale-95"
               >
-                <span>Personalizar en vivo</span>
+                <span data-edit="hero_boton_personalizar">Personalizar en vivo</span>
                 <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
                   <path d="M5 12h14" />
                   <path d="m12 5 7 7-7 7" />
@@ -131,20 +132,21 @@ export const MmmHero: React.FC = () => {
 
               <a
                 href={getWhatsAppLink('Hola Art2Art, me gustaría cotizar un pedido textil.')}
+                data-edit-href="hero_boton_whatsapp"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center gap-2 rounded-full border border-black/15 bg-white/80 backdrop-blur text-black hover:bg-black/5 h-12 px-6 text-base font-medium transition-all"
               >
                 <span className="w-2 h-2 rounded-full bg-[#25D366]"></span>
-                <span>Cotizar por WhatsApp</span>
+                <span data-edit="hero_boton_whatsapp_texto">Cotizar por WhatsApp</span>
               </a>
             </div>
           </Reveal>
 
           <Reveal delay={320}>
             <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-4 text-xs sm:text-sm text-black/70">
-              {['✓ Desde 1 unidad', '✓ DTF 300 DPI Ultra HD', '✓ Descuento por volumen hasta 20%', '✓ Despachos a toda Colombia'].map((t) => (
-                <span key={t} className="inline-flex items-center gap-1.5 rounded-full bg-white/70 border border-black/5 px-3 py-1 font-medium">
+              {['✓ Desde 1 unidad', '✓ DTF 300 DPI Ultra HD', '✓ Descuento por volumen hasta 20%', '✓ Despachos a toda Colombia'].map((t, i) => (
+                <span key={t} data-edit={`hero_ventaja_${i + 1}`} className="inline-flex items-center gap-1.5 rounded-full bg-white/70 border border-black/5 px-3 py-1 font-medium">
                   {t}
                 </span>
               ))}
@@ -171,16 +173,16 @@ export const MmmHero: React.FC = () => {
                   style={{ backgroundColor: item.bgColor }}
                 >
                   <div className="relative z-10 flex flex-col gap-2">
-                    <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium w-fit ${item.badgeBg}`}>
+                    <span data-edit={`hero_${item.id}_etiqueta`} className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium w-fit ${item.badgeBg}`}>
                       {item.badge}
                     </span>
-                    <h3 className={`text-lg sm:text-xl font-bold tracking-tight leading-snug ${item.textColor}`}>{item.title}</h3>
-                    <p className={`text-xs sm:text-sm opacity-80 ${item.textColor}`}>{item.sub}</p>
+                    <h3 data-edit={`hero_${item.id}_titulo`} className={`text-lg sm:text-xl font-bold tracking-tight leading-snug ${item.textColor}`}>{item.title}</h3>
+                    <p data-edit={`hero_${item.id}_detalle`} className={`text-xs sm:text-sm opacity-80 ${item.textColor}`}>{item.sub}</p>
                   </div>
 
                   <div className="relative z-10 w-full flex items-center justify-center pt-2">
                     <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-white/10 backdrop-blur-sm p-2 shadow-[0_12px_24px_-8px_rgba(0,0,0,0.3)] ring-1 ring-black/10 group-hover:scale-105 group-hover:-rotate-1 transition-transform duration-500">
-                      <img src={item.imageUrl} alt={item.title} className="w-full h-full object-cover rounded-lg" loading="lazy" />
+                      <img src={item.imageUrl} data-edit-img={`hero_${item.id}_foto`} alt={item.title} className="w-full h-full object-cover rounded-lg" loading="lazy" />
                     </div>
                   </div>
 
