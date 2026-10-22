@@ -6,6 +6,7 @@ compatibility_date = "2025-09-01"
 routes = [
   { pattern = "art2artestampados.com", custom_domain = true },
   { pattern = "www.art2artestampados.com", custom_domain = true },
+  { pattern = "admin.art2artestampados.com", custom_domain = true },
 ]
 
 # La app de Vite se compila a ./dist. El Worker solo se ejecuta para estas rutas;

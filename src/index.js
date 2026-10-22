@@ -36,7 +36,9 @@ async function route(request, env, ctx) {
 
   if (path.startsWith('/api/')) return api(request, env, url, path, method);
 
-  if (path === '/admin' || path === '/admin/') {
+  // En admin.<dominio> el panel vive en la raíz; en el dominio principal sigue disponible en /admin.
+  const adminHost = url.hostname.startsWith('admin.');
+  if (path === '/admin' || path === '/admin/' || (adminHost && path === '/')) {
     if (method !== 'GET' && method !== 'HEAD') return json({ error: 'Método no permitido' }, 405);
     const session = await getSession(request, env);
     if (!session) return loginPage();

@@ -17,7 +17,7 @@ class ApiError extends Error {
 }
 
 // 'Ver página' vuelve a la página pública del mismo dominio.
-const SITE_URL = '/';
+const SITE_URL = location.hostname.startsWith('admin.') ? `https://${location.hostname.slice(6)}/` : '/';
 const BAR_HEIGHT = 52;
 const MAX_SIDE = 1200;
 const TARGET_BYTES = 200 * 1024;
