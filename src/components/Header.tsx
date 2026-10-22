@@ -75,14 +75,11 @@ export const Header: React.FC = () => {
             className="flex items-center gap-2.5 focus:outline-none group"
             aria-label="Art2Art inicio"
           >
-            <div className="relative">
-              <img
-                src={COMPANY_INFO.avatarUrl}
-                alt="Art2Art Logo"
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover ring-1 ring-black/10 group-hover:scale-105 transition-transform"
-              />
-              <span className="absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 bg-[#25D366] ring-2 ring-white rounded-full"></span>
-            </div>
+            <img
+              src="/logo.png"
+              alt="Art2Art Logo"
+              className="w-9 h-9 sm:w-10 sm:h-10 object-contain group-hover:scale-105 transition-transform"
+            />
             <div className="flex items-baseline gap-1.5">
               <span className="text-xl sm:text-2xl font-bold tracking-[-0.04em] text-black group-hover:opacity-80 transition-opacity">
                 art2art
@@ -158,9 +155,9 @@ export const Header: React.FC = () => {
               <div className="flex items-center justify-between pb-5 border-b border-black/10">
                 <div className="flex items-center gap-2.5">
                   <img
-                    src={COMPANY_INFO.avatarUrl}
+                    src="/logo.png"
                     alt="Art2Art Logo"
-                    className="w-8 h-8 rounded-full object-cover"
+                    className="w-9 h-9 object-contain"
                   />
                   <span className="font-bold tracking-[-0.04em] text-lg text-black">
                     art2art
