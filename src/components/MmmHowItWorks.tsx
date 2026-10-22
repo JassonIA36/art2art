@@ -94,10 +94,6 @@ export const MmmHowItWorks: React.FC = () => {
                     </div>
                   </div>
                 </div>
-
-                <div className="mt-2 flex w-full items-center justify-center rounded-lg bg-black/5 py-1.5 text-xs text-black/70">
-                  <span>+ Agregar otra prenda</span>
-                </div>
               </div>
             </div>
           </div>
