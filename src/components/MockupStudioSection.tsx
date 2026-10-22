@@ -311,6 +311,23 @@ export const MockupStudioSection: React.FC = () => {
               </div>
             </div>
 
+            {/* Always-visible upload of the customer's own design */}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp,image/svg+xml"
+              className="hidden"
+              onChange={handleFileUpload}
+            />
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-black text-white hover:bg-neutral-800 py-3 px-4 text-sm font-semibold transition-all active:scale-[0.98]"
+            >
+              <span className="material-symbols-outlined text-[20px]">cloud_upload</span>
+              <span>{artworkName && artworkName !== 'Sin arte' ? `Cambiar diseño (${artworkName})` : 'Subir mi diseño o logo'}</span>
+            </button>
+
             {/* SVG Interactive Canvas with subtle studio background */}
             <div
               id="mockup-preview-box"
@@ -635,14 +652,6 @@ export const MockupStudioSection: React.FC = () => {
                     <label className="text-xs text-slate-500 uppercase tracking-wider font-semibold block">
                       Subir tu Logo o Ilustración
                     </label>
-
-                    <input
-                      ref={fileInputRef}
-                      type="file"
-                      accept="image/png,image/jpeg,image/webp,image/svg+xml"
-                      className="hidden"
-                      onChange={handleFileUpload}
-                    />
 
                     <div
                       onClick={() => fileInputRef.current?.click()}
