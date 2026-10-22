@@ -13,6 +13,7 @@ import { MmmFaq } from './components/MmmFaq';
 import { MmmLocation } from './components/MmmLocation';
 import { MmmFooter } from './components/MmmFooter';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
+import { ScrollToTop } from './components/ScrollToTop';
 import { TechniqueDetailModal } from './components/TechniqueDetailModal';
 import { ImageLightboxModal } from './components/ImageLightboxModal';
 import type { ServiceItem, PortfolioItem } from './types';
@@ -62,6 +63,7 @@ export const App: React.FC = () => {
 
       {/* Floating WhatsApp Action Button */}
       <FloatingWhatsApp />
+      <ScrollToTop />
 
       {/* Detail Modals (if triggered) */}
       <TechniqueDetailModal

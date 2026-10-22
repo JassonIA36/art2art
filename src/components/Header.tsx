@@ -79,10 +79,10 @@ export const Header: React.FC = () => {
               src="/logo.png"
               data-edit-img="logo_principal"
               alt="Art2Art Logo"
-              className="w-9 h-9 sm:w-10 sm:h-10 object-contain group-hover:scale-105 transition-transform"
+              className="w-11 h-11 sm:w-14 sm:h-14 object-contain group-hover:scale-105 transition-transform"
             />
             <div className="flex items-baseline gap-1.5">
-              <span className="text-xl sm:text-2xl font-bold tracking-[-0.04em] text-black group-hover:opacity-80 transition-opacity">
+              <span className="text-lg sm:text-2xl font-bold tracking-[-0.04em] text-black group-hover:opacity-80 transition-opacity">
                 art2art
               </span>
               <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c]"></span>
@@ -96,7 +96,7 @@ export const Header: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <a
               href="#personalizador"
-              className="inline-flex items-center justify-center gap-1.5 rounded-full bg-black text-white hover:bg-neutral-800 text-sm font-medium h-10 px-4 sm:px-5 transition-all shadow-sm active:scale-95"
+              className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-black text-white hover:bg-neutral-800 text-sm font-medium h-10 px-3.5 sm:px-5 transition-all shadow-sm active:scale-95"
             >
               <span data-edit="header_boton_personalizar">Personalizar prenda</span>
               <svg
@@ -159,7 +159,7 @@ export const Header: React.FC = () => {
                     src="/logo.png"
                     data-edit-img="logo_principal"
                     alt="Art2Art Logo"
-                    className="w-9 h-9 object-contain"
+                    className="w-11 h-11 object-contain"
                   />
                   <span className="font-bold tracking-[-0.04em] text-lg text-black">
                     art2art
