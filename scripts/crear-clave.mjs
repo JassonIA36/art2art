@@ -11,7 +11,8 @@ const ITERATIONS = 100000;
 // Sin 0/O/1/l/I para que sea fácil de copiar y leer.
 const ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
 
-const password = Array.from({ length: 16 }, () => ALPHABET[randomInt(ALPHABET.length)]).join('');
+// A2A_CLAVE permite fijar una clave elegida por el dueño en vez de una aleatoria (no se guarda en ningún archivo).
+const password = process.env.A2A_CLAVE || Array.from({ length: 16 }, () => ALPHABET[randomInt(ALPHABET.length)]).join('');
 const salt = randomBytes(16);
 const hash = pbkdf2Sync(password, salt, ITERATIONS, 32, 'sha256');
 const stored = `pbkdf2-sha256$${ITERATIONS}$${salt.toString('base64')}$${hash.toString('base64')}`;
@@ -33,7 +34,7 @@ if (process.argv.includes('--local')) {
 
 console.log('\n==============================================');
 console.log(' Usuario: admin');
-console.log(` Clave inicial: ${password}`);
+console.log(` Clave: ${password}`);
 console.log(' Guárdala ahora: no se vuelve a mostrar.');
 console.log(' Cámbiala desde el panel (Cambiar clave).');
 console.log('==============================================\n');
