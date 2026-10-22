@@ -16,6 +16,8 @@ class ApiError extends Error {
   }
 }
 
+// Mientras el dominio siga en Netlify, 'Ver página' abre el dominio real.
+const SITE_URL = 'https://art2artestampados.com/';
 const BAR_HEIGHT = 52;
 const MAX_SIDE = 1200;
 const TARGET_BYTES = 200 * 1024;
@@ -760,7 +762,7 @@ async function viewSite() {
     if (!ok) return;
   }
   pending.clear();
-  location.href = '/';
+  location.href = SITE_URL;
 }
 
 async function logout() {
