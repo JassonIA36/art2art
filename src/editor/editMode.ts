@@ -88,7 +88,10 @@ function injectStyles() {
   const css = `
   html.a2a-edit body{padding-top:${BAR_HEIGHT}px}
   html.a2a-edit header.sticky{top:${BAR_HEIGHT}px !important}
-  html.a2a-edit .animate-menu-marquee{animation-play-state:paused !important}
+  /* El carrusel animado de la portada se vuelve una fila que se desliza con el dedo o el mouse, para llegar a todas las tarjetas. */
+  html.a2a-edit [aria-label="Prendas hechas en Art2Art"]{overflow-x:auto !important;-webkit-mask-image:none !important;mask-image:none !important;-webkit-overflow-scrolling:touch}
+  html.a2a-edit .animate-menu-marquee{animation:none !important;transform:none !important}
+  html.a2a-edit .animate-menu-marquee > [aria-hidden="true"]{display:none !important}
   html.a2a-edit [data-edit]{outline:1px dashed rgba(220,12,28,.55);outline-offset:2px;cursor:text;-webkit-user-select:text;user-select:text}
   html.a2a-edit [data-edit]:focus{outline:2px solid #dc0c1c;background-color:rgba(220,12,28,.06)}
   .a2a-ui,.a2a-ui *{box-sizing:border-box;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;letter-spacing:0}
@@ -750,6 +753,16 @@ function openPasswordModal() {
   current.focus();
 }
 
+/** Vuelve a la página pública (sin cerrar la sesión). */
+async function viewSite() {
+  if (pending.size > 0) {
+    const ok = await confirmModal('Volver a la página', 'Tienes cambios sin guardar. Si sales ahora se perderán.', 'Salir sin guardar');
+    if (!ok) return;
+  }
+  pending.clear();
+  location.href = '/';
+}
+
 async function logout() {
   if (pending.size > 0) {
     const ok = await confirmModal('Cerrar sesión', 'Tienes cambios sin guardar. Si sales ahora se perderán.', 'Salir sin guardar');
@@ -775,7 +788,7 @@ function buildBar() {
   barEl = h(
     'div',
     { class: 'a2a-ui a2a-bar', role: 'toolbar', 'aria-label': 'Barra de edición' },
-    h('span', { class: 'a2a-title' }, 'Editando'),
+    h('button', { type: 'button', class: 'a2a-btn', onclick: () => void viewSite() }, '← Ver página'),
     saveBtn,
     cancelBtn,
     statusEl,
