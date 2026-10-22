@@ -107,6 +107,8 @@ function injectStyles() {
   .a2a-btn.primary:hover:not(:disabled){background:#e5e5e5}
   .a2a-layer{position:fixed;inset:0;z-index:2147482000;pointer-events:none}
   .a2a-imgctl{position:fixed;display:none;gap:6px;pointer-events:auto}
+  .a2a-arrow{position:fixed;display:none;width:44px;height:44px;border-radius:50%;border:0;background:#000;color:#fff;font-size:22px;line-height:1;cursor:pointer;pointer-events:auto;box-shadow:0 2px 12px rgba(0,0,0,.4)}
+  .a2a-arrow:hover{background:#262626}
   .a2a-chip{height:36px;padding:0 12px;border-radius:999px;border:0;background:#000;color:#fff;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.35)}
   .a2a-chip.light{background:#fff;color:#000}
   .a2a-pill{position:fixed;display:none;z-index:2147482500;height:30px;padding:0 12px;border-radius:999px;border:0;background:#dc0c1c;color:#fff;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,.35)}
@@ -577,10 +579,45 @@ function positionImageControls() {
   }
 }
 
+const STRIP_SELECTOR = '[aria-label="Prendas hechas en Art2Art"]';
+let stripArrows: { left: HTMLButtonElement; right: HTMLButtonElement } | null = null;
+
+/** Flechas para recorrer la fila de tarjetas de la portada con el mouse. */
+function positionStripArrows() {
+  if (!stripArrows) return;
+  const strip = document.querySelector<HTMLElement>(STRIP_SELECTOR);
+  const rect = strip?.getBoundingClientRect();
+  const canScroll = !!strip && strip.scrollWidth > strip.clientWidth + 4;
+  const inView = !!rect && rect.bottom > BAR_HEIGHT + 60 && rect.top < window.innerHeight - 60;
+  const { left, right } = stripArrows;
+  if (!strip || !rect || !canScroll || !inView) {
+    left.style.display = right.style.display = 'none';
+    return;
+  }
+  const top = Math.min(Math.max(rect.top + rect.height / 2 - 22, BAR_HEIGHT + 10), window.innerHeight - 60);
+  left.style.top = right.style.top = `${top}px`;
+  left.style.left = `${Math.max(8, rect.left + 8)}px`;
+  right.style.left = `${Math.min(window.innerWidth - 52, rect.right - 52)}px`;
+  left.style.display = strip.scrollLeft > 4 ? 'block' : 'none';
+  right.style.display = strip.scrollLeft < strip.scrollWidth - strip.clientWidth - 4 ? 'block' : 'none';
+}
+
+function buildStripArrows() {
+  const scrollBy = (dir: number) => {
+    const strip = document.querySelector<HTMLElement>(STRIP_SELECTOR);
+    if (strip) strip.scrollBy({ left: dir * Math.max(300, strip.clientWidth * 0.7), behavior: 'smooth' });
+  };
+  const make = (label: string, text: string, dir: number) =>
+    h('button', { type: 'button', class: 'a2a-arrow', 'aria-label': label, onclick: () => scrollBy(dir) }, text);
+  stripArrows = { left: make('Tarjetas anteriores', '‹', -1), right: make('Tarjetas siguientes', '›', 1) };
+  layer.append(stripArrows.left, stripArrows.right);
+}
+
 let layer: HTMLElement;
 function startImageControls() {
   layer = h('div', { class: 'a2a-ui a2a-layer' });
   document.body.append(layer);
+  buildStripArrows();
   fileInput = h('input', { type: 'file', accept: 'image/*', hidden: true, 'aria-hidden': 'true', onchange: () => void onFileChosen() });
   document.body.append(fileInput);
 
@@ -592,6 +629,7 @@ function startImageControls() {
         last = now;
       }
       positionImageControls();
+      positionStripArrows();
     }
     requestAnimationFrame(loop);
   };
