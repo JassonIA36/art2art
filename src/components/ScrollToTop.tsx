@@ -20,7 +20,7 @@ export const ScrollToTop: React.FC = () => {
       type="button"
       onClick={goTop}
       aria-label="Volver arriba"
-      className={`fixed bottom-24 left-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white shadow-lg ring-1 ring-black/10 transition-all duration-300 hover:bg-neutral-800 active:scale-95 ${
+      className={`fixed bottom-24 right-6 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-black text-white shadow-lg ring-1 ring-black/10 transition-all duration-300 hover:bg-neutral-800 active:scale-95 ${
         visible ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'
       }`}
     >

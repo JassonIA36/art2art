@@ -164,7 +164,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
   };
 
   return (
-    <div className="relative w-full max-w-[480px] mx-auto select-none flex items-center justify-center p-1 sm:p-2">
+    <div className="relative w-full max-w-[480px] mx-auto select-none flex flex-col items-center justify-center p-1 sm:p-2">
       <svg
         ref={containerRef}
         viewBox="0 0 600 650"
@@ -355,7 +355,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
       </svg>
 
       {/* Floating Interactive Badge Helper */}
-      <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-[#1a1a20]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#2a2a36] text-xs text-[#9ca3af] shadow-lg flex items-center gap-1.5 pointer-events-none">
+      <div className="mt-1 sm:mt-0 sm:absolute sm:bottom-4 sm:left-1/2 sm:-translate-x-1/2 bg-[#1a1a20]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#2a2a36] text-xs text-[#9ca3af] shadow-lg flex items-center gap-1.5 pointer-events-none">
         <span className="material-symbols-outlined text-[15px] text-[#e6197e]">touch_app</span>
         <span>Arrastra el arte libremente sobre la prenda</span>
       </div>

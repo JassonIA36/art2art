@@ -96,7 +96,7 @@ export const Header: React.FC = () => {
           <div className="flex items-center gap-2.5">
             <a
               href="#personalizador"
-              className="inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-black text-white hover:bg-neutral-800 text-sm font-medium h-10 px-3.5 sm:px-5 transition-all shadow-sm active:scale-95"
+              className="hidden sm:inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-black text-white hover:bg-neutral-800 text-sm font-medium h-10 px-3.5 sm:px-5 transition-all shadow-sm active:scale-95"
             >
               <span data-edit="header_boton_personalizar">Personalizar prenda</span>
               <svg
