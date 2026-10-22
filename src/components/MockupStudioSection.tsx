@@ -33,9 +33,6 @@ export const MockupStudioSection: React.FC = () => {
   const [showPrintZone, setShowPrintZone] = useState<boolean>(true);
   const [activeTab, setActiveTab] = useState<'garment' | 'art' | 'transform' | 'technique'>('garment');
 
-  // Quantity & Discount State
-  const [quantity, setQuantity] = useState<number>(1);
-
   // Export & WhatsApp Modal States
   const [isExporting, setIsExporting] = useState<boolean>(false);
   const [hasDownloadedPreview, setHasDownloadedPreview] = useState<boolean>(false);
@@ -74,37 +71,6 @@ export const MockupStudioSection: React.FC = () => {
 
   const currentTechnique =
     TECHNIQUE_OPTIONS.find((t) => t.id === selectedTechniqueId) || TECHNIQUE_OPTIONS[0];
-
-  // Base Prices per garment
-  const garmentBasePrices: Record<MockupGarmentId, number> = {
-    camiseta: 18000,
-    hoodie: 48000,
-    oversize: 24000,
-    totebag: 8500,
-    gorra: 12000,
-    mug: 9000,
-  };
-
-  // Base technique print cost
-  const techniqueCost = currentTechnique.costPerUnit || 12000;
-  // Extra cost if printed on both sides
-  const positionExtraCost = selectedPosition === 'ambos' ? 8000 : 0;
-
-  // Single unit base price
-  const baseUnitPrice = (garmentBasePrices[selectedGarmentId] || 18000) + techniqueCost + positionExtraCost;
-
-  // Calculate discount percentage
-  let discountPercentage = 0;
-  if (quantity >= 12) {
-    discountPercentage = 0.20; // 20%
-  } else if (quantity >= 6) {
-    discountPercentage = 0.10; // 10%
-  }
-
-  const subtotalBeforeDiscount = baseUnitPrice * quantity;
-  const discountAmount = Math.round(subtotalBeforeDiscount * discountPercentage);
-  const totalPrice = subtotalBeforeDiscount - discountAmount;
-  const finalUnitPrice = Math.round(totalPrice / quantity);
 
   // Physical size estimation in CM
   const approxWidthCm = Math.round(
@@ -243,11 +209,6 @@ export const MockupStudioSection: React.FC = () => {
         ? 'Espalda'
         : 'Frente y Espalda (Ambos lados)';
 
-    const discountText =
-      discountPercentage > 0
-        ? ` (¡${discountPercentage * 100}% Descuento Aplicado!)`
-        : '';
-
     return `¡Hola Art2Art! 👋 Acabo de configurar este pedido en su Personalizador Web y deseo realizarlo:
 
 👕 *Prenda:* ${currentGarment.name} (${currentGarment.badge})
@@ -255,8 +216,6 @@ export const MockupStudioSection: React.FC = () => {
 📏 *Talla:* ${selectedSize}
 📍 *Posición del Estampado:* ${positionLabel}
 🛠️ *Técnica Sugerida:* ${currentTechnique.name}
-📦 *Cantidad:* ${quantity} unidad${quantity > 1 ? 'es' : ''}${discountText}
-💰 *Total Estimado:* $${totalPrice.toLocaleString('es-CO')} COP
 
 📎 Te envío mi diseño y la vista previa por este chat`;
   };
@@ -296,11 +255,11 @@ export const MockupStudioSection: React.FC = () => {
           </span>
 
           <h2 className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black">
-            Diseña tu prenda y calcula tu precio en tiempo real
+            Diseña tu prenda en tiempo real
           </h2>
 
           <p className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[540px]">
-            Elige silueta, color y técnica. Sube tu logo o vector, visualiza el resultado y cotiza con hasta 20% de descuento por volumen.
+            Elige silueta, color y técnica. Sube tu logo o vector y visualiza el resultado antes de producir.
           </p>
         </div>
 
@@ -521,10 +480,7 @@ export const MockupStudioSection: React.FC = () => {
                             <p className="text-xs font-bold text-slate-900 leading-tight">
                               {g.name}
                             </p>
-                            <span className="text-[11px] text-[#dc0c1c] block mt-0.5 font-semibold">
-                              ${(garmentBasePrices[g.id] || 18000).toLocaleString('es-CO')}
-                            </span>
-                          </button>
+                                          </button>
                         );
                       })}
                     </div>
@@ -915,112 +871,8 @@ export const MockupStudioSection: React.FC = () => {
               )}
             </div>
 
-            {/* REAL-TIME PRICING & VOLUME DISCOUNT SECTION */}
+            {/* DOWNLOAD & SHARE */}
             <div className="p-5 sm:p-6 bg-slate-50 border-t border-slate-200 space-y-4">
-              {/* Quantity Stepper */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <span className="text-xs text-slate-500 uppercase tracking-wider font-semibold block">
-                    Cantidad de Prendas
-                  </span>
-                  <span className="text-xs text-[#dc0c1c] font-semibold">
-                    {quantity < 6
-                      ? 'Agrega 6+ para 10% OFF'
-                      : quantity < 12
-                      ? '¡10% OFF activo! (12+ para 20%)'
-                      : '¡Máximo 20% OFF activo!'}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 bg-white p-1 rounded-xl border border-slate-200 shadow-sm">
-                  <button
-                    type="button"
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center font-bold transition-colors"
-                  >
-                    -
-                  </button>
-                  <input
-                    type="number"
-                    min="1"
-                    max="500"
-                    value={quantity}
-                    onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
-                    className="w-12 text-center bg-transparent font-bold text-slate-900 text-sm focus:outline-none"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 flex items-center justify-center font-bold transition-colors"
-                  >
-                    +
-                  </button>
-                </div>
-              </div>
-
-              {/* Volume Discount Badges */}
-              <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                <div
-                  className={`py-1.5 px-2 rounded-lg border transition-all ${
-                    quantity < 6
-                      ? 'border-slate-300 bg-white text-slate-900 font-bold shadow-sm'
-                      : 'border-slate-200 bg-slate-100/60 text-slate-400'
-                  }`}
-                >
-                  <span className="block font-bold">1 a 5</span>
-                  <span className="text-[10px] text-slate-500">Precio base</span>
-                </div>
-
-                <div
-                  className={`py-1.5 px-2 rounded-lg border transition-all ${
-                    quantity >= 6 && quantity < 12
-                      ? 'border-[#dc0c1c] bg-[#dc0c1c]/10 text-[#dc0c1c] font-bold shadow-sm'
-                      : 'border-slate-200 bg-white text-slate-600'
-                  }`}
-                >
-                  <span className="block font-bold">6 a 11</span>
-                  <span className="text-[10px] text-[#dc0c1c] font-semibold">10% OFF</span>
-                </div>
-
-                <div
-                  className={`py-1.5 px-2 rounded-lg border transition-all ${
-                    quantity >= 12
-                      ? 'border-[#dc0c1c] bg-[#dc0c1c]/10 text-[#dc0c1c] font-bold shadow-sm'
-                      : 'border-slate-200 bg-white text-slate-600'
-                  }`}
-                >
-                  <span className="block font-bold">12 o más</span>
-                  <span className="text-[10px] text-[#dc0c1c] font-semibold">20% OFF</span>
-                </div>
-              </div>
-
-              {/* Price Breakdown */}
-              <div className="bg-white p-4 rounded-xl border border-slate-200 space-y-1.5 text-xs shadow-sm">
-                <div className="flex justify-between text-slate-500">
-                  <span>Precio unitario regular:</span>
-                  <span>${baseUnitPrice.toLocaleString('es-CO')} COP</span>
-                </div>
-
-                {discountPercentage > 0 && (
-                  <div className="flex justify-between text-[#dc0c1c] font-semibold">
-                    <span>Descuento aplicado ({discountPercentage * 100}%):</span>
-                    <span>- ${discountAmount.toLocaleString('es-CO')} COP</span>
-                  </div>
-                )}
-
-                <div className="pt-2 border-t border-slate-200 flex justify-between items-baseline">
-                  <div>
-                    <span className="text-slate-900 font-bold text-sm block">Total ({quantity} und):</span>
-                    <span className="text-[11px] text-slate-500">
-                      (${finalUnitPrice.toLocaleString('es-CO')} c/u)
-                    </span>
-                  </div>
-                  <span className="text-2xl font-display text-[#dc0c1c] font-bold tracking-wider">
-                    ${totalPrice.toLocaleString('es-CO')} COP
-                  </span>
-                </div>
-              </div>
-
               {/* Action Buttons: WhatsApp Order & Download Preview */}
               <div className="space-y-2 pt-1">
                 <button
@@ -1029,7 +881,7 @@ export const MockupStudioSection: React.FC = () => {
                   className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#25D366] hover:bg-[#1da851] text-white font-bold text-sm shadow-sm transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <span className="material-symbols-outlined text-[22px]">chat</span>
-                  <span>Pedir por WhatsApp</span>
+                  <span>Enviar diseño por WhatsApp</span>
                 </button>
 
                 <button
