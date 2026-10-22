@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   MOCKUP_GARMENTS,
   MOCKUP_COLORS,
@@ -43,6 +43,24 @@ export const MockupStudioSection: React.FC = () => {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const selectGarment = (id: MockupGarmentId) => {
+    const garment = MOCKUP_GARMENTS.find((g) => g.id === id);
+    if (!garment) return;
+    setSelectedGarmentId(id);
+    setSelectedTechniqueId(garment.defaultTechniqueId);
+    setSelectedSize((prev) => (id === 'mug' ? 'Única' : prev === 'Única' ? 'M' : prev));
+  };
+
+  // Lets catalog/hero cards preselect a garment before scrolling here
+  useEffect(() => {
+    const onSelect = (e: Event) => {
+      const id = (e as CustomEvent<MockupGarmentId>).detail;
+      selectGarment(id);
+    };
+    window.addEventListener('art2art:select-garment', onSelect);
+    return () => window.removeEventListener('art2art:select-garment', onSelect);
+  }, []);
+
   const currentGarment: GarmentViewConfig =
     MOCKUP_GARMENTS.find((g) => g.id === selectedGarmentId) || MOCKUP_GARMENTS[0];
 
@@ -64,6 +82,7 @@ export const MockupStudioSection: React.FC = () => {
     oversize: 24000,
     totebag: 8500,
     gorra: 12000,
+    mug: 9000,
   };
 
   // Base technique print cost
@@ -492,7 +511,7 @@ export const MockupStudioSection: React.FC = () => {
                           <button
                             key={g.id}
                             type="button"
-                            onClick={() => setSelectedGarmentId(g.id)}
+                            onClick={() => selectGarment(g.id)}
                             className={`p-3 rounded-xl border text-left transition-all ${
                               isSelected
                                 ? 'border-[#dc0c1c] bg-[#dc0c1c]/5 text-[#0b0e17] shadow-sm ring-1 ring-[#dc0c1c]'
@@ -569,7 +588,8 @@ export const MockupStudioSection: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* SIZES SELECTOR */}
+                  {/* SIZES SELECTOR (not applicable to mugs) */}
+                  {selectedGarmentId !== 'mug' && (
                   <div className="space-y-2 pt-2 border-t border-slate-200">
                     <div className="flex items-center justify-between">
                       <label className="text-xs text-slate-500 uppercase tracking-wider font-semibold">
@@ -600,6 +620,7 @@ export const MockupStudioSection: React.FC = () => {
                       })}
                     </div>
                   </div>
+                  )}
 
                   {/* PRINT POSITION SELECTOR */}
                   <div className="space-y-2 pt-2 border-t border-slate-200">

@@ -2,11 +2,14 @@ import React from 'react';
 import { getWhatsAppLink } from '../data/mockData';
 import { Reveal } from './Reveal';
 import { StatsStrip } from './StatsStrip';
+import { selectGarmentInStudio } from '../utils/studioEvents';
+import type { MockupGarmentId } from '../types';
 
 export const MmmHero: React.FC = () => {
   const marqueeItems = [
     {
       id: 'dtf-streetwear',
+      garment: 'camiseta' as MockupGarmentId,
       title: 'Camiseta Streetwear Cyber Striker',
       badge: 'DTF Full Color • Algodón 180g',
       sub: 'Resolución fotográfica 300 DPI',
@@ -17,6 +20,7 @@ export const MmmHero: React.FC = () => {
     },
     {
       id: 'hoodie-urban',
+      garment: 'hoodie' as MockupGarmentId,
       title: 'Buso con Capota Urban Tribe',
       badge: 'Hoodie 280g • Curado Térmico',
       sub: 'Algodón perchado pesado premium',
@@ -27,6 +31,7 @@ export const MmmHero: React.FC = () => {
     },
     {
       id: 'serigrafia-vintage',
+      garment: 'camiseta' as MockupGarmentId,
       title: 'Camisetas Algodón Crudo Clásicas',
       badge: 'Serigrafía Tradicional • Alto Volumen',
       sub: 'Tintas plastisol ecológicas y suaves',
@@ -37,6 +42,7 @@ export const MmmHero: React.FC = () => {
     },
     {
       id: 'tote-cap',
+      garment: 'totebag' as MockupGarmentId,
       title: 'Tote Bags Ecológicas & Gorras',
       badge: 'Lienzo Pesado & Vinilo Textil',
       sub: 'Personalización nítida y durable',
@@ -47,6 +53,7 @@ export const MmmHero: React.FC = () => {
     },
     {
       id: 'sublimacion-sport',
+      garment: 'mug' as MockupGarmentId,
       title: 'Prendas Deportivas & Mugs Cerámicos',
       badge: 'Sublimación HD • Cero Tacto',
       sub: 'Fidelidad fotográfica indestructible',
@@ -57,6 +64,7 @@ export const MmmHero: React.FC = () => {
     },
     {
       id: 'atelier-edition',
+      garment: 'camiseta' as MockupGarmentId,
       title: 'Muestras de Taller & Línea de Autor',
       badge: 'Boutique Atelier • Buga, Valle',
       sub: 'Control de calidad prenda por prenda',
@@ -67,6 +75,7 @@ export const MmmHero: React.FC = () => {
     },
     {
       id: 'vinilo-deportivo',
+      garment: 'camiseta' as MockupGarmentId,
       title: 'Numeración & Vinilo Textil Especial',
       badge: 'Corte Vectorial • Reflectivo & Neón',
       sub: 'Precisión milimétrica para uniformes',
@@ -156,6 +165,7 @@ export const MmmHero: React.FC = () => {
                 <a
                   key={`${item.id}-${loop}`}
                   href="#personalizador"
+                  onClick={() => selectGarmentInStudio(item.garment)}
                   tabIndex={loop === 1 ? -1 : undefined}
                   className="group flex h-[480px] w-[380px] max-md:h-[350px] max-md:w-[280px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl shadow-sm relative"
                   style={{ backgroundColor: item.bgColor }}

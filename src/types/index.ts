@@ -63,7 +63,7 @@ export interface QuoteCalculation {
   notes: string;
 }
 
-export type MockupGarmentId = 'camiseta' | 'hoodie' | 'oversize' | 'totebag' | 'gorra';
+export type MockupGarmentId = 'camiseta' | 'hoodie' | 'oversize' | 'totebag' | 'gorra' | 'mug';
 
 export interface MockupGarmentConfig {
   id: MockupGarmentId;

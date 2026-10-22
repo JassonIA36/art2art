@@ -77,6 +77,18 @@ export const MOCKUP_GARMENTS: GarmentViewConfig[] = [
     description: 'Gorra estructurada de 5 paneles con visera curva preformada.',
     photoUrl: '/mockups/cap.jpg',
   },
+  {
+    id: 'mug',
+    name: 'Mug Cerámico 11oz',
+    badge: 'Sublimación HD',
+    printableWidthCm: 20,
+    printableHeightCm: 9,
+    defaultTechniqueId: 'sublimacion',
+    quoteGarmentId: 'mug',
+    printZone: { x: 140, y: 215, width: 230, height: 225 },
+    description: 'Taza de cerámica blanca de 11oz con recubrimiento polimérico para sublimación a todo color.',
+    photoUrl: '/mockups/mug.svg',
+  },
 ];
 
 export const MOCKUP_COLORS: MockupColorOption[] = [

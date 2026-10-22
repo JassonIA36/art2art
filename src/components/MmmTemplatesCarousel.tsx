@@ -1,5 +1,7 @@
 import React, { useRef } from 'react';
 import { getWhatsAppLink } from '../data/mockData';
+import { selectGarmentInStudio } from '../utils/studioEvents';
+import type { MockupGarmentId } from '../types';
 
 export const MmmTemplatesCarousel: React.FC = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -17,6 +19,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
   const templates = [
     {
       id: 'camiseta-algodon',
+      garment: 'camiseta' as MockupGarmentId,
       title: 'Camiseta 100% Algodón',
       subtitle: 'Tejido de 180g peinado con costuras reforzadas.',
       badge: 'Algodón 180g',
@@ -25,6 +28,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
     },
     {
       id: 'hoodie',
+      garment: 'hoodie' as MockupGarmentId,
       title: 'Hoodie con Capota',
       subtitle: 'Algodón perchado pesado de 280g con bolsillo canguro.',
       badge: 'Perchado 280g',
@@ -33,6 +37,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
     },
     {
       id: 'oversize',
+      garment: 'oversize' as MockupGarmentId,
       title: 'Camiseta Oversize Streetwear',
       subtitle: 'Corte boxy contemporáneo con cuello en rib grueso.',
       badge: 'Streetwear Fit',
@@ -41,6 +46,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
     },
     {
       id: 'gorra',
+      garment: 'gorra' as MockupGarmentId,
       title: 'Gorra Trucker & Dril',
       subtitle: 'Broche ajustable y frente reforzado para estampación frontal.',
       badge: 'Gorra Estructurada',
@@ -49,6 +55,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
     },
     {
       id: 'totebag',
+      garment: 'totebag' as MockupGarmentId,
       title: 'Tote Bag Ecológica',
       subtitle: 'Lienzo resistente 100% algodón ideal para marcas y eventos.',
       badge: 'Lienzo Eco',
@@ -57,6 +64,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
     },
     {
       id: 'mug',
+      garment: 'mug' as MockupGarmentId,
       title: 'Mug Cerámico 11oz',
       subtitle: 'Cerámica polimerizada con estampado digital HD sin límites.',
       badge: 'Cero Tacto HD',
@@ -170,6 +178,7 @@ export const MmmTemplatesCarousel: React.FC = () => {
                 <div className="pt-2 border-t border-black/5 flex items-center justify-between">
                   <a
                     href="#personalizador"
+                    onClick={() => selectGarmentInStudio(tpl.garment)}
                     className="text-xs font-semibold text-black hover:text-[#dc0c1c] transition-colors inline-flex items-center gap-1"
                   >
                     <span>Personalizar esta silueta</span>
