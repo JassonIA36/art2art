@@ -29,6 +29,12 @@ async function route(request, env, ctx) {
   const path = url.pathname;
   const method = request.method;
 
+  // www se redirige al dominio principal (una sola dirección para Google).
+  if (url.hostname.startsWith('www.')) {
+    url.hostname = url.hostname.slice(4);
+    return Response.redirect(url.toString(), 301);
+  }
+
   if (path.startsWith('/img/')) {
     if (method !== 'GET' && method !== 'HEAD') return json({ error: 'Método no permitido' }, 405);
     return serveImage(path.slice(5), request, env, ctx);
