@@ -103,7 +103,7 @@ export const MmmFooter: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-black/50">
-          <p><a href="https://art2art.j1045683385.workers.dev/admin" rel="nofollow" aria-label="Acceso administrador" className="cursor-default">©</a> {new Date().getFullYear()} Art2Art Estampados. Todos los derechos reservados. Guadalajara de Buga, Colombia.</p>
+          <p><a href="/admin" rel="nofollow" aria-label="Acceso administrador" className="cursor-default">©</a> {new Date().getFullYear()} Art2Art Estampados. Todos los derechos reservados. Guadalajara de Buga, Colombia.</p>
           <div className="flex items-center gap-4">
             <a href={COMPANY_INFO.instagramUrl} data-edit-href="redes_instagram" target="_blank" rel="noopener noreferrer" className="hover:text-black transition-colors">
               Instagram

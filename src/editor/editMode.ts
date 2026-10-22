@@ -16,8 +16,8 @@ class ApiError extends Error {
   }
 }
 
-// Mientras el dominio siga en Netlify, 'Ver página' abre el dominio real.
-const SITE_URL = 'https://art2artestampados.com/';
+// 'Ver página' vuelve a la página pública del mismo dominio.
+const SITE_URL = '/';
 const BAR_HEIGHT = 52;
 const MAX_SIDE = 1200;
 const TARGET_BYTES = 200 * 1024;

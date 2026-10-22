@@ -2,6 +2,12 @@ name = "art2art"
 main = "src/index.js"
 compatibility_date = "2025-09-01"
 
+# Dominio propio (la zona debe estar activa en Cloudflare).
+routes = [
+  { pattern = "art2artestampados.com", custom_domain = true },
+  { pattern = "www.art2artestampados.com", custom_domain = true },
+]
+
 # La app de Vite se compila a ./dist. El Worker solo se ejecuta para estas rutas;
 # el resto de archivos estáticos (JS, CSS, imágenes) los sirve Cloudflare directo.
 [assets]
