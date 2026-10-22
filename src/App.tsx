@@ -1,18 +1,17 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
-import { ExelentexHero } from './components/ExelentexHero';
-import { WhatWeDoSection } from './components/WhatWeDoSection';
-import { ProductsInBriefSection } from './components/ProductsInBriefSection';
-import { ApplicationsSliderSection } from './components/ApplicationsSliderSection';
+import { MmmHero } from './components/MmmHero';
+import { MmmHowItWorks } from './components/MmmHowItWorks';
 import { MockupStudioSection } from './components/MockupStudioSection';
-import { HowItWorksSection } from './components/HowItWorksSection';
-import { ImproveYourBusinessSection } from './components/ImproveYourBusinessSection';
-import { TechnologiesSection } from './components/TechnologiesSection';
-import { WholesaleSection } from './components/WholesaleSection';
-import { ReviewsSection } from './components/ReviewsSection';
-import { FaqSection } from './components/FaqSection';
-import { LocationSection } from './components/LocationSection';
-import { Footer } from './components/Footer';
+import { MmmFeatures } from './components/MmmFeatures';
+import { MmmTemplatesCarousel } from './components/MmmTemplatesCarousel';
+import { WorkshopsSection } from './components/WorkshopsSection';
+import { Reveal } from './components/Reveal';
+import { ScrollProgress } from './components/ScrollProgress';
+import { MmmReviews } from './components/MmmReviews';
+import { MmmFaq } from './components/MmmFaq';
+import { MmmLocation } from './components/MmmLocation';
+import { MmmFooter } from './components/MmmFooter';
 import { FloatingWhatsApp } from './components/FloatingWhatsApp';
 import { TechniqueDetailModal } from './components/TechniqueDetailModal';
 import { ImageLightboxModal } from './components/ImageLightboxModal';
@@ -23,68 +22,48 @@ export const App: React.FC = () => {
   const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<PortfolioItem | null>(null);
 
   return (
-    <div className="min-h-screen bg-white text-[#0b0e17] flex flex-col font-sans selection:bg-[#dc0c1c]/15 selection:text-[#dc0c1c]">
-      {/* Fixed eXelentex Minimalist Header */}
+    <div className="min-h-screen bg-white text-black flex flex-col font-sans selection:bg-black selection:text-white">
+      {/* 1. Sticky Minimalist Header (mmmmenu style) */}
+      <ScrollProgress />
       <Header />
 
-      {/* Main Content Sections */}
+      {/* Main Content Flow (each section fades in on scroll) */}
       <main className="w-full flex-grow bg-white">
-        {/* 1. Hero with Interactive Three.js 3D Particle Mesh & Signature Slogan */}
-        <ExelentexHero />
+        {/* 2. Hero with High-Contrast Typography & Continuous Infinite Marquee Showcase */}
+        <MmmHero />
 
-        {/* 2. What We Do (Editorial Two-Column Grid) */}
-        <WhatWeDoSection />
+        {/* 3. How It Works (3 Interactive Steps with Mini Simulated UI Previews) */}
+        <Reveal><MmmHowItWorks /></Reveal>
 
-        {/* 3. Products in Brief (Grid with existing photos) */}
-        <div id="productos">
-          <ProductsInBriefSection />
-        </div>
+        {/* 4. Live Interactive Customizer Studio */}
+        <Reveal><MockupStudioSection /></Reveal>
 
-        {/* 4. Applications of Our Expertise (Interactive Bullet Tabs) */}
-        <div id="aplicaciones">
-          <ApplicationsSliderSection />
-        </div>
+        {/* 5. Features Grid (Everything you need to create digital & real apparel) */}
+        <Reveal><MmmFeatures /></Reveal>
 
-        {/* 5. Live Interactive Customizer Studio */}
-        <MockupStudioSection />
+        {/* 6. Blanks & Templates Horizontal Carousel with Floating Glass Arrows */}
+        <Reveal><MmmTemplatesCarousel /></Reveal>
 
-        {/* 6. How It Works (4-Step Workflow) */}
-        <HowItWorksSection />
+        {/* Taller de estampados (Academia de serigrafía) */}
+        <Reveal><WorkshopsSection /></Reveal>
 
-        {/* 7. Improve Your Business (Signature eXelentex Dark CTA with Circular Arrow) */}
-        <ImproveYourBusinessSection />
+        {/* 7. Verified Client Reviews */}
+        <Reveal><MmmReviews /></Reveal>
 
-        {/* 8. Technologies in Depth */}
-        <TechnologiesSection />
+        {/* 8. Interactive FAQ Accordion */}
+        <Reveal><MmmFaq /></Reveal>
 
-        {/* 9. Realized Portfolio Gallery & Wholesale */}
-        <WholesaleSection
-          onOpenLightbox={(item) => setSelectedPortfolioItem(item)}
-        />
-
-        {/* 10. Verified Client Reviews */}
-        <div id="opiniones">
-          <ReviewsSection />
-        </div>
-
-        {/* 11. Interactive FAQ Accordion */}
-        <div id="faq">
-          <FaqSection />
-        </div>
-
-        {/* 12. Physical Location & Map */}
-        <div id="contacto">
-          <LocationSection />
-        </div>
+        {/* 9. Workshop Location in Buga with Embedded Map */}
+        <Reveal><MmmLocation /></Reveal>
       </main>
 
-      {/* Footer */}
-      <Footer />
+      {/* 10. Minimalist Footer */}
+      <MmmFooter />
 
       {/* Floating WhatsApp Action Button */}
       <FloatingWhatsApp />
 
-      {/* Interactive Modals */}
+      {/* Detail Modals (if triggered) */}
       <TechniqueDetailModal
         service={selectedTechnique}
         onClose={() => setSelectedTechnique(null)}

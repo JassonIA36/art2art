@@ -169,3 +169,17 @@
   animation: shimmerText 6s linear infinite;
 }
 
+.hover-pause:hover {
+  animation-play-state: paused;
+}
+
+/* Subtle noise/grain texture like mmmmenu */
+.bg-grain {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.08) 1px, transparent 0);
+  background-size: 24px 24px;
+}
+
+.bg-dot-pattern {
+  background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+  background-size: 16px 16px;
+}

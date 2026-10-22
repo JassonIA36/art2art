@@ -98,6 +98,21 @@ export default {
         "headline-lg": ["46px", { lineHeight: "48px", letterSpacing: "0.03em", fontWeight: "400" }],
         "headline-md": ["32px", { lineHeight: "36px", letterSpacing: "0.03em", fontWeight: "400" }],
       },
+      keyframes: {
+        'blob': {
+          '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+          '33%': { transform: 'translate(40px, -30px) scale(1.1)' },
+          '66%': { transform: 'translate(-30px, 30px) scale(0.95)' },
+        },
+        'menu-marquee': {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
+      },
+      animation: {
+        'blob': 'blob 18s ease-in-out infinite',
+        'menu-marquee': 'menu-marquee 45s linear infinite',
+      },
     },
   },
   plugins: [],

@@ -267,28 +267,21 @@ export const MockupStudioSection: React.FC = () => {
   return (
     <section
       id="personalizador"
-      className="w-full py-16 sm:py-24 bg-[#f8fafc] text-[#0b0e17] relative overflow-hidden border-t border-slate-200"
+      className="w-full py-20 bg-white text-black relative overflow-hidden border-t border-black/5"
     >
-      {/* Background radial subtle glows */}
-      <div className="absolute top-1/4 -left-32 w-96 h-96 rounded-full bg-[#dc0c1c]/5 blur-3xl pointer-events-none"></div>
-      <div className="absolute bottom-1/3 -right-32 w-96 h-96 rounded-full bg-slate-200/50 blur-3xl pointer-events-none"></div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10 relative z-10">
+        {/* Section Header (mmmmenu style) */}
+        <div className="flex flex-col items-center gap-5 text-center max-w-[680px] mx-auto">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
+            Personalizador en Vivo
+          </span>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white border border-slate-200 text-xs font-semibold uppercase tracking-wider text-slate-800 shadow-sm">
-            <span className="w-2 h-2 rounded-full bg-[#dc0c1c]"></span>
-            <span className="w-2 h-2 rounded-full bg-[#0b0e17]"></span>
-            <span className="w-2 h-2 rounded-full bg-slate-400"></span>
-            <span>Personalizador Textil en Vivo • Art2Art</span>
-          </div>
-
-          <h2 className="text-4xl sm:text-6xl font-display text-[#0b0e17] tracking-wider">
-            Diseña tu Prenda y Cotiza con Descuento
+          <h2 className="text-[32px] sm:text-[44px] font-semibold leading-[1.1] tracking-[-0.05em] text-black">
+            Diseña tu prenda y calcula tu precio en tiempo real
           </h2>
 
-          <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-            Elige prenda, color, talla y posición de estampado. Sube tu arte, previsualiza el resultado y calcula el precio en tiempo real con hasta 20% de descuento.
+          <p className="text-[17px] sm:text-[18px] tracking-[-0.025em] text-black/60 max-w-[540px]">
+            Elige silueta, color y técnica. Sube tu logo o vector, visualiza el resultado y cotiza con hasta 20% de descuento por volumen.
           </p>
         </div>
 
