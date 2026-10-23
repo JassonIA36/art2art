@@ -10,7 +10,7 @@ export const Header: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = ['inicio', 'catalogo', 'como-funciona', 'personalizador', 'caracteristicas', 'talleres', 'opiniones', 'faq', 'contacto'];
+      const sections = ['inicio', 'catalogo', 'personalizador', 'caracteristicas', 'talleres', 'opiniones', 'faq', 'contacto'];
       const scrollPos = window.scrollY + 120;
 
       for (const sectionId of sections) {
@@ -32,7 +32,6 @@ export const Header: React.FC = () => {
 
   const navLinks = [
     { label: 'Catálogo', href: '#catalogo', id: 'catalogo' },
-    { label: 'Cómo Funciona', href: '#como-funciona', id: 'como-funciona' },
     { label: 'Estudio en Vivo', href: '#personalizador', id: 'personalizador' },
     { label: 'Técnicas', href: '#caracteristicas', id: 'caracteristicas' },
     { label: 'Taller', href: '#talleres', id: 'talleres' },

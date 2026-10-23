@@ -1,11 +1,28 @@
-import React from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { getWhatsAppLink } from '../data/mockData';
 import { Reveal } from './Reveal';
 import { StatsStrip } from './StatsStrip';
 import { selectGarmentInStudio } from '../utils/studioEvents';
 import type { MockupGarmentId } from '../types';
 
+// =========================================================================
+// VELOCIDAD DEL CARRUSEL (fácilmente editable)
+// Píxeles por segundo de movimiento automático (aprox. el doble de la original).
+// Mayor valor = más rápido, menor valor = más lento.
+// =========================================================================
+export const VELOCIDAD_CARRUSEL = 120; // px por segundo (~2x de la velocidad previa)
+
 export const MmmHero: React.FC = () => {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const setRef = useRef<HTMLDivElement>(null);
+  const setWidthRef = useRef<number>(0);
+  const posRef = useRef<number>(0);
+  const isDraggingRef = useRef<boolean>(false);
+  const isHoveredRef = useRef<boolean>(false);
+  const startXRef = useRef<number>(0);
+  const startPosRef = useRef<number>(0);
+  const hasDraggedRef = useRef<boolean>(false);
+  const [isDragging, setIsDragging] = useState(false);
   const marqueeItems = [
     {
       id: 'dtf-streetwear',
@@ -86,6 +103,172 @@ export const MmmHero: React.FC = () => {
     },
   ];
 
+  useEffect(() => {
+    let animId: number;
+    let lastTime = performance.now();
+
+    const updateSetWidth = () => {
+      if (setRef.current) {
+        const w = setRef.current.offsetWidth;
+        if (w > 0) setWidthRef.current = w;
+      }
+    };
+
+    updateSetWidth();
+
+    // Comprobar preferencia de reducción de movimiento del sistema
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let prefersReducedMotion = mediaQuery.matches;
+    const onMotionChange = (e: MediaQueryListEvent) => {
+      prefersReducedMotion = e.matches;
+    };
+    mediaQuery.addEventListener('change', onMotionChange);
+
+    // Comprobar modo edición del panel admin (para no interferir con la edición)
+    const checkIsAdmin = () =>
+      document.documentElement.classList.contains('a2a-edit') ||
+      Boolean(window.__A2A__?.admin);
+
+    const observer = new MutationObserver(() => {
+      if (checkIsAdmin() && trackRef.current) {
+        trackRef.current.style.transform = '';
+      }
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class'],
+    });
+
+    // Medición reactiva del tamaño del bloque de tarjetas
+    const resizeObserver = new ResizeObserver(() => {
+      updateSetWidth();
+    });
+    if (setRef.current) {
+      resizeObserver.observe(setRef.current);
+    }
+
+    const animate = (time: number) => {
+      const delta = Math.min((time - lastTime) / 1000, 0.1);
+      lastTime = time;
+
+      const isAdmin = checkIsAdmin();
+
+      if (!isAdmin && trackRef.current) {
+        const setWidth = setWidthRef.current;
+
+        // Movimiento automático continuo: solo si no se arrastra, no hay hover y no hay reduced motion
+        if (!isDraggingRef.current && !isHoveredRef.current && !prefersReducedMotion) {
+          posRef.current -= VELOCIDAD_CARRUSEL * delta;
+        }
+
+        // Bucle infinito continuo sin saltos ni espacios vacíos
+        if (setWidth > 0) {
+          while (posRef.current <= -setWidth) {
+            posRef.current += setWidth;
+          }
+          while (posRef.current > 0) {
+            posRef.current -= setWidth;
+          }
+        }
+
+        trackRef.current.style.transform = `translate3d(${posRef.current}px, 0, 0)`;
+      } else if (isAdmin && trackRef.current) {
+        trackRef.current.style.transform = '';
+      }
+
+      animId = requestAnimationFrame(animate);
+    };
+
+    animId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(animId);
+      mediaQuery.removeEventListener('change', onMotionChange);
+      observer.disconnect();
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  const handlePointerDown = (e: React.PointerEvent) => {
+    if (document.documentElement.classList.contains('a2a-edit') || Boolean(window.__A2A__?.admin)) return;
+    if (e.pointerType === 'mouse' && e.button !== 0) return;
+
+    isDraggingRef.current = true;
+    setIsDragging(true);
+    startXRef.current = e.clientX;
+    startPosRef.current = posRef.current;
+    hasDraggedRef.current = false;
+
+    try {
+      (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+    } catch {}
+  };
+
+  const handlePointerMove = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+
+    const deltaX = e.clientX - startXRef.current;
+    if (Math.abs(deltaX) > 4) {
+      hasDraggedRef.current = true;
+    }
+
+    posRef.current = startPosRef.current + deltaX;
+
+    const setWidth = setWidthRef.current;
+    if (setWidth > 0) {
+      while (posRef.current <= -setWidth) {
+        posRef.current += setWidth;
+        startPosRef.current += setWidth;
+      }
+      while (posRef.current > 0) {
+        posRef.current -= setWidth;
+        startPosRef.current -= setWidth;
+      }
+    }
+
+    if (trackRef.current) {
+      trackRef.current.style.transform = `translate3d(${posRef.current}px, 0, 0)`;
+    }
+  };
+
+  const handlePointerUp = (e: React.PointerEvent) => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    setIsDragging(false);
+
+    try {
+      if ((e.currentTarget as HTMLElement).hasPointerCapture(e.pointerId)) {
+        (e.currentTarget as HTMLElement).releasePointerCapture(e.pointerId);
+      }
+    } catch {}
+
+    // Pequeño retardo para que el click no se dispare al terminar un arrastre
+    setTimeout(() => {
+      hasDraggedRef.current = false;
+    }, 80);
+  };
+
+  const handlePointerEnter = (e: React.PointerEvent) => {
+    if (e.pointerType === 'mouse') {
+      isHoveredRef.current = true;
+    }
+  };
+
+  const handlePointerLeave = (e: React.PointerEvent) => {
+    if (e.pointerType === 'mouse') {
+      isHoveredRef.current = false;
+    }
+  };
+
+  const handleCardClick = (e: React.MouseEvent, garment: MockupGarmentId) => {
+    if (hasDraggedRef.current) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+    selectGarmentInStudio(garment);
+  };
+
   return (
     <section id="inicio" className="relative bg-white pt-12 sm:pt-16 pb-16 overflow-hidden">
       {/* Soft animated gradient blobs */}
@@ -157,22 +340,45 @@ export const MmmHero: React.FC = () => {
 
       {/* Continuous marquee showcase with faded edges */}
       <div
-        className="relative mt-14 overflow-hidden w-full [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
+        className="relative mt-14 overflow-hidden w-full select-none [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
         aria-label="Prendas hechas en Art2Art"
       >
-        <div className="flex w-max animate-menu-marquee hover-pause">
-          {[0, 1].map((loop) => (
-            <div key={loop} className="flex gap-4 pr-4" aria-hidden={loop === 1 ? true : undefined}>
+        <div
+          ref={trackRef}
+          onPointerDown={handlePointerDown}
+          onPointerMove={handlePointerMove}
+          onPointerUp={handlePointerUp}
+          onPointerCancel={handlePointerUp}
+          onPointerEnter={handlePointerEnter}
+          onPointerLeave={handlePointerLeave}
+          style={{
+            animation: 'none',
+            touchAction: 'pan-y',
+            userSelect: 'none',
+            WebkitUserSelect: 'none',
+          }}
+          className={`flex w-max select-none animate-menu-marquee will-change-transform ${
+            isDragging ? 'cursor-grabbing' : 'cursor-grab'
+          }`}
+        >
+          {[0, 1, 2].map((loop) => (
+            <div
+              key={loop}
+              ref={loop === 0 ? setRef : undefined}
+              className="flex gap-4 pr-4 select-none"
+              aria-hidden={loop > 0 ? true : undefined}
+            >
               {marqueeItems.map((item) => (
                 <a
                   key={`${item.id}-${loop}`}
                   href="#personalizador"
-                  onClick={() => selectGarmentInStudio(item.garment)}
-                  tabIndex={loop === 1 ? -1 : undefined}
-                  className="group flex h-[480px] w-[380px] max-md:h-[350px] max-md:w-[280px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl shadow-sm relative"
-                  style={{ backgroundColor: item.bgColor }}
+                  onClick={(e) => handleCardClick(e, item.garment)}
+                  tabIndex={loop > 0 ? -1 : undefined}
+                  draggable={false}
+                  className="group flex h-[480px] w-[380px] max-md:h-[350px] max-md:w-[280px] shrink-0 flex-col justify-between overflow-hidden rounded-2xl p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl shadow-sm relative select-none"
+                  style={{ backgroundColor: item.bgColor, userSelect: 'none', WebkitUserDrag: 'none' } as React.CSSProperties}
                 >
-                  <div className="relative z-10 flex flex-col gap-2">
+                  <div className="relative z-10 flex flex-col gap-2 pointer-events-none select-none">
                     <span data-edit={`hero_${item.id}_etiqueta`} className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium w-fit ${item.badgeBg}`}>
                       {item.badge}
                     </span>
@@ -180,13 +386,20 @@ export const MmmHero: React.FC = () => {
                     <p data-edit={`hero_${item.id}_detalle`} className={`text-xs sm:text-sm opacity-80 ${item.textColor}`}>{item.sub}</p>
                   </div>
 
-                  <div className="relative z-10 w-full flex items-center justify-center pt-2">
+                  <div className="relative z-10 w-full flex items-center justify-center pt-2 pointer-events-none select-none">
                     <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-white/10 backdrop-blur-sm p-2 shadow-[0_12px_24px_-8px_rgba(0,0,0,0.3)] ring-1 ring-black/10 group-hover:scale-105 group-hover:-rotate-1 transition-transform duration-500">
-                      <img src={item.imageUrl} data-edit-img={`hero_${item.id}_foto`} alt={item.title} className="w-full h-full object-cover rounded-lg" loading="lazy" />
+                      <img
+                        src={item.imageUrl}
+                        data-edit-img={`hero_${item.id}_foto`}
+                        alt={item.title}
+                        draggable={false}
+                        className="w-full h-full object-cover rounded-lg pointer-events-none select-none"
+                        loading="lazy"
+                      />
                     </div>
                   </div>
 
-                  <div className="relative z-10 flex items-center justify-between pt-3 border-t border-black/10">
+                  <div className="relative z-10 flex items-center justify-between pt-3 border-t border-black/10 pointer-events-none select-none">
                     <span className={`text-xs font-semibold uppercase tracking-wider ${item.textColor}`}>Personalizar este modelo</span>
                     <div className="w-8 h-8 rounded-full bg-white text-black flex items-center justify-center shadow-sm group-hover:translate-x-1 transition-transform">
                       <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">

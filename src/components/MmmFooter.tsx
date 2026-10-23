@@ -34,11 +34,6 @@ export const MmmFooter: React.FC = () => {
                 </a>
               </li>
               <li>
-                <a href="#como-funciona" className="hover:text-black transition-colors">
-                  Cómo Funciona el Pedido
-                </a>
-              </li>
-              <li>
                 <a href="#personalizador" className="hover:text-black transition-colors font-medium text-black">
                   Personalizador en Vivo
                 </a>

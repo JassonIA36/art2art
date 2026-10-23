@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Header } from './components/Header';
 import { MmmHero } from './components/MmmHero';
-import { MmmHowItWorks } from './components/MmmHowItWorks';
 import { MockupStudioSection } from './components/MockupStudioSection';
 import { MmmFeatures } from './components/MmmFeatures';
 import { MmmTemplatesCarousel } from './components/MmmTemplatesCarousel';
@@ -33,10 +32,7 @@ export const App: React.FC = () => {
         {/* 2. Hero with High-Contrast Typography & Continuous Infinite Marquee Showcase */}
         <MmmHero />
 
-        {/* 3. How It Works (3 Interactive Steps with Mini Simulated UI Previews) */}
-        <Reveal><MmmHowItWorks /></Reveal>
-
-        {/* 4. Live Interactive Customizer Studio */}
+        {/* 3. Live Interactive Customizer Studio */}
         <Reveal><MockupStudioSection /></Reveal>
 
         {/* 5. Features Grid (Everything you need to create digital & real apparel) */}
