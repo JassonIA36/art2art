@@ -99,21 +99,20 @@
     }
     </script>
 
-    <!-- Google Fonts: Jost, Bebas Neue & Inter -->
+    <!-- Tipografías: se cargan sin bloquear el primer pintado de la página -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-    
-    <!-- Material Symbols Outlined -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
+    <!-- Iconos: solo los 116 que usa la página (antes se descargaba la fuente completa, 3.9 MB) -->
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=ac_unit,apparel,arrow_downward,arrow_forward,attach_file,auto_fix_high,block,bolt,box,bubble,call,camera,cards,category,chat,check,check_circle,checkroom,class,close,cloud_upload,coffee,colors,contrast,conversation,create,crop_free,css,delete,description,download,dry_cleaning,error,expand_more,filter,floor,format_list_numbered,function,gradient,group,groups,height,help,highlight,hourglass_top,image,info,input,inventory_2,iron,key,label,layers,light,lightbulb,link,local_laundry_service,local_shipping,location_on,loop,map,message,military_tech,mouse,open_in_new,palette,password,pending,photo_camera,photo_library,pill,portrait,preview,print,radar,repeat,resize,restart_alt,restore,reviews,scale,scene,schedule,send,shadow,shopping_bag,spellcheck,sports_baseball,square,star,start,steps,style,styler,support_agent,switch,target,texture,timer,title,toolbar,tooltip,touch_app,transform,try,tune,upload,upload_file,uppercase,verified,verified_user,visibility,visibility_off,wash,web,zoom_in&display=block" onload="this.onload=null;this.rel='stylesheet'" />
+    <noscript>
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700;800&family=Bebas+Neue&family=Inter:wght@300;400;500;600;700;800&display=swap" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0..1,0&icon_names=ac_unit,apparel,arrow_downward,arrow_forward,attach_file,auto_fix_high,block,bolt,box,bubble,call,camera,cards,category,chat,check,check_circle,checkroom,class,close,cloud_upload,coffee,colors,contrast,conversation,create,crop_free,css,delete,description,download,dry_cleaning,error,expand_more,filter,floor,format_list_numbered,function,gradient,group,groups,height,help,highlight,hourglass_top,image,info,input,inventory_2,iron,key,label,layers,light,lightbulb,link,local_laundry_service,local_shipping,location_on,loop,map,message,military_tech,mouse,open_in_new,palette,password,pending,photo_camera,photo_library,pill,portrait,preview,print,radar,repeat,resize,restart_alt,restore,reviews,scale,scene,schedule,send,shadow,shopping_bag,spellcheck,sports_baseball,square,star,start,steps,style,styler,support_agent,switch,target,texture,timer,title,toolbar,tooltip,touch_app,transform,try,tune,upload,upload_file,uppercase,verified,verified_user,visibility,visibility_off,wash,web,zoom_in&display=block" />
+    </noscript>
+    <noscript><style>.opacity-0{opacity:1!important;transform:none!important}</style></noscript>
   </head>
   <body class="bg-white text-[#0b0e17] font-sans antialiased selection:bg-[#dc0c1c]/15 selection:text-[#dc0c1c] min-h-screen">
     <div id="root"></div>
-    <noscript>
-      <h1>Estampados en Buga — Art2Art</h1>
-      <p>Taller de estampados en Guadalajara de Buga, Valle del Cauca. DTF, serigrafía, sublimación y vinilo textil en camisetas, hoodies, gorras, tote bags y mugs, desde 1 unidad.</p>
-      <p>Cra 9A #12-53, Guadalajara de Buga · Lunes a Sábado 8:00 AM - 6:30 PM · WhatsApp +57 318 266 0432</p>
-    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

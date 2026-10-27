@@ -25,8 +25,8 @@ export const MOCKUP_GARMENTS: GarmentViewConfig[] = [
     quoteGarmentId: 'camiseta-algodon',
     printZone: { x: 195, y: 180, width: 210, height: 260 },
     description: 'Camiseta clásica premium de corte unisex con costuras reforzadas.',
-    photoUrl: '/mockups/tshirt.jpg',
-    blackPhotoUrl: '/mockups/tshirt_black.jpg',
+    photoUrl: '/mockups/tshirt.webp',
+    blackPhotoUrl: '/mockups/tshirt_black.webp',
   },
   {
     id: 'hoodie',
@@ -38,7 +38,7 @@ export const MOCKUP_GARMENTS: GarmentViewConfig[] = [
     quoteGarmentId: 'hoodie',
     printZone: { x: 200, y: 220, width: 200, height: 180 },
     description: 'Buso con capota de doble forro, cordones al tono y bolsillo canguro.',
-    photoUrl: '/mockups/hoodie.jpg',
+    photoUrl: '/mockups/hoodie.webp',
   },
   {
     id: 'oversize',
@@ -50,8 +50,8 @@ export const MOCKUP_GARMENTS: GarmentViewConfig[] = [
     quoteGarmentId: 'camiseta-algodon',
     printZone: { x: 185, y: 190, width: 230, height: 270 },
     description: 'Silueta amplia y relajada estilo urbano de hombros caídos.',
-    photoUrl: '/mockups/tshirt.jpg',
-    blackPhotoUrl: '/mockups/tshirt_black.jpg',
+    photoUrl: '/mockups/tshirt.webp',
+    blackPhotoUrl: '/mockups/tshirt_black.webp',
   },
   {
     id: 'totebag',
@@ -63,7 +63,7 @@ export const MOCKUP_GARMENTS: GarmentViewConfig[] = [
     quoteGarmentId: 'tula',
     printZone: { x: 195, y: 260, width: 210, height: 230 },
     description: 'Bolsa ecológica de tela lienzo reutilizable con asas de alta resistencia.',
-    photoUrl: '/mockups/totebag.jpg',
+    photoUrl: '/mockups/totebag.webp',
   },
   {
     id: 'gorra',
@@ -75,7 +75,7 @@ export const MOCKUP_GARMENTS: GarmentViewConfig[] = [
     quoteGarmentId: 'gorra',
     printZone: { x: 220, y: 190, width: 160, height: 100 },
     description: 'Gorra estructurada de 5 paneles con visera curva preformada.',
-    photoUrl: '/mockups/cap.jpg',
+    photoUrl: '/mockups/cap.webp',
   },
   {
     id: 'mug',
@@ -109,13 +109,13 @@ export const MOCKUP_PRESETS: MockupPresetGraphic[] = [
     id: 'cyberpunk-tiger',
     name: 'Cyber Tiger Art2Art',
     tag: 'DTF Streetwear',
-    url: '/samples/cyberpunk-tiger.jpg',
+    url: '/samples/cyberpunk-tiger.webp',
   },
   {
     id: 'tropical-toucan',
     name: 'Tucán Buga Valle',
     tag: 'Full Color HD',
-    url: '/samples/tropical-toucan.jpg',
+    url: '/samples/tropical-toucan.webp',
   },
   {
     id: 'art2art-vector-badge',

@@ -36,7 +36,8 @@ export const Reveal: React.FC<RevealProps> = ({ children, delay = 0, className =
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: `${delay}ms` }}
+      // Las secciones fuera de pantalla no se maquetan ni pintan hasta que se acercan: la carga inicial es más liviana
+      style={{ transitionDelay: `${delay}ms`, contentVisibility: 'auto', containIntrinsicSize: 'auto 720px' }}
       className={`transition-all duration-700 ease-out ${
         visible ? 'opacity-100' : 'opacity-0 translate-y-6'
       } ${className}`}
