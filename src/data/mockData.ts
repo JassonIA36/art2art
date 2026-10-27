@@ -10,7 +10,7 @@ export const COMPANY_INFO = {
   phone: '324 677 0272',
   whatsappRaw: '573182660432',
   whatsappDisplay: '+57 318 266 0432',
-  schedule: 'Lunes a Sábado: 8:00 AM - 6:30 PM',
+  schedule: 'Lunes a Sábado: 8:30 AM - 6:30 PM',
   instagramUrl: 'https://www.instagram.com/art2art_estampados/',
   facebookUrl: 'https://www.facebook.com/profile.php?id=100064875279647',
   mapsUrl: 'https://maps.google.com/?q=Cra+9A+%2312-53+Guadalajara+de+Buga',

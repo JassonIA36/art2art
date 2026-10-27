@@ -7,7 +7,7 @@ export const MmmFaq: React.FC = () => {
   const faqs = [
     {
       q: '¿Cuáles son los tiempos de entrega de los pedidos?',
-      a: 'Para pedidos unitarios o muestras en DTF, vinilo o sublimación, el tiempo habitual es de 2 a 4 días hábiles una vez aprobado el arte. Para producciones medianas o grandes en serigrafía (más de 20 a 500 prendas), el tiempo estándar oscila entre 5 y 8 días hábiles. También manejamos servicio express para pedidos urgentes.',
+      a: 'Los pedidos pequeños desde 1 unidad en DTF, vinilo o sublimación se entregan el mismo día o máximo en 2 días, una vez aprobado el diseño. Para producciones medianas o grandes en serigrafía (más de 20 a 500 prendas), el tiempo estándar oscila entre 5 y 8 días hábiles. También manejamos servicio express para pedidos urgentes.',
     },
     {
       q: '¿Hacen envíos fuera de Guadalajara de Buga?',

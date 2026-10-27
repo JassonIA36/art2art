@@ -1,5 +1,6 @@
 import React from 'react';
 import { COMPANY_INFO, getWhatsAppLink } from '../data/mockData';
+import { SERVICE_PAGES } from '../data/servicePages';
 
 export const MmmFooter: React.FC = () => {
   return (
@@ -49,6 +50,16 @@ export const MmmFooter: React.FC = () => {
                 </a>
               </li>
             </ul>
+            <h4 className="pt-3 text-xs font-bold uppercase tracking-widest text-black">Servicios en Buga</h4>
+            <ul className="space-y-2 text-sm text-black/70">
+              {SERVICE_PAGES.map((p) => (
+                <li key={p.slug}>
+                  <a href={`/${p.slug}`} className="hover:text-black transition-colors">
+                    {p.navLabel} en Buga
+                  </a>
+                </li>
+              ))}
+            </ul>
           </div>
 
           {/* Techniques */}
@@ -81,7 +92,7 @@ export const MmmFooter: React.FC = () => {
               Contacto Inmediato
             </h4>
             <p data-edit="footer_contacto_texto" className="text-xs text-black/60 leading-relaxed">
-              Atención directa por WhatsApp de lunes a sábado de 8:00 AM a 6:30 PM.
+              Atención directa por WhatsApp de lunes a sábado de 8:30 AM a 6:30 PM.
             </p>
             <a
               href={getWhatsAppLink('Hola Art2Art, quiero hacer una consulta sobre un pedido.')}
