@@ -17,7 +17,8 @@ binding = "ASSETS"
 # "/*-buga" son las paginas por servicio (sus rutas terminan en -buga): el Worker les aplica lo editado en D1.
 # Una pagina nueva cuya ruta no termine en -buga debe agregarse aqui.
 run_worker_first = ["/", "/admin", "/admin/*", "/api/*", "/img/*", "/*-buga"]
-not_found_handling = "single-page-application"
+# Una direccion que no existe responde 404 con dist/404.html (antes devolvia la portada con codigo 200).
+not_found_handling = "404-page"
 
 [[d1_databases]]
 binding = "DB"
