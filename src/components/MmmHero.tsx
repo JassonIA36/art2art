@@ -1,9 +1,13 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { getWhatsAppLink } from '../data/mockData';
 import { Reveal } from './Reveal';
+import { LetrasArmadas, contarLetras } from './LetrasArmadas';
 import { StatsStrip } from './StatsStrip';
 import { selectGarmentInStudio } from '../utils/studioEvents';
 import type { MockupGarmentId } from '../types';
+
+// Texto original del título (el dueño puede cambiarlo desde el panel; entonces se muestra sin la animación de letras).
+const TITULO_HERO = 'Estampados en Buga de alta calidad para';
 
 // =========================================================================
 // VELOCIDAD DEL CARRUSEL (fácilmente editable)
@@ -287,12 +291,18 @@ export const MmmHero: React.FC = () => {
             </span>
           </Reveal>
 
-          <Reveal delay={80}>
+          {/* El título arma sus letras solo (LetrasArmadas); "tu marca" entra al final como un bloque. */}
+          <div>
             <h1 className="text-[40px] sm:text-[54px] lg:text-[62px] font-semibold leading-[1.05] tracking-[-0.05em] text-black">
-              <span data-edit="hero_titulo">Estampados en Buga de alta calidad para</span>{' '}
-              <span className="text-shimmer" data-edit="hero_titulo_destacado">tu marca</span>
+              <span data-edit="hero_titulo"><LetrasArmadas texto={TITULO_HERO} /></span>{' '}
+              <span
+                className="titulo-final"
+                style={{ '--d': `${60 + contarLetras(TITULO_HERO) * 18 + 120}ms` } as React.CSSProperties}
+              >
+                <span className="text-shimmer" data-edit="hero_titulo_destacado">tu marca</span>
+              </span>
             </h1>
-          </Reveal>
+          </div>
 
           <Reveal delay={160}>
             <p data-edit="hero_descripcion" className="text-[17px] sm:text-[19px] tracking-[-0.025em] text-black/60 max-w-[580px] leading-relaxed">

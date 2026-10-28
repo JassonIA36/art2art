@@ -285,9 +285,61 @@
   }
 }
 
+/* Título del hero: las letras entran dispersas, giradas y pequeñas, y se arman una tras otra (18 ms entre
+   letras, 700 ms cada una, ease-out fuerte). Solo transform y opacity. Cada palabra es inline-block sin
+   salto de línea para que no se parta a la mitad. "tu marca" entra al final (.titulo-final). */
+@keyframes letra-arma {
+  from {
+    opacity: 0;
+    transform: translate(var(--x), var(--y)) rotate(var(--r)) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes titulo-final {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.94);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.palabra {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.letra {
+  display: inline-block;
+  animation: letra-arma 700ms cubic-bezier(0.23, 1, 0.32, 1) backwards;
+  animation-delay: calc(60ms + var(--i) * 18ms);
+}
+
+.titulo-final {
+  display: inline-block;
+  white-space: nowrap;
+  animation: titulo-final 600ms cubic-bezier(0.23, 1, 0.32, 1) backwards;
+  animation-delay: var(--d, 0ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .letra,
+  .titulo-final {
+    animation: none;
+  }
+}
+
 /* En el modo edición del panel el texto debe quedarse quieto. */
 html.a2a-edit .fold,
-html.a2a-edit .intro {
+html.a2a-edit .intro,
+html.a2a-edit .letra,
+html.a2a-edit .titulo-final {
   animation: none !important;
 }
 
