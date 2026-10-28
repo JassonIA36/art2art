@@ -12,14 +12,14 @@ export const Header: React.FC = () => {
       setScrolled(window.scrollY > 20);
 
       const sections = ['inicio', 'catalogo', 'personalizador', 'servicios', 'caracteristicas', 'talleres', 'opiniones', 'faq', 'contacto'];
-      const scrollPos = window.scrollY + 120;
 
+      // Se mide con getBoundingClientRect: offsetTop sale mal porque cada sección va dentro de un contenedor
+      // con content-visibility (que pasa a ser su offsetParent).
       for (const sectionId of sections) {
         const el = document.getElementById(sectionId);
         if (el) {
-          const top = el.offsetTop;
-          const height = el.offsetHeight;
-          if (scrollPos >= top && scrollPos < top + height) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 120 && rect.bottom > 120) {
             setActiveSection(sectionId);
             break;
           }
@@ -53,10 +53,8 @@ export const Header: React.FC = () => {
           <div className="hidden lg:flex items-center gap-1.5">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
-              const linkClass = `inline-flex items-center justify-center gap-1 rounded-full px-3.5 py-1.5 text-sm transition-colors ${
-                isActive
-                  ? 'bg-black/5 font-semibold text-black'
-                  : 'text-black/70 hover:bg-black/5 hover:text-black font-normal'
+              const linkClass = `inline-flex items-center justify-center gap-1 rounded-full px-4 py-2 text-[15px] font-semibold tracking-[-0.01em] transition-colors ${
+                isActive ? 'bg-black text-white' : 'text-black/80 hover:bg-black/5 hover:text-black'
               }`;
               if (!link.submenu) {
                 return (
@@ -67,23 +65,33 @@ export const Header: React.FC = () => {
               }
               // "Servicios" abre una lista con las páginas por técnica (con el mouse o con el teclado; en celular se usa el menú lateral)
               return (
-                <div key={link.label} className="group relative">
+                <div key={link.label} className="nav-drop">
                   <a href={link.href} className={linkClass} aria-haspopup="true">
                     <span data-edit={`nav_${link.id}`}>{link.label}</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="opacity-60 transition-transform group-hover:rotate-180 group-focus-within:rotate-180">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="nav-drop-chevron">
                       <path d="m6 9 6 6 6-6" />
                     </svg>
                   </a>
-                  <div className="invisible absolute left-0 top-full z-10 w-72 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
-                    <ul className="rounded-2xl border border-black/10 bg-white p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)]">
-                      {SERVICE_PAGES.map((p) => (
-                        <li key={p.slug}>
-                          <a href={`/${p.slug}`} className="block rounded-xl px-3.5 py-2.5 text-sm font-medium text-black/80 transition-colors hover:bg-black/5 hover:text-black">
-                            {p.navLabel} en Buga
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
+                  <div className="nav-drop-panel">
+                    <div className="nav-drop-card">
+                      <p className="nav-drop-title">Servicios en Buga</p>
+                      <ul>
+                        {SERVICE_PAGES.map((p, i) => (
+                          <li key={p.slug} className="nav-drop-item" style={{ '--i': i } as React.CSSProperties}>
+                            <a href={`/${p.slug}`}>
+                              <span>{p.navLabel}</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                                <path d="M5 12h14" />
+                                <path d="m12 5 7 7-7 7" />
+                              </svg>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                      <a href={link.href} className="nav-drop-all">
+                        Ver todos los servicios
+                      </a>
+                    </div>
                   </div>
                 </div>
               );
@@ -216,7 +224,7 @@ export const Header: React.FC = () => {
                     key={link.label}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-black/80 hover:bg-black/5 transition-colors"
+                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[15px] font-semibold text-black hover:bg-black/5 transition-colors"
                   >
                     <span data-edit={`nav_${link.id}`}>{link.label}</span>
                     <svg
@@ -241,7 +249,7 @@ export const Header: React.FC = () => {
                   <a
                     key={p.slug}
                     href={`/${p.slug}`}
-                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-black/80 hover:bg-black/5 transition-colors"
+                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-[15px] font-semibold text-black hover:bg-black/5 transition-colors"
                   >
                     <span>{p.navLabel}</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black/40" aria-hidden="true">

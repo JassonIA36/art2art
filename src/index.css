@@ -108,6 +108,171 @@
   }
 }
 
+/* Desplegable "Servicios" del menú (escritorio). Se abre con el mouse o con el teclado (:focus-within).
+   La tarjeta sale desde el botón (escala 0.96 + sube 6 px, 200 ms, ease-out fuerte) y las opciones entran
+   escalonadas 35 ms; al cerrar, la visibilidad se retrasa 200 ms para que se vea el desvanecido. */
+.nav-drop {
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  position: relative;
+}
+
+.nav-drop-chevron {
+  opacity: 0.7;
+  transition: transform 200ms var(--ease-out);
+}
+
+.nav-drop:hover .nav-drop-chevron,
+.nav-drop:focus-within .nav-drop-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-drop-panel {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 10;
+  width: 19rem;
+  padding-top: 0.625rem;
+  visibility: hidden;
+  transition: visibility 0s linear 200ms;
+}
+
+.nav-drop:hover .nav-drop-panel,
+.nav-drop:focus-within .nav-drop-panel {
+  visibility: visible;
+  transition-delay: 0s;
+}
+
+.nav-drop-card {
+  transform-origin: 28px 0;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04), 0 18px 40px -10px rgba(0, 0, 0, 0.2);
+  opacity: 0;
+  transform: translateY(-6px) scale(0.96);
+  transition: opacity 150ms ease-out, transform 200ms var(--ease-out);
+}
+
+.nav-drop:hover .nav-drop-card,
+.nav-drop:focus-within .nav-drop-card {
+  opacity: 1;
+  transform: none;
+}
+
+.nav-drop-title {
+  margin: 0;
+  padding: 8px 12px 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.nav-drop ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav-drop-item {
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 120ms ease-out, transform 160ms ease-out;
+}
+
+.nav-drop:hover .nav-drop-item,
+.nav-drop:focus-within .nav-drop-item {
+  opacity: 1;
+  transform: none;
+  transition: opacity 180ms ease-out calc(40ms + var(--i) * 35ms),
+    transform 220ms var(--ease-out) calc(40ms + var(--i) * 35ms);
+}
+
+.nav-drop-item a {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: #0b0e17;
+  text-decoration: none;
+  transition: background-color 120ms ease;
+}
+
+.nav-drop-item a svg {
+  color: #dc0c1c;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: opacity 150ms ease-out, transform 200ms var(--ease-out);
+}
+
+.nav-drop-item a:focus-visible {
+  background: rgba(0, 0, 0, 0.06);
+  outline: 2px solid #0b0e17;
+  outline-offset: -2px;
+}
+
+.nav-drop-item a:focus-visible svg {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .nav-drop-item a:hover {
+    background: rgba(0, 0, 0, 0.06);
+  }
+
+  .nav-drop-item a:hover svg {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.nav-drop-all {
+  display: block;
+  margin-top: 6px;
+  padding: 12px 12px 8px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  font-size: 13px;
+  font-weight: 600;
+  color: rgba(0, 0, 0, 0.6);
+  text-decoration: none;
+  transition: color 120ms ease;
+}
+
+.nav-drop-all:hover,
+.nav-drop-all:focus-visible {
+  color: #0b0e17;
+}
+
+/* Con "reducir movimiento" solo queda el desvanecido: sin escala, sin desplazamiento y sin escalonado. */
+@media (prefers-reduced-motion: reduce) {
+  .nav-drop-card {
+    transform: none;
+    transition: opacity 120ms linear;
+  }
+
+  .nav-drop-item,
+  .nav-drop:hover .nav-drop-item,
+  .nav-drop:focus-within .nav-drop-item {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .nav-drop-chevron,
+  .nav-drop-item a svg {
+    transition: none;
+  }
+}
+
 /* Entrada del hero al cargar la página (escalonada con animation-delay). Parte de 40 % de opacidad, no de 0,
    para no retrasar el primer pintado del título. */
 .intro {
