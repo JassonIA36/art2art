@@ -190,7 +190,11 @@ async function servePage(request, env, { admin = false, assetPath = '/', slug = 
     .on('[data-edit]', {
       element(el) {
         const key = el.getAttribute('data-edit');
-        if (Object.prototype.hasOwnProperty.call(content, key)) el.setInnerContent(String(content[key]));
+        if (!Object.prototype.hasOwnProperty.call(content, key)) return;
+        // data-split lleva el texto original de un título cuyas letras se animan por separado: si lo guardado es
+        // igual, no se toca para conservar las letras (si el dueño lo cambió, se muestra como texto normal).
+        if (el.getAttribute('data-split') === String(content[key])) return;
+        el.setInnerContent(String(content[key]));
       },
     })
     .on('[data-edit-img]', {
