@@ -18,6 +18,8 @@ const BotonWhatsApp: React.FC<{ message: string; className?: string; children: R
 
 export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
   const otros = SERVICE_PAGES.filter((p) => p.slug !== page.slug)
+  // Claves de edición de esta página. Deben coincidir con las que arma src/index.js (prefijo p_<slug>_).
+  const k = (campo: string) => `p_${page.slug}_${campo}`
 
   return (
     <div className="min-h-screen bg-white text-black flex flex-col font-sans">
@@ -85,14 +87,15 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
           <div>
             <p className="inline-flex items-center gap-2 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium">
               <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c]" aria-hidden="true"></span>
-              {page.eyebrow}
+              <span data-edit={k('eyebrow')}>{page.eyebrow}</span>
             </p>
-            <h1 className="mt-5 text-[40px] sm:text-[56px] font-semibold leading-[1.04] tracking-[-0.05em]">{page.h1}</h1>
-            <p className="mt-5 text-[17px] sm:text-[19px] leading-relaxed text-black/70 max-w-[560px]">{page.lead}</p>
+            <h1 data-edit={k('h1')} className="mt-5 text-[40px] sm:text-[56px] font-semibold leading-[1.04] tracking-[-0.05em]">{page.h1}</h1>
+            <p data-edit={k('lead')} className="mt-5 text-[17px] sm:text-[19px] leading-relaxed text-black/70 max-w-[560px]">{page.lead}</p>
             <ul className="mt-6 flex flex-wrap gap-2.5">
-              {page.facts.map((f) => (
+              {page.facts.map((f, i) => (
                 <li key={f} className="rounded-full border border-black/10 bg-white px-4 py-1.5 text-sm font-medium">
-                  ✓ {f}
+                  <span aria-hidden="true">✓ </span>
+                  <span data-edit={k(`dato_${i + 1}`)}>{f}</span>
                 </li>
               ))}
             </ul>
@@ -107,24 +110,24 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
             </div>
           </div>
           <div className="rounded-3xl bg-gradient-to-br from-[#fbe9ec] via-white to-[#eef3fb] p-6 sm:p-10">
-            <img src={page.image.src} alt={page.image.alt} width={1000} height={1000} className="w-full h-auto object-contain mix-blend-multiply" />
+            <img src={page.image.src} data-edit-img={k('imagen')} alt={page.image.alt} width={1000} height={1000} className="w-full h-auto object-contain mix-blend-multiply" />
           </div>
         </section>
 
         {/* Contenido */}
         <div className="mx-auto w-full max-w-[820px] px-5 sm:px-8 pb-6 space-y-12">
-          {page.sections.map((s) => (
+          {page.sections.map((s, si) => (
             <section key={s.heading}>
-              <h2 className="text-[26px] sm:text-[32px] font-semibold leading-[1.15] tracking-[-0.04em]">{s.heading}</h2>
-              {s.paragraphs?.map((p) => (
-                <p key={p} className="mt-4 text-[17px] leading-relaxed text-black/70">{p}</p>
+              <h2 data-edit={k(`sec_${si + 1}_titulo`)} className="text-[26px] sm:text-[32px] font-semibold leading-[1.15] tracking-[-0.04em]">{s.heading}</h2>
+              {s.paragraphs?.map((p, pi) => (
+                <p key={p} data-edit={k(`sec_${si + 1}_parrafo_${pi + 1}`)} className="mt-4 text-[17px] leading-relaxed text-black/70">{p}</p>
               ))}
               {s.bullets && (
                 <ul className="mt-4 space-y-2.5">
-                  {s.bullets.map((b) => (
+                  {s.bullets.map((b, bi) => (
                     <li key={b} className="flex gap-3 text-[17px] leading-relaxed text-black/70">
                       <span className="mt-2.5 w-1.5 h-1.5 shrink-0 rounded-full bg-[#dc0c1c]" aria-hidden="true"></span>
-                      <span>{b}</span>
+                      <span data-edit={k(`sec_${si + 1}_punto_${bi + 1}`)}>{b}</span>
                     </li>
                   ))}
                 </ul>
@@ -139,7 +142,7 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
               {page.steps.map((s, i) => (
                 <li key={s} className="flex gap-4">
                   <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-black text-white text-sm font-semibold">{i + 1}</span>
-                  <p className="pt-1 text-[17px] leading-relaxed text-black/70">{s}</p>
+                  <p data-edit={k(`paso_${i + 1}`)} className="pt-1 text-[17px] leading-relaxed text-black/70">{s}</p>
                 </li>
               ))}
             </ol>
@@ -149,13 +152,13 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
           <section>
             <h2 className="text-[26px] sm:text-[32px] font-semibold leading-[1.15] tracking-[-0.04em]">Preguntas frecuentes</h2>
             <div className="mt-4 divide-y divide-black/10 border-y border-black/10">
-              {page.faqs.map((f) => (
+              {page.faqs.map((f, i) => (
                 <details key={f.q} className="group py-4">
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-[17px] font-medium">
-                    {f.q}
+                    <span data-edit={k(`faq_${i + 1}_pregunta`)}>{f.q}</span>
                     <span className="flex size-8 shrink-0 items-center justify-center rounded-full bg-black/5 transition-transform group-open:rotate-45" aria-hidden="true">+</span>
                   </summary>
-                  <p className="pt-3 pr-10 text-[16px] leading-relaxed text-black/70">{f.a}</p>
+                  <p data-edit={k(`faq_${i + 1}_respuesta`)} className="pt-3 pr-10 text-[16px] leading-relaxed text-black/70">{f.a}</p>
                 </details>
               ))}
             </div>

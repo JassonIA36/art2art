@@ -133,6 +133,15 @@ ${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${hoy}</lastmo
 `
   await writeFile(path.join(dist, 'sitemap.xml'), mapa)
   console.log(`prerender: sitemap.xml con ${urls.length} direcciones`)
+
+  // 4. Lista de páginas editables: el Worker la lee para saber qué rutas son páginas por servicio,
+  //    armar el selector "Páginas" del panel y enlazar el script que abre el editor (el mismo de la portada).
+  const script = (original.match(/<script type="module"[^>]*src="(\/assets\/[^"]+\.js)"/) || [])[1]
+  if (!script) throw new Error('No encuentro el script principal en dist/index.html')
+  await writeFile(
+    path.join(dist, 'paginas.json'),
+    JSON.stringify({ editor: script, pages: paginas.map((p) => ({ slug: p.page.slug, label: p.page.navLabel })) }),
+  )
 } catch (e) {
   console.warn('prerender: no se pudo generar el HTML previo; la página se dibuja con JavaScript como antes.\n', e)
 } finally {

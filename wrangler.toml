@@ -14,7 +14,9 @@ routes = [
 [assets]
 directory = "./dist"
 binding = "ASSETS"
-run_worker_first = ["/", "/admin", "/admin/", "/api/*", "/img/*"]
+# "/*-buga" son las paginas por servicio (sus rutas terminan en -buga): el Worker les aplica lo editado en D1.
+# Una pagina nueva cuya ruta no termine en -buga debe agregarse aqui.
+run_worker_first = ["/", "/admin", "/admin/*", "/api/*", "/img/*", "/*-buga"]
 not_found_handling = "single-page-application"
 
 [[d1_databases]]
