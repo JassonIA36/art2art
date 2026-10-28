@@ -30,6 +30,9 @@ export const ServiciosSection: React.FC = () => {
                 <div className="flex aspect-[4/3] items-center justify-center bg-gradient-to-br from-[#fbe9ec] via-white to-[#eef3fb] p-6">
                   <img
                     src={p.image.src}
+                    // Misma clave que la foto principal de la página del servicio (p_<slug>_imagen, ver ServicePage.tsx):
+                    // al cambiarla en un lugar se cambia en el otro.
+                    data-edit-img={`p_${p.slug}_imagen`}
                     alt={p.image.alt}
                     width={400}
                     height={400}
