@@ -294,7 +294,7 @@ export const MmmHero: React.FC = () => {
           {/* El título arma sus letras solo (LetrasArmadas); "tu marca" entra al final como un bloque. */}
           <div>
             <h1 className="text-[40px] sm:text-[54px] lg:text-[62px] font-semibold leading-[1.05] tracking-[-0.05em] text-black">
-              <span data-edit="hero_titulo"><LetrasArmadas texto={TITULO_HERO} /></span>{' '}
+              <span data-edit="hero_titulo" data-split={TITULO_HERO}><LetrasArmadas texto={TITULO_HERO} /></span>{' '}
               <span
                 className="titulo-final"
                 style={{ '--d': `${60 + contarLetras(TITULO_HERO) * 18 + 120}ms` } as React.CSSProperties}

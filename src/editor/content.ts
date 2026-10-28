@@ -40,7 +40,8 @@ function applyElement(el: HTMLElement, content: Record<string, string>) {
   if (textKey) {
     el.dataset.a2aOrig = el.textContent ?? '';
     const value = content[textKey];
-    if (typeof value === 'string') setText(el, value);
+    // Si el texto guardado ya es el que se ve, no se toca: así se conservan estructuras como las letras animadas del título.
+    if (typeof value === 'string' && value !== el.textContent) setText(el, value);
   }
 
   const imgKey = el.getAttribute('data-edit-img');
