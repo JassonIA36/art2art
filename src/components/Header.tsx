@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { COMPANY_INFO, getWhatsAppLink } from '../data/mockData';
+import { SERVICE_PAGES } from '../data/servicePages';
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -10,7 +11,7 @@ export const Header: React.FC = () => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
 
-      const sections = ['inicio', 'catalogo', 'personalizador', 'caracteristicas', 'talleres', 'opiniones', 'faq', 'contacto'];
+      const sections = ['inicio', 'catalogo', 'personalizador', 'servicios', 'caracteristicas', 'talleres', 'opiniones', 'faq', 'contacto'];
       const scrollPos = window.scrollY + 120;
 
       for (const sectionId of sections) {
@@ -33,7 +34,7 @@ export const Header: React.FC = () => {
   const navLinks = [
     { label: 'Catálogo', href: '#catalogo', id: 'catalogo' },
     { label: 'Estudio en Vivo', href: '#personalizador', id: 'personalizador' },
-    { label: 'Técnicas', href: '#caracteristicas', id: 'caracteristicas' },
+    { label: 'Servicios', href: '#servicios', id: 'servicios', submenu: true },
     { label: 'Taller', href: '#talleres', id: 'talleres' },
     { label: 'Opiniones', href: '#opiniones', id: 'opiniones' },
   ];
@@ -52,18 +53,39 @@ export const Header: React.FC = () => {
           <div className="hidden lg:flex items-center gap-1.5">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
+              const linkClass = `inline-flex items-center justify-center gap-1 rounded-full px-3.5 py-1.5 text-sm transition-colors ${
+                isActive
+                  ? 'bg-black/5 font-semibold text-black'
+                  : 'text-black/70 hover:bg-black/5 hover:text-black font-normal'
+              }`;
+              if (!link.submenu) {
+                return (
+                  <a key={link.label} href={link.href} className={linkClass}>
+                    <span data-edit={`nav_${link.id}`}>{link.label}</span>
+                  </a>
+                );
+              }
+              // "Servicios" abre una lista con las páginas por técnica (con el mouse o con el teclado; en celular se usa el menú lateral)
               return (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className={`inline-flex items-center justify-center rounded-full px-3.5 py-1.5 text-sm transition-all ${
-                    isActive
-                      ? 'bg-black/5 font-semibold text-black'
-                      : 'text-black/70 hover:bg-black/5 hover:text-black font-normal'
-                  }`}
-                >
-                  <span data-edit={`nav_${link.id}`}>{link.label}</span>
-                </a>
+                <div key={link.label} className="group relative">
+                  <a href={link.href} className={linkClass} aria-haspopup="true">
+                    <span data-edit={`nav_${link.id}`}>{link.label}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" className="opacity-60 transition-transform group-hover:rotate-180 group-focus-within:rotate-180">
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </a>
+                  <div className="invisible absolute left-0 top-full z-10 w-72 pt-2 opacity-0 transition-opacity duration-150 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+                    <ul className="rounded-2xl border border-black/10 bg-white p-1.5 shadow-[0_12px_32px_rgba(0,0,0,0.10)]">
+                      {SERVICE_PAGES.map((p) => (
+                        <li key={p.slug}>
+                          <a href={`/${p.slug}`} className="block rounded-xl px-3.5 py-2.5 text-sm font-medium text-black/80 transition-colors hover:bg-black/5 hover:text-black">
+                            {p.navLabel} en Buga
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
               );
             })}
           </div>
@@ -209,6 +231,20 @@ export const Header: React.FC = () => {
                       strokeLinejoin="round"
                       className="text-black/40"
                     >
+                      <path d="m9 18 6-6-6-6" />
+                    </svg>
+                  </a>
+                ))}
+
+                <p className="mt-5 px-3.5 text-[11px] font-bold uppercase tracking-widest text-black/50">Servicios en Buga</p>
+                {SERVICE_PAGES.map((p) => (
+                  <a
+                    key={p.slug}
+                    href={`/${p.slug}`}
+                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-black/80 hover:bg-black/5 transition-colors"
+                  >
+                    <span>{p.navLabel}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-black/40" aria-hidden="true">
                       <path d="m9 18 6-6-6-6" />
                     </svg>
                   </a>

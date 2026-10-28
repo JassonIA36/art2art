@@ -63,10 +63,13 @@ function cabezaServicio({ page, SITE, css, tipografias }) {
     <meta property="og:url" content="${url}" />
     <meta property="og:title" content="${esc(page.title)}" />
     <meta property="og:description" content="${esc(page.metaDescription)}" />
-    <meta property="og:image" content="${SITE.origin}/logo.png" />
-    <meta property="og:image:alt" content="Logo de ${esc(SITE.name)}" />
+    <meta property="og:image" content="${SITE.origin}/og-art2art.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="${esc(page.image.alt)}" />
     <meta property="og:locale" content="es_CO" />
-    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="${SITE.origin}/og-art2art.png" />
     <meta name="twitter:title" content="${esc(page.title)}" />
     <meta name="twitter:description" content="${esc(page.metaDescription)}" />
     <script type="application/ld+json">${json(grafo)}</script>
