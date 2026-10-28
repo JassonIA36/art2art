@@ -1,46 +1,28 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 
 interface RevealProps {
   children: React.ReactNode;
-  delay?: number;
   className?: string;
+  /** Con `delay` (ms) es una entrada al cargar la página (el hero); sin `delay`, la sección se anima con el scroll. */
+  delay?: number;
 }
 
-export const Reveal: React.FC<RevealProps> = ({ children, delay = 0, className = '' }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    if (
-      typeof IntersectionObserver === 'undefined' ||
-      window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    ) {
-      setVisible(true);
-      return;
-    }
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -40px 0px' }
+// Sin `delay`: cada sección entra desde abajo y se "recoge" un poco al salir por arriba. El movimiento está en CSS
+// (clase .fold en index.css, animaciones ligadas al scroll): no usa JavaScript, y si el navegador no lo soporta la
+// sección simplemente se ve completa. El texto siempre está en el HTML, así que Google lo lee igual.
+export const Reveal: React.FC<RevealProps> = ({ children, className = '', delay }) => {
+  if (delay !== undefined) {
+    return (
+      <div style={{ animationDelay: `${delay}ms` }} className={`intro ${className}`}>
+        {children}
+      </div>
     );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
+  }
   return (
     <div
-      ref={ref}
       // Las secciones fuera de pantalla no se maquetan ni pintan hasta que se acercan: la carga inicial es más liviana
-      style={{ transitionDelay: `${delay}ms`, contentVisibility: 'auto', containIntrinsicSize: 'auto 720px' }}
-      className={`transition-all duration-700 ease-out ${
-        visible ? 'opacity-100' : 'opacity-0 translate-y-6'
-      } ${className}`}
+      style={{ contentVisibility: 'auto', containIntrinsicSize: 'auto 720px' }}
+      className={`fold ${className}`}
     >
       {children}
     </div>
