@@ -16,8 +16,12 @@ class ApiError extends Error {
   }
 }
 
-// 'Ver página' vuelve a la página pública del mismo dominio.
-const SITE_URL = location.hostname.startsWith('admin.') ? `https://${location.hostname.slice(6)}/` : '/';
+// 'Ver página' abre la versión pública de la página que se está editando (mismo dominio, sin el panel).
+const ON_ADMIN_HOST = location.hostname.startsWith('admin.');
+// Ruta de la página actual sin el prefijo /admin ('/' en la portada).
+const PAGE_PATH = location.pathname.replace(/^\/admin(?=\/|$)/, '') || '/';
+const SITE_URL = ON_ADMIN_HOST ? `https://${location.hostname.slice(6)}${PAGE_PATH}` : PAGE_PATH;
+const adminUrl = (slug: string) => (ON_ADMIN_HOST ? `/${slug}` : slug ? `/admin/${slug}` : '/admin');
 const BAR_HEIGHT = 52;
 const MAX_SIDE = 1200;
 const TARGET_BYTES = 200 * 1024;
@@ -135,6 +139,10 @@ function injectStyles() {
   .a2a-row .a2a-hint{font-size:12px;color:rgba(0,0,0,.5)}
   .a2a-row .a2a-rowerr{font-size:12px;color:#b91c1c;min-height:0}
   .a2a-row button{align-self:flex-start;height:28px;padding:0 10px;border-radius:999px;border:1px solid rgba(0,0,0,.2);background:#fff;font-size:12px;font-weight:600;cursor:pointer}
+  .a2a-pagelist{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+  .a2a-pagelist .a2a-btn{height:42px;text-align:left;border-color:rgba(0,0,0,.2);color:#000}
+  .a2a-pagelist .a2a-btn:hover:not(:disabled){background:rgba(0,0,0,.06)}
+  .a2a-pagelist .a2a-btn[aria-current="page"]{background:#000;color:#fff;border-color:#000}
   .a2a-toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:2147483600;max-width:calc(100vw - 32px);padding:12px 18px;border-radius:999px;background:#0b0b0b;color:#fff;font-size:14px;font-weight:600;box-shadow:0 8px 30px rgba(0,0,0,.35)}
   .a2a-toast.error{background:#b91c1c}
   .a2a-toast.ok{background:#15803d}
@@ -655,6 +663,7 @@ function currentHref(key: string): string {
 function renderLinks() {
   sideList.replaceChildren();
   const keys = [...new Set([...document.querySelectorAll<HTMLElement>('[data-edit-href]')].map((el) => el.dataset.editHref as string))];
+  if (keys.length === 0) sideList.append(h('p', { class: 'a2a-hint' }, 'Esta página no tiene enlaces ni botones editables.'));
   for (const key of keys) {
     const sample = hrefEls(key)[0];
     const hint = (sample?.textContent ?? '').trim().replace(/\s+/g, ' ').slice(0, 60);
@@ -803,6 +812,42 @@ async function viewSite() {
   location.href = SITE_URL;
 }
 
+/** Lista de páginas editables (inicio y una por servicio). */
+function openPagesModal() {
+  const pages = [{ slug: '', label: 'Inicio' }, ...(window.__A2A__?.pages ?? [])];
+  const current = PAGE_PATH.replace(/^\//, '');
+  let close = () => {};
+  const go = async (slug: string) => {
+    if (slug === current) return;
+    if (pending.size > 0) {
+      const ok = await confirmModal('Cambiar de página', 'Tienes cambios sin guardar. Si cambias de página ahora se perderán.', 'Salir sin guardar');
+      if (!ok) return;
+    }
+    pending.clear();
+    location.href = adminUrl(slug);
+  };
+  const list = h(
+    'div',
+    { class: 'a2a-pagelist' },
+    ...pages.map((p) =>
+      h(
+        'button',
+        {
+          type: 'button',
+          class: 'a2a-btn',
+          ...(p.slug === current ? { 'aria-current': 'page' } : {}),
+          onclick: () => {
+            close();
+            void go(p.slug);
+          },
+        },
+        p.label
+      )
+    )
+  );
+  ({ close } = modal('Elegir página para editar', [list], [{ label: 'Cerrar', onClick: () => undefined }]));
+}
+
 async function logout() {
   if (pending.size > 0) {
     const ok = await confirmModal('Cerrar sesión', 'Tienes cambios sin guardar. Si sales ahora se perderán.', 'Salir sin guardar');
@@ -829,6 +874,7 @@ function buildBar() {
     'div',
     { class: 'a2a-ui a2a-bar', role: 'toolbar', 'aria-label': 'Barra de edición' },
     h('button', { type: 'button', class: 'a2a-btn', onclick: () => void viewSite() }, '← Ver página'),
+    h('button', { type: 'button', class: 'a2a-btn', onclick: openPagesModal }, 'Páginas'),
     saveBtn,
     cancelBtn,
     statusEl,

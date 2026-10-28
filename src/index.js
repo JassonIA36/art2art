@@ -48,11 +48,50 @@ async function route(request, env, ctx) {
     if (method !== 'GET' && method !== 'HEAD') return json({ error: 'Método no permitido' }, 405);
     const session = await getSession(request, env);
     if (!session) return loginPage();
-    return servePage(request, env, true);
+    const { pages, editor } = await loadPages(request, env);
+    return servePage(request, env, { admin: true, pages, editor });
+  }
+
+  // Páginas por servicio (DTF, serigrafía...): /<servicio> es la pública y /admin/<servicio> (o <servicio> en
+  // admin.<dominio>) es la misma página en modo edición. La lista sale de dist/paginas.json (la genera el build).
+  const adminMatch = path.match(/^\/admin\/([a-z0-9-]+)\/?$/);
+  const slugPath = adminMatch ? adminMatch[1] : /^\/[a-z0-9-]+$/.test(path) ? path.slice(1) : null;
+  if (slugPath) {
+    const { pages, editor } = await loadPages(request, env);
+    if (pages.some((p) => p.slug === slugPath)) {
+      if (method !== 'GET' && method !== 'HEAD') return json({ error: 'Método no permitido' }, 405);
+      if (adminMatch || adminHost) {
+        const session = await getSession(request, env);
+        if (!session) return loginPage();
+        return servePage(request, env, { admin: true, assetPath: `/${slugPath}`, slug: slugPath, pages, editor });
+      }
+      return servePage(request, env, { admin: false, assetPath: `/${slugPath}`, slug: slugPath });
+    }
   }
 
   if (method !== 'GET' && method !== 'HEAD') return json({ error: 'Método no permitido' }, 405);
-  return servePage(request, env, false);
+  return servePage(request, env, { admin: false });
+}
+
+let pagesCache = null;
+const EDITOR_SRC_RE = /^\/assets\/[A-Za-z0-9._-]+\.js$/;
+
+// Lo que el build dejó en dist/paginas.json: { editor: ruta del script principal, pages: [{ slug, label }] }.
+async function loadPages(request, env) {
+  if (pagesCache) return pagesCache;
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL('/paginas.json', request.url), { method: 'GET' }));
+    if ((res.headers.get('content-type') || '').includes('json')) {
+      const data = await res.json();
+      const list = data && Array.isArray(data.pages) ? data.pages : [];
+      const pages = list.filter((p) => p && typeof p.slug === 'string' && /^[a-z0-9-]+$/.test(p.slug) && typeof p.label === 'string');
+      const editor = data && typeof data.editor === 'string' && EDITOR_SRC_RE.test(data.editor) ? data.editor : null;
+      if (pages.length) pagesCache = { pages, editor };
+    }
+  } catch (err) {
+    console.error('No se pudo leer paginas.json', err && err.message ? err.message : err);
+  }
+  return pagesCache || { pages: [], editor: null };
 }
 
 /* ------------------------------------------------------------------ */
@@ -82,21 +121,48 @@ function safeJson(value) {
     .replace(/\u2029/g, '\\u2029');
 }
 
-async function servePage(request, env, admin) {
-  const assetRes = await env.ASSETS.fetch(new Request(new URL('/', request.url), { method: 'GET' }));
+// Los datos estructurados (JSON-LD) de las preguntas frecuentes deben decir lo mismo que se ve en la página:
+// si el dueño editó una pregunta o respuesta, se actualiza también aquí. El prefijo y los nombres de campo
+// deben coincidir con los de src/pages/ServicePage.tsx.
+function patchServiceLd(raw, content, slug) {
+  try {
+    const data = JSON.parse(raw);
+    const prefix = `p_${slug}_`;
+    for (const item of data['@graph'] || []) {
+      if (item['@type'] === 'FAQPage' && Array.isArray(item.mainEntity)) {
+        item.mainEntity.forEach((q, i) => {
+          const pregunta = content[`${prefix}faq_${i + 1}_pregunta`];
+          const respuesta = content[`${prefix}faq_${i + 1}_respuesta`];
+          if (typeof pregunta === 'string') q.name = pregunta;
+          if (typeof respuesta === 'string' && q.acceptedAnswer) q.acceptedAnswer.text = respuesta;
+        });
+      } else if (item['@type'] === 'Service' && typeof content[`${prefix}h1`] === 'string') {
+        item.name = content[`${prefix}h1`];
+      }
+    }
+    return safeJson(data);
+  } catch {
+    return raw;
+  }
+}
+
+async function servePage(request, env, { admin = false, assetPath = '/', slug = null, pages = [], editor = null } = {}) {
+  const assetRes = await env.ASSETS.fetch(new Request(new URL(assetPath, request.url), { method: 'GET' }));
   const type = assetRes.headers.get('content-type') || '';
   if (!type.includes('text/html')) return assetRes;
 
   const content = await loadContent(env);
-  const boot = admin ? { c: content, admin: true } : { c: content };
+  const isService = slug !== null;
+  const boot = admin ? { c: content, admin: true, pages } : { c: content };
 
   // Cuando el HTML ya trae los elementos marcados, se reemplazan aquí mismo (HTMLRewriter).
   // En la app de React los elementos aparecen después; ahí los aplica src/editor/content.ts
-  // con los mismos datos, inyectados abajo en window.__A2A__.
+  // con los mismos datos, inyectados abajo en window.__A2A__. Las páginas por servicio no llevan
+  // JavaScript: allí solo se inyecta ese objeto (y el editor) cuando es el panel.
   const rewriter = new HTMLRewriter()
     .on('head', {
       element(el) {
-        el.append(`<script>window.__A2A__=${safeJson(boot)};</script>`, { html: true });
+        if (admin || !isService) el.append(`<script>window.__A2A__=${safeJson(boot)};</script>`, { html: true });
         if (admin) el.append('<meta name="robots" content="noindex, nofollow">', { html: true });
       },
     })
@@ -123,6 +189,28 @@ async function servePage(request, env, admin) {
         if (typeof href === 'string' && SAFE_HREF_RE.test(href.trim())) el.setAttribute('href', href.trim());
       },
     });
+
+  if (isService && admin && editor) {
+    rewriter.on('body', {
+      element(el) {
+        el.append(`<script type="module" src="${editor}"></script>`, { html: true });
+      },
+    });
+  }
+  if (isService && !admin) {
+    let ld = '';
+    rewriter.on('script[type="application/ld+json"]', {
+      text(chunk) {
+        ld += chunk.text;
+        if (chunk.lastInTextNode) {
+          chunk.replace(patchServiceLd(ld, content, slug), { html: true });
+          ld = '';
+        } else {
+          chunk.remove();
+        }
+      },
+    });
+  }
 
   const headers = new Headers(assetRes.headers);
   headers.set('Cache-Control', 'no-store');

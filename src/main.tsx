@@ -12,8 +12,15 @@ if (window.__A2A__?.admin) {
   import('./editor/editMode').then((m) => m.startEditMode())
 }
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+// Las páginas por servicio no tienen #root: el Worker solo les agrega este script en /admin/<servicio>
+// para abrir el editor sobre su HTML. Sus preguntas frecuentes se abren para poder editar las respuestas.
+const root = document.getElementById('root')
+if (root) {
+  createRoot(root).render(
+    <StrictMode>
+      <App />
+    </StrictMode>,
+  )
+} else {
+  document.querySelectorAll('details').forEach((d) => d.setAttribute('open', ''))
+}

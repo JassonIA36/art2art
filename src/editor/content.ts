@@ -5,6 +5,8 @@
 export interface A2AData {
   c: Record<string, string>;
   admin?: boolean;
+  /** Páginas editables (las agrega el Worker en modo admin): para el selector "Páginas" de la barra. */
+  pages?: { slug: string; label: string }[];
 }
 
 declare global {
