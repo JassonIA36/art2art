@@ -3,6 +3,7 @@ import { Header } from './components/Header';
 import { MmmHero } from './components/MmmHero';
 import { MockupStudioSection } from './components/MockupStudioSection';
 import { MmmFeatures } from './components/MmmFeatures';
+import { ServiciosSection } from './components/ServiciosSection';
 import { MmmTemplatesCarousel } from './components/MmmTemplatesCarousel';
 import { WorkshopsSection } from './components/WorkshopsSection';
 import { Reveal } from './components/Reveal';
@@ -34,6 +35,9 @@ export const App: React.FC = () => {
 
         {/* 3. Live Interactive Customizer Studio */}
         <Reveal><MockupStudioSection /></Reveal>
+
+        {/* Servicios por técnica: enlaza las páginas de DTF, serigrafía, sublimación, vinilo y camisetas */}
+        <Reveal><ServiciosSection /></Reveal>
 
         {/* 5. Features Grid (Everything you need to create digital & real apparel) */}
         <Reveal><MmmFeatures /></Reveal>

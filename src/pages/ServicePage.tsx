@@ -30,10 +30,42 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
               <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c]"></span>
             </span>
           </a>
+          <nav aria-label="Servicios" className="hidden lg:flex items-center gap-1">
+            {SERVICE_PAGES.map((s) => (
+              <a
+                key={s.slug}
+                href={`/${s.slug}`}
+                aria-current={s.slug === page.slug ? 'page' : undefined}
+                className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
+                  s.slug === page.slug ? 'bg-black/5 font-semibold text-black' : 'text-black/70 hover:bg-black/5 hover:text-black'
+                }`}
+              >
+                {s.navLabel}
+              </a>
+            ))}
+          </nav>
           <BotonWhatsApp message={page.whatsappMessage} className="h-10 px-4 sm:px-5">
             Cotizar por WhatsApp
           </BotonWhatsApp>
         </div>
+        {/* Celular y tablet: tira de servicios con desplazamiento horizontal */}
+        <nav aria-label="Servicios" className="lg:hidden border-t border-black/5">
+          <ul className="mx-auto flex w-full max-w-[1100px] gap-2 overflow-x-auto px-5 sm:px-8 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+            {SERVICE_PAGES.map((s) => (
+              <li key={s.slug} className="shrink-0">
+                <a
+                  href={`/${s.slug}`}
+                  aria-current={s.slug === page.slug ? 'page' : undefined}
+                  className={`inline-flex h-9 items-center rounded-full border px-3.5 text-sm whitespace-nowrap transition-colors ${
+                    s.slug === page.slug ? 'border-black bg-black text-white font-medium' : 'border-black/10 text-black/70 hover:bg-black/5'
+                  }`}
+                >
+                  {s.navLabel}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
       </header>
 
       <main className="flex-grow">
