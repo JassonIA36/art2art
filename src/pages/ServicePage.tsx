@@ -9,7 +9,7 @@ const BotonWhatsApp: React.FC<{ message: string; className?: string; children: R
     href={wa(message)}
     target="_blank"
     rel="noopener noreferrer"
-    className={`inline-flex items-center justify-center gap-2 rounded-full bg-black text-white hover:bg-neutral-800 text-sm font-medium h-12 px-6 transition-colors ${className}`}
+    className={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-full bg-black text-white hover:bg-neutral-800 text-sm font-medium h-12 px-6 transition-colors ${className}`}
   >
     <span className="w-2 h-2 rounded-full bg-[#25D366]" aria-hidden="true"></span>
     {children}
@@ -24,7 +24,7 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
   return (
     <div className="min-h-screen bg-white text-black flex flex-col font-sans">
       <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-black/10">
-        <div className="mx-auto flex w-full max-w-[1100px] items-center justify-between px-5 sm:px-8 py-3">
+        <div className="mx-auto flex w-full max-w-[1280px] items-center justify-between gap-4 px-5 sm:px-8 py-3">
           <a href="/" className="flex items-center gap-2.5" aria-label="Art2Art Estampados, ir al inicio">
             <img src="/logo.png" alt="Logo de Art2Art Estampados" width={48} height={48} className="w-10 h-10 sm:w-12 sm:h-12 object-contain" />
             <span className="flex items-baseline gap-1.5">
@@ -32,14 +32,14 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
               <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c]"></span>
             </span>
           </a>
-          <nav aria-label="Servicios" className="hidden lg:flex items-center gap-1">
+          <nav aria-label="Servicios" className="hidden xl:flex items-center gap-1">
             {SERVICE_PAGES.map((s) => (
               <a
                 key={s.slug}
                 href={`/${s.slug}`}
                 aria-current={s.slug === page.slug ? 'page' : undefined}
-                className={`rounded-full px-3 py-1.5 text-sm transition-colors ${
-                  s.slug === page.slug ? 'bg-black/5 font-semibold text-black' : 'text-black/70 hover:bg-black/5 hover:text-black'
+                className={`whitespace-nowrap rounded-full px-3.5 py-2 text-[15px] font-semibold tracking-[-0.01em] transition-colors ${
+                  s.slug === page.slug ? 'bg-black text-white' : 'text-black/80 hover:bg-black/5 hover:text-black'
                 }`}
               >
                 {s.navLabel}
@@ -51,15 +51,15 @@ export const ServicePage: React.FC<{ page: ServicePageData }> = ({ page }) => {
           </BotonWhatsApp>
         </div>
         {/* Celular y tablet: tira de servicios con desplazamiento horizontal */}
-        <nav aria-label="Servicios" className="lg:hidden border-t border-black/5">
+        <nav aria-label="Servicios" className="xl:hidden border-t border-black/5">
           <ul className="mx-auto flex w-full max-w-[1100px] gap-2 overflow-x-auto px-5 sm:px-8 py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
             {SERVICE_PAGES.map((s) => (
               <li key={s.slug} className="shrink-0">
                 <a
                   href={`/${s.slug}`}
                   aria-current={s.slug === page.slug ? 'page' : undefined}
-                  className={`inline-flex h-9 items-center rounded-full border px-3.5 text-sm whitespace-nowrap transition-colors ${
-                    s.slug === page.slug ? 'border-black bg-black text-white font-medium' : 'border-black/10 text-black/70 hover:bg-black/5'
+                  className={`inline-flex h-9 items-center rounded-full border px-3.5 text-sm font-semibold whitespace-nowrap transition-colors ${
+                    s.slug === page.slug ? 'border-black bg-black text-white' : 'border-black/15 text-black/80 hover:bg-black/5'
                   }`}
                 >
                   {s.navLabel}
