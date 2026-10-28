@@ -69,7 +69,7 @@ export default {
         "margin": "2rem",
       },
       fontFamily: {
-        sans: ["'Inter'", "sans-serif"],
+        sans: ["'Inter'", "'Inter Fallback'", "sans-serif"],
         display: ["'Bebas Neue'", "sans-serif"],
         "body-lg": ["'Inter'", "sans-serif"],
         "headline-sm": ["'Bebas Neue'", "sans-serif"],
