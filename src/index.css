@@ -53,6 +53,79 @@
   background: #dc0c1c;
 }
 
+/* Secciones que entran y se "recogen" al hacer scroll (ver components/Reveal.tsx).
+   Animaciones ligadas al scroll en CSS puro: solo transform y opacity, sin JavaScript.
+   Entrada: sube 24 px y aparece (nunca arranca en opacidad 0, para que el texto no quede "oculto").
+   Salida: se encoge un 5 % hacia su borde inferior y baja a 55 % de opacidad. */
+@keyframes section-in {
+  from {
+    opacity: 0.4;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes section-fold {
+  from {
+    opacity: 1;
+    transform: none;
+  }
+  to {
+    opacity: 0.55;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes section-fade {
+  from {
+    opacity: 0.4;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@supports (animation-timeline: view()) {
+  .fold {
+    transform-origin: 50% 100%;
+    animation: section-in linear, section-fold linear;
+    animation-fill-mode: backwards, forwards;
+    animation-timeline: view(), view();
+    animation-range: entry 0% entry 280px, exit 0% exit 100%;
+  }
+
+  /* Con "reducir movimiento" solo queda el desvanecido, sin desplazamiento ni escala. */
+  @media (prefers-reduced-motion: reduce) {
+    .fold {
+      animation: section-fade linear;
+      animation-fill-mode: backwards;
+      animation-timeline: view();
+      animation-range: entry 0% entry 280px;
+    }
+  }
+}
+
+/* Entrada del hero al cargar la página (escalonada con animation-delay). Parte de 40 % de opacidad, no de 0,
+   para no retrasar el primer pintado del título. */
+.intro {
+  animation: section-in 500ms cubic-bezier(0.23, 1, 0.32, 1) backwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro {
+    animation: section-fade 300ms linear backwards;
+  }
+}
+
+/* En el modo edición del panel el texto debe quedarse quieto. */
+html.a2a-edit .fold,
+html.a2a-edit .intro {
+  animation: none !important;
+}
+
 /* Subtle micro-animations & Stitch Design DNA */
 @keyframes floatSlow {
   0%, 100% {

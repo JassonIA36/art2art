@@ -280,7 +280,7 @@ export const MmmHero: React.FC = () => {
 
       <div className="relative mx-auto flex w-full max-w-[1280px] flex-col px-6 sm:px-8">
         <div className="mx-auto flex max-w-[760px] flex-col items-center gap-5 text-center">
-          <Reveal>
+          <Reveal delay={0}>
             <span className="inline-flex items-center gap-1.5 rounded-full bg-black/5 px-3 py-1 text-xs sm:text-sm font-medium text-black">
               <span className="w-1.5 h-1.5 rounded-full bg-[#dc0c1c] animate-pulse"></span>
               <span data-edit="hero_etiqueta">Personalización Textil & Estampados • Buga, Valle</span>
