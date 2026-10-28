@@ -70,7 +70,28 @@ async function route(request, env, ctx) {
   }
 
   if (method !== 'GET' && method !== 'HEAD') return json({ error: 'Método no permitido' }, 405);
+  // Aquí solo debería llegar la portada; cualquier otra dirección que pase por el Worker no existe.
+  if (path !== '/') return notFound(request, env);
   return servePage(request, env, { admin: false });
+}
+
+// 404 real (con la página dist/404.html si existe), para que Google no indexe direcciones inexistentes.
+async function notFound(request, env) {
+  let body = 'Página no encontrada';
+  let type = 'text/plain; charset=utf-8';
+  try {
+    const res = await env.ASSETS.fetch(new Request(new URL('/404.html', request.url), { method: 'GET' }));
+    if ((res.headers.get('content-type') || '').includes('text/html')) {
+      body = await res.text();
+      type = 'text/html; charset=utf-8';
+    }
+  } catch (err) {
+    console.error('No se pudo leer 404.html', err && err.message ? err.message : err);
+  }
+  return new Response(body, {
+    status: 404,
+    headers: { 'Content-Type': type, 'Cache-Control': 'no-store', 'X-Content-Type-Options': 'nosniff' },
+  });
 }
 
 let pagesCache = null;

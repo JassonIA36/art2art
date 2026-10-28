@@ -134,7 +134,52 @@ ${urls.map((u) => `  <url>\n    <loc>${u.loc}</loc>\n    <lastmod>${hoy}</lastmo
   await writeFile(path.join(dist, 'sitemap.xml'), mapa)
   console.log(`prerender: sitemap.xml con ${urls.length} direcciones`)
 
-  // 4. Lista de páginas editables: el Worker la lee para saber qué rutas son páginas por servicio,
+  // 4. Página 404: se muestra con código 404 en cualquier dirección que no existe (wrangler.toml: 404-page).
+  //    Lleva noindex y estilos propios (no depende del CSS compilado) y enlaza a la portada y a los servicios.
+  const enlaces = paginas
+    .map((p) => `<li><a href="/${p.page.slug}">${esc(p.page.navLabel)} en Buga</a></li>`)
+    .join('')
+  await writeFile(
+    path.join(dist, '404.html'),
+    `<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex, follow" />
+<title>Página no encontrada | ${esc(modulo.SITE.name)}</title>
+<link rel="icon" type="image/png" href="/logo.png" />
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#fff;color:#0b0e17;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+main{width:100%;max-width:520px}
+img{width:56px;height:56px;object-fit:contain}
+h1{margin:20px 0 8px;font-size:clamp(32px,8vw,44px);line-height:1.05;letter-spacing:-.04em}
+p{margin:0 0 24px;font-size:17px;line-height:1.5;color:rgba(0,0,0,.65)}
+a.btn{display:inline-flex;align-items:center;height:48px;padding:0 24px;border-radius:999px;background:#000;color:#fff;font-weight:600;font-size:15px;text-decoration:none}
+a.btn:hover{background:#262626}
+h2{margin:32px 0 10px;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(0,0,0,.5)}
+ul{margin:0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:8px}
+li a{display:inline-flex;align-items:center;min-height:40px;padding:0 16px;border:1px solid rgba(0,0,0,.12);border-radius:999px;color:#0b0e17;font-size:14px;text-decoration:none}
+li a:hover{background:rgba(0,0,0,.05)}
+</style>
+</head>
+<body>
+<main>
+<img src="/logo.png" alt="Logo de ${esc(modulo.SITE.name)}" width="56" height="56" />
+<h1>Esta página no existe</h1>
+<p>Puede que la dirección esté mal escrita o que la página ya no esté disponible.</p>
+<a class="btn" href="/">Ir al inicio</a>
+<h2>Nuestros servicios</h2>
+<ul>${enlaces}</ul>
+</main>
+</body>
+</html>
+`,
+  )
+  console.log('prerender: 404.html')
+
+  // 5. Lista de páginas editables: el Worker la lee para saber qué rutas son páginas por servicio,
   //    armar el selector "Páginas" del panel y enlazar el script que abre el editor (el mismo de la portada).
   const script = (original.match(/<script type="module"[^>]*src="(\/assets\/[^"]+\.js)"/) || [])[1]
   if (!script) throw new Error('No encuentro el script principal en dist/index.html')
