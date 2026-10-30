@@ -7,7 +7,7 @@ import { selectGarmentInStudio } from '../utils/studioEvents';
 import type { MockupGarmentId } from '../types';
 
 // Texto original del título (el dueño puede cambiarlo desde el panel; entonces se muestra sin la animación de letras).
-const TITULO_HERO = 'Estampados en Buga de Paula para';
+const TITULO_HERO = 'Estampados en Buga de alta calidad para';
 
 // =========================================================================
 // VELOCIDAD DEL CARRUSEL (fácilmente editable)
