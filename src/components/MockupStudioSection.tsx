@@ -450,8 +450,15 @@ export const MockupStudioSection: React.FC = () => {
               className="w-full bg-[#f8fafc] bg-studio-pattern rounded-2xl p-4 sm:p-6 flex items-center justify-center relative overflow-hidden min-h-[420px] sm:min-h-[480px] border border-slate-200"
             >
               {TWO_SIDED.includes(selectedGarmentId) ? (
-                <div className="w-full grid grid-cols-2 gap-2 sm:gap-6">
-                  {(['frente', 'espalda'] as Side[]).map((side) => {
+                <div
+                  className={`w-full grid gap-2 sm:gap-6 ${
+                    selectedPosition === 'ambos' ? 'grid-cols-2' : 'grid-cols-1 max-w-[480px] mx-auto'
+                  }`}
+                >
+                  {(selectedPosition === 'ambos'
+                    ? (['frente', 'espalda'] as Side[])
+                    : [selectedPosition as Side]
+                  ).map((side) => {
                     const d = designOf(side);
                     const isActive = side === activeSide;
                     const zone = currentGarment.printZone;
@@ -482,8 +489,9 @@ export const MockupStudioSection: React.FC = () => {
                           printed={isPrinted(side)}
                           active={isActive}
                           onSelect={() => selectSide(side)}
-                          compact
+                          compact={selectedPosition === 'ambos'}
                         />
+                        {selectedPosition === 'ambos' && (
                         <button
                           type="button"
                           onClick={() => selectSide(side)}
@@ -496,6 +504,7 @@ export const MockupStudioSection: React.FC = () => {
                         >
                           {SIDE_LABEL[side]}
                         </button>
+                        )}
                       </div>
                     );
                   })}
@@ -521,7 +530,7 @@ export const MockupStudioSection: React.FC = () => {
                 />
               )}
             </div>
-            {TWO_SIDED.includes(selectedGarmentId) && (
+            {TWO_SIDED.includes(selectedGarmentId) && selectedPosition === 'ambos' && (
               <p className="w-full text-center text-xs text-slate-500 -mt-1">
                 Estás editando la <strong className="text-slate-800">{SIDE_LABEL[activeSide].toLowerCase()}</strong>.
                 Toca la otra camiseta para diseñar el otro lado.
