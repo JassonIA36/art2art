@@ -10,6 +10,31 @@ import { TECHNIQUE_OPTIONS, COMPANY_INFO, getWhatsAppLink } from '../data/mockDa
 import confetti from 'canvas-confetti';
 import type { MockupGarmentId } from '../types';
 
+type Side = 'frente' | 'espalda';
+
+interface SideDesign {
+  url: string | null;
+  name: string;
+  scale: number;
+  rotation: number;
+  offsetX: number;
+  offsetY: number;
+}
+
+const EMPTY_SIDE: SideDesign = {
+  url: null,
+  name: 'Sin arte',
+  scale: 85,
+  rotation: 0,
+  offsetX: 0,
+  offsetY: 0,
+};
+
+// Garments whose back view we can show next to the front
+const TWO_SIDED: MockupGarmentId[] = ['camiseta', 'oversize'];
+
+const SIDE_LABEL: Record<Side, string> = { frente: 'Frente', espalda: 'Espalda' };
+
 export const MockupStudioSection: React.FC = () => {
   // Selected Garment & Options
   const [selectedGarmentId, setSelectedGarmentId] = useState<MockupGarmentId>('camiseta');
@@ -39,6 +64,47 @@ export const MockupStudioSection: React.FC = () => {
   const [isWhatsAppModalOpen, setIsWhatsAppModalOpen] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  // Two-sided editing: the states above always belong to the side being edited;
+  // the other side's design is kept aside and swapped in when the user switches.
+  const [activeSide, setActiveSide] = useState<Side>('frente');
+  const [otherDesign, setOtherDesign] = useState<SideDesign>(EMPTY_SIDE);
+
+  const snapshotDesign = (): SideDesign => ({
+    url: artworkUrl,
+    name: artworkName,
+    scale,
+    rotation,
+    offsetX,
+    offsetY,
+  });
+
+  const switchSide = (next: Side) => {
+    if (next === activeSide) return;
+    const incoming = otherDesign;
+    setOtherDesign(snapshotDesign());
+    setArtworkUrl(incoming.url);
+    setArtworkName(incoming.name);
+    setScale(incoming.scale);
+    setRotation(incoming.rotation);
+    setOffsetX(incoming.offsetX);
+    setOffsetY(incoming.offsetY);
+    setActiveSide(next);
+  };
+
+  const choosePosition = (next: 'frente' | 'espalda' | 'ambos') => {
+    setSelectedPosition(next);
+    if (next !== 'ambos') switchSide(next);
+  };
+
+  // Tapping a side that carries no print adds it (the "Ambos lados" surcharge applies)
+  const selectSide = (side: Side) => {
+    if (selectedPosition !== 'ambos' && selectedPosition !== side) setSelectedPosition('ambos');
+    switchSide(side);
+  };
+
+  const isPrinted = (side: Side) => selectedPosition === 'ambos' || selectedPosition === side;
+  const designOf = (side: Side): SideDesign => (side === activeSide ? snapshotDesign() : otherDesign);
 
   const selectGarment = (id: MockupGarmentId) => {
     const garment = MOCKUP_GARMENTS.find((g) => g.id === id);
@@ -124,78 +190,120 @@ export const MockupStudioSection: React.FC = () => {
     }
   };
 
-  // Generate and Download Mockup as PNG via Canvas
-  const handleDownloadMockup = () => {
+  // Turn every external image reference of an SVG into a data URL so it survives rasterization
+  const inlineSvgImages = async (svg: SVGSVGElement) => {
+    const images = Array.from(svg.querySelectorAll('image'));
+    await Promise.all(
+      images.map(async (img) => {
+        const href = img.getAttribute('href') || img.getAttribute('xlink:href');
+        if (!href || href.startsWith('data:')) return;
+        try {
+          const blob = await (await fetch(href)).blob();
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const r = new FileReader();
+            r.onload = () => resolve(r.result as string);
+            r.onerror = reject;
+            r.readAsDataURL(blob);
+          });
+          img.setAttribute('href', dataUrl);
+        } catch {
+          // leave as is
+        }
+      })
+    );
+  };
+
+  const rasterizeSvg = async (svg: SVGSVGElement, w: number, h: number) => {
+    const clone = svg.cloneNode(true) as SVGSVGElement;
+    clone.setAttribute('width', String(w));
+    clone.setAttribute('height', String(h));
+    await inlineSvgImages(clone);
+    const blob = new Blob([new XMLSerializer().serializeToString(clone)], {
+      type: 'image/svg+xml;charset=utf-8',
+    });
+    const url = URL.createObjectURL(blob);
+    try {
+      return await new Promise<HTMLImageElement>((resolve, reject) => {
+        const image = new Image();
+        image.onload = () => resolve(image);
+        image.onerror = reject;
+        image.src = url;
+      });
+    } finally {
+      // the decoded bitmap stays valid after revoking
+      setTimeout(() => URL.revokeObjectURL(url), 0);
+    }
+  };
+
+  // Generate and Download Mockup as PNG via Canvas (every side shown in the preview)
+  const handleDownloadMockup = async () => {
     setIsExporting(true);
     try {
-      const svgElement = document.querySelector('#mockup-preview-box svg') as SVGSVGElement | null;
-      if (!svgElement) {
-        setIsExporting(false);
-        return;
-      }
+      const svgs = Array.from(
+        document.querySelectorAll<SVGSVGElement>('#mockup-preview-box svg')
+      );
+      if (!svgs.length) return;
 
-      const svgClone = svgElement.cloneNode(true) as SVGSVGElement;
-      svgClone.setAttribute('width', '1200');
-      svgClone.setAttribute('height', '1300');
+      const n = svgs.length;
+      const cellW = n === 2 ? 1000 : 1100;
+      const cellH = Math.round((cellW * 650) / 600);
+      const W = n * cellW + (n + 1) * 40;
+      const H = cellH + 40 + 120 + 40;
 
-      const xmlSerializer = new XMLSerializer();
-      const svgString = xmlSerializer.serializeToString(svgClone);
-      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
-      const URL = window.URL || window.webkitURL || window;
-      const blobURL = URL.createObjectURL(svgBlob);
+      const bitmaps = await Promise.all(svgs.map((svg) => rasterizeSvg(svg, cellW, cellH)));
 
-      const image = new Image();
-      image.onload = () => {
-        const canvas = document.createElement('canvas');
-        canvas.width = 1200;
-        canvas.height = 1300;
-        const ctx = canvas.getContext('2d');
-        if (ctx) {
-          // Clean white canvas backdrop
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, 1200, 1300);
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
 
-          // Card container behind garment
-          ctx.fillStyle = '#f8fafc';
-          ctx.roundRect ? ctx.roundRect(40, 40, 1120, 1100, 24) : ctx.fillRect(40, 40, 1120, 1100);
-          ctx.fill();
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, W, H);
 
-          ctx.drawImage(image, 0, 0, 1200, 1200);
+      ctx.fillStyle = '#f8fafc';
+      ctx.fillRect(20, 20, W - 40, cellH + 20);
 
-          // Bottom Art2Art Atelier Watermark & Spec Banner
-          ctx.fillStyle = '#f1f5f9';
-          ctx.fillRect(40, 1140, 1120, 120);
-
-          ctx.fillStyle = '#dc0c1c';
-          ctx.font = 'bold 30px "Jost", "Bebas Neue", sans-serif';
-          ctx.fillText('Art2Art Estampados — Guadalajara de Buga', 70, 1185);
-
-          ctx.fillStyle = '#334155';
-          ctx.font = '16px "Inter", sans-serif';
-          ctx.fillText(
-            `Prenda: ${currentGarment.name} | Talla: ${selectedSize} | Posición: ${selectedPosition.toUpperCase()} | Color: ${currentColorConfig.name} | WhatsApp: ${COMPANY_INFO.whatsappDisplay}`,
-            70,
-            1225
-          );
-
-          const pngData = canvas.toDataURL('image/png');
-          const downloadLink = document.createElement('a');
-          downloadLink.download = `art2art-preview-${selectedGarmentId}-${selectedSize}-${currentColorConfig.name.toLowerCase().replace(/\s+/g, '-')}.png`;
-          downloadLink.href = pngData;
-          document.body.appendChild(downloadLink);
-          downloadLink.click();
-          document.body.removeChild(downloadLink);
-          URL.revokeObjectURL(blobURL);
-          setHasDownloadedPreview(true);
+      const sides: Side[] = n === 2 ? ['frente', 'espalda'] : [activeSide];
+      bitmaps.forEach((bmp, i) => {
+        const x = 40 + i * (cellW + 40);
+        ctx.drawImage(bmp, x, 30, cellW, cellH);
+        if (n === 2) {
+          ctx.fillStyle = '#64748b';
+          ctx.font = 'bold 26px "Jost", sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(SIDE_LABEL[sides[i]].toUpperCase(), x + cellW / 2, cellH + 10);
+          ctx.textAlign = 'left';
         }
-        setIsExporting(false);
-      };
-      image.onerror = () => {
-        setIsExporting(false);
-        URL.revokeObjectURL(blobURL);
-      };
-      image.src = blobURL;
+      });
+
+      // Bottom Art2Art spec banner
+      const bannerY = cellH + 60;
+      ctx.fillStyle = '#f1f5f9';
+      ctx.fillRect(20, bannerY, W - 40, 130);
+
+      ctx.fillStyle = '#dc0c1c';
+      ctx.font = 'bold 30px "Jost", "Bebas Neue", sans-serif';
+      ctx.fillText('Art2Art Estampados — Guadalajara de Buga', 50, bannerY + 52);
+
+      ctx.fillStyle = '#334155';
+      ctx.font = '18px "Inter", sans-serif';
+      ctx.fillText(
+        `Prenda: ${currentGarment.name} | Talla: ${selectedSize} | Posición: ${selectedPosition.toUpperCase()} | Color: ${currentColorConfig.name} | WhatsApp: ${COMPANY_INFO.whatsappDisplay}`,
+        50,
+        bannerY + 96
+      );
+
+      const downloadLink = document.createElement('a');
+      downloadLink.download = `art2art-preview-${selectedGarmentId}-${selectedSize}-${currentColorConfig.name.toLowerCase().replace(/\s+/g, '-')}.png`;
+      downloadLink.href = canvas.toDataURL('image/png');
+      document.body.appendChild(downloadLink);
+      downloadLink.click();
+      document.body.removeChild(downloadLink);
+      setHasDownloadedPreview(true);
     } catch {
+      // ignore
+    } finally {
       setIsExporting(false);
     }
   };
@@ -209,12 +317,20 @@ export const MockupStudioSection: React.FC = () => {
         ? 'Espalda'
         : 'Frente y Espalda (Ambos lados)';
 
+    const designLines = TWO_SIDED.includes(selectedGarmentId)
+      ? (['frente', 'espalda'] as Side[])
+          .filter(isPrinted)
+          .map((side) => `
+🖼️ *Diseño ${side}:* ${designOf(side).name === 'Sin arte' ? 'por definir' : designOf(side).name}`)
+          .join('')
+      : '';
+
     return `¡Hola Art2Art! 👋 Acabo de configurar este pedido en su Personalizador Web y deseo realizarlo:
 
 👕 *Prenda:* ${currentGarment.name} (${currentGarment.badge})
 🎨 *Color:* ${currentColorConfig.name} (${currentColorConfig.hex})
 📏 *Talla:* ${selectedSize}
-📍 *Posición del Estampado:* ${positionLabel}
+📍 *Posición del Estampado:* ${positionLabel}${designLines}
 🛠️ *Técnica Sugerida:* ${currentTechnique.name}
 
 📎 Te envío mi diseño y la vista previa por este chat`;
@@ -333,25 +449,84 @@ export const MockupStudioSection: React.FC = () => {
               id="mockup-preview-box"
               className="w-full bg-[#f8fafc] bg-studio-pattern rounded-2xl p-4 sm:p-6 flex items-center justify-center relative overflow-hidden min-h-[420px] sm:min-h-[480px] border border-slate-200"
             >
-              <GarmentVectorPreview
-                garmentId={selectedGarmentId}
-                garmentColor={selectedColor}
-                isDark={currentColorConfig.isDark}
-                artworkUrl={artworkUrl}
-                techniqueId={selectedTechniqueId}
-                showPrintZone={showPrintZone}
-                scale={scale}
-                rotation={rotation}
-                offsetX={offsetX}
-                offsetY={offsetY}
-                onDragOffsetChange={(newX, newY) => {
-                  setOffsetX(newX);
-                  setOffsetY(newY);
-                }}
-                printZone={currentGarment.printZone}
-                position={selectedPosition}
-              />
+              {TWO_SIDED.includes(selectedGarmentId) ? (
+                <div className="w-full grid grid-cols-2 gap-2 sm:gap-6">
+                  {(['frente', 'espalda'] as Side[]).map((side) => {
+                    const d = designOf(side);
+                    const isActive = side === activeSide;
+                    const zone = currentGarment.printZone;
+                    return (
+                      <div key={side} className="flex flex-col items-center gap-2 min-w-0">
+                        <GarmentVectorPreview
+                          garmentId={selectedGarmentId}
+                          garmentColor={selectedColor}
+                          isDark={currentColorConfig.isDark}
+                          artworkUrl={d.url}
+                          techniqueId={selectedTechniqueId}
+                          showPrintZone={showPrintZone}
+                          scale={d.scale}
+                          rotation={d.rotation}
+                          offsetX={d.offsetX}
+                          offsetY={d.offsetY}
+                          onDragOffsetChange={(newX, newY) => {
+                            setOffsetX(newX);
+                            setOffsetY(newY);
+                          }}
+                          printZone={
+                            side === 'espalda'
+                              ? { ...zone, y: zone.y - 25, height: zone.height + 25 }
+                              : zone
+                          }
+                          position={side.toUpperCase()}
+                          view={side === 'espalda' ? 'back' : 'front'}
+                          printed={isPrinted(side)}
+                          active={isActive}
+                          onSelect={() => selectSide(side)}
+                          compact
+                        />
+                        <button
+                          type="button"
+                          onClick={() => selectSide(side)}
+                          aria-pressed={isActive}
+                          className={`min-h-[40px] px-4 rounded-full text-xs font-semibold border transition-colors active:scale-[0.97] ${
+                            isActive
+                              ? 'bg-black text-white border-black'
+                              : 'bg-white text-slate-600 border-slate-300 hover:bg-slate-50'
+                          }`}
+                        >
+                          {SIDE_LABEL[side]}
+                        </button>
+                      </div>
+                    );
+                  })}
+                </div>
+              ) : (
+                <GarmentVectorPreview
+                  garmentId={selectedGarmentId}
+                  garmentColor={selectedColor}
+                  isDark={currentColorConfig.isDark}
+                  artworkUrl={artworkUrl}
+                  techniqueId={selectedTechniqueId}
+                  showPrintZone={showPrintZone}
+                  scale={scale}
+                  rotation={rotation}
+                  offsetX={offsetX}
+                  offsetY={offsetY}
+                  onDragOffsetChange={(newX, newY) => {
+                    setOffsetX(newX);
+                    setOffsetY(newY);
+                  }}
+                  printZone={currentGarment.printZone}
+                  position={selectedPosition === 'ambos' ? 'FRENTE + ESPALDA' : selectedPosition.toUpperCase()}
+                />
+              )}
             </div>
+            {TWO_SIDED.includes(selectedGarmentId) && (
+              <p className="w-full text-center text-xs text-slate-500 -mt-1">
+                Estás editando la <strong className="text-slate-800">{SIDE_LABEL[activeSide].toLowerCase()}</strong>.
+                Toca la otra camiseta para diseñar el otro lado.
+              </p>
+            )}
 
             {/* Quick Placement Presets */}
             <div className="w-full flex items-center justify-between flex-wrap gap-2 pt-1 text-xs">
@@ -604,7 +779,7 @@ export const MockupStudioSection: React.FC = () => {
                     <div className="grid grid-cols-3 gap-2">
                       <button
                         type="button"
-                        onClick={() => setSelectedPosition('frente')}
+                        onClick={() => choosePosition('frente')}
                         className={`p-2.5 rounded-xl border text-center transition-all ${
                           selectedPosition === 'frente'
                             ? 'border-[#dc0c1c] bg-[#dc0c1c]/10 text-[#dc0c1c] font-bold'
@@ -617,7 +792,7 @@ export const MockupStudioSection: React.FC = () => {
 
                       <button
                         type="button"
-                        onClick={() => setSelectedPosition('espalda')}
+                        onClick={() => choosePosition('espalda')}
                         className={`p-2.5 rounded-xl border text-center transition-all ${
                           selectedPosition === 'espalda'
                             ? 'border-[#dc0c1c] bg-[#dc0c1c]/10 text-[#dc0c1c] font-bold'
@@ -630,7 +805,7 @@ export const MockupStudioSection: React.FC = () => {
 
                       <button
                         type="button"
-                        onClick={() => setSelectedPosition('ambos')}
+                        onClick={() => choosePosition('ambos')}
                         className={`p-2.5 rounded-xl border text-center transition-all ${
                           selectedPosition === 'ambos'
                             ? 'border-[#dc0c1c] bg-[#dc0c1c]/10 text-[#dc0c1c] font-bold'
