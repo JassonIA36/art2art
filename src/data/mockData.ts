@@ -129,7 +129,7 @@ export const WORKSHOP_DATA: WorkshopItem = {
   ],
   maxSeats: 6,
   availableSeats: 2,
-  imageUrl: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCn-1tQdg8zjBCyC2ITqYgtLM3wK3g-mGaGx5NBxR0cMCKbGGbH6CXxSrPJKdqhVuOxZcvR0lS2qvUuMXkEUjJh3vTqdT15HQYfJc0TkjVVzXBAgDWfVHWrBKRCi9dwLEI5q_2lAtBURIeBxvyrEiLB9Ajp7yEHi3rKstpsL5J-kfUWlvMCy3LTl5z507zNOKJPaY_R_M6HFBpSAuaH8tVwNYwaY8fZsrItLyZJfJEkjkZx_BAmJ_Ms',
+  imageUrl: '/taller-serigrafia.webp',
   quoteMessage: 'Hola, deseo inscribirme al Taller Especializado de Serigrafía.',
 };
 
