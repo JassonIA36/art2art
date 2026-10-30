@@ -1,7 +1,7 @@
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useState, useEffect, useId } from 'react';
 import type { MockupGarmentId } from '../types';
 import { MOCKUP_GARMENTS, type GarmentZone } from '../data/mockupData';
-import { processRealisticGarment } from '../utils/garmentImageProcessor';
+import { processRealisticGarment, type GarmentView } from '../utils/garmentImageProcessor';
 
 interface GarmentVectorPreviewProps {
   garmentId: MockupGarmentId;
@@ -16,7 +16,16 @@ interface GarmentVectorPreviewProps {
   offsetY: number; // percentage offset -50 to 50
   onDragOffsetChange: (newX: number, newY: number) => void;
   printZone: GarmentZone;
-  position?: 'frente' | 'espalda' | 'ambos';
+  /** Label of the print area guide (FRENTE / ESPALDA) */
+  position?: string;
+  view?: GarmentView;
+  /** Unprinted sides are shown dimmed */
+  printed?: boolean;
+  /** Only the active side can be edited (drag); the others select on tap */
+  active?: boolean;
+  onSelect?: () => void;
+  /** Two-up layout: no width cap and no drag hint */
+  compact?: boolean;
 }
 
 export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
@@ -32,8 +41,14 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
   offsetY,
   onDragOffsetChange,
   printZone,
-  position = 'frente',
+  position = 'FRENTE',
+  view = 'front',
+  printed = true,
+  active = true,
+  onSelect,
+  compact = false,
 }) => {
+  const uid = useId().replace(/:/g, '');
   const containerRef = useRef<SVGSVGElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [colorizedUrl, setColorizedUrl] = useState<string | null>(null);
@@ -57,14 +72,14 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
       : currentGarment.photoUrl;
 
   // Process realistic textile image on garment/color change
-  const currentKey = `${basePhoto}_${garmentColor.toLowerCase()}`;
+  const currentKey = `${basePhoto}_${garmentColor.toLowerCase()}_${view}`;
   const isProcessing = loadedKey !== currentKey;
 
   useEffect(() => {
     let isMounted = true;
-    const key = `${basePhoto}_${garmentColor.toLowerCase()}`;
+    const key = `${basePhoto}_${garmentColor.toLowerCase()}_${view}`;
 
-    processRealisticGarment(basePhoto, garmentColor, isDark)
+    processRealisticGarment(basePhoto, garmentColor, isDark, view)
       .then((res) => {
         if (isMounted) {
           setColorizedUrl(res.colorizedDataUrl);
@@ -82,7 +97,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
     return () => {
       isMounted = false;
     };
-  }, [basePhoto, garmentColor, isDark]);
+  }, [basePhoto, garmentColor, isDark, view]);
 
   // Center coordinate of printable area
   const artCenterBaseX = printZone.x + printZone.width / 2;
@@ -164,23 +179,39 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
   };
 
   return (
-    <div className="relative w-full max-w-[480px] mx-auto select-none flex flex-col items-center justify-center p-1 sm:p-2">
+    <div
+      className={`relative w-full mx-auto select-none flex flex-col items-center justify-center ${
+        compact ? 'max-w-none p-0' : 'max-w-[480px] p-1 sm:p-2'
+      } ${!active && onSelect ? 'cursor-pointer' : ''}`}
+      onClick={!active ? onSelect : undefined}
+      onKeyDown={(e) => {
+        if (!active && onSelect && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault();
+          onSelect();
+        }
+      }}
+      role={!active && onSelect ? 'button' : undefined}
+      tabIndex={!active && onSelect ? 0 : undefined}
+      aria-label={!active && onSelect ? `Editar ${position.toLowerCase()}` : undefined}
+    >
       <svg
         ref={containerRef}
         viewBox="0 0 600 650"
-        className="w-full h-auto drop-shadow-2xl overflow-visible transition-all duration-300"
+        className={`w-full h-auto overflow-visible transition-opacity duration-200 ${
+          compact ? 'drop-shadow-xl' : 'drop-shadow-2xl'
+        }`}
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
           {/* Subtle Ambient Studio Ground Shadow */}
-          <radialGradient id="studioGroundShadow" cx="50%" cy="50%" r="50%">
+          <radialGradient id={`${uid}-ground`} cx="50%" cy="50%" r="50%">
             <stop offset="0%" stopColor="#000000" stopOpacity="0.18" />
             <stop offset="70%" stopColor="#000000" stopOpacity="0.05" />
             <stop offset="100%" stopColor="#000000" stopOpacity="0.0" />
           </radialGradient>
 
           {/* Mask for realistic wrinkle shadow overlay on artwork */}
-          <clipPath id="artworkPrintClip">
+          <clipPath id={`${uid}-clip`}>
             <rect
               x={printZone.x}
               y={printZone.y}
@@ -197,7 +228,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
           cy="620"
           rx="210"
           ry="18"
-          fill="url(#studioGroundShadow)"
+          fill={`url(#${uid}-ground)`}
           filter="blur(5px)"
         />
 
@@ -220,7 +251,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
         {/* ======================================================== */}
         {/* PRINTABLE BOUNDARY GUIDE (CM DIMENSIONS)                 */}
         {/* ======================================================== */}
-        {showPrintZone && (
+        {showPrintZone && active && printed && !compact && (
           <g id="print-zone-guide" className="transition-opacity duration-300">
             <rect
               x={printZone.x}
@@ -251,7 +282,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
               fontFamily="sans-serif"
               letterSpacing="0.5"
             >
-              ÁREA {position === 'ambos' ? 'FRENTE + ESPALDA' : position.toUpperCase()}
+              ÁREA {position}
             </text>
           </g>
         )}
@@ -259,16 +290,16 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
         {/* ======================================================== */}
         {/* INTERACTIVE ARTWORK LAYER WITH REALISTIC DRAGGING        */}
         {/* ======================================================== */}
-        {artworkUrl && (
+        {printed && artworkUrl && (
           <g
             id="artwork-interactive-group"
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-            className={`cursor-grab active:cursor-grabbing transition-transform ${
-              isDragging ? 'opacity-90' : 'opacity-100'
-            }`}
-            style={{ touchAction: 'none' }}
+            onPointerDown={active ? handlePointerDown : undefined}
+            onPointerMove={active ? handlePointerMove : undefined}
+            onPointerUp={active ? handlePointerUp : undefined}
+            className={`transition-transform ${
+              active ? 'cursor-grab active:cursor-grabbing' : 'pointer-events-none'
+            } ${isDragging ? 'opacity-90' : 'opacity-100'}`}
+            style={{ touchAction: active ? 'none' : 'auto' }}
           >
             {/* Transformed Artwork */}
             <g transform={`translate(${artPixelX}, ${artPixelY}) rotate(${rotation})`}>
@@ -306,7 +337,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
         {/* REALISTIC WRINKLE BLEND OVERLAY                          */}
         {/* Multiplies real cotton shadows over artwork so it bends! */}
         {/* ======================================================== */}
-        {shadowMapUrl && artworkUrl && (
+        {shadowMapUrl && printed && artworkUrl && (
           <image
             href={shadowMapUrl}
             x="30"
@@ -323,7 +354,7 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
         )}
 
         {/* Empty state prompt if no artwork is loaded */}
-        {!artworkUrl && (
+        {printed && !artworkUrl && (
           <g
             transform={`translate(${artCenterBaseX}, ${artCenterBaseY})`}
             className="pointer-events-none"
@@ -354,11 +385,22 @@ export const GarmentVectorPreview: React.FC<GarmentVectorPreviewProps> = ({
         )}
       </svg>
 
+      {/* Unprinted side: invitation to add a print */}
+      {!printed && (
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <span className="rounded-full bg-white/90 border border-slate-200 px-3 py-1.5 text-[11px] font-semibold text-slate-600 shadow-sm text-center">
+            Toca para añadir estampado
+          </span>
+        </div>
+      )}
+
       {/* Floating Interactive Badge Helper */}
+      {!compact && (
       <div className="mt-1 sm:mt-0 sm:absolute sm:bottom-4 sm:left-1/2 sm:-translate-x-1/2 bg-[#1a1a20]/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-[#2a2a36] text-xs text-[#9ca3af] shadow-lg flex items-center gap-1.5 pointer-events-none">
         <span className="material-symbols-outlined text-[15px] text-[#e6197e]">touch_app</span>
         <span>Arrastra el arte libremente sobre la prenda</span>
       </div>
+      )}
     </div>
   );
 };

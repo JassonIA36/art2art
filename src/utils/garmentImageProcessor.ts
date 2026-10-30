@@ -4,6 +4,84 @@
  * and crease/shadow map extraction for real photographic mockups.
  */
 
+export type GarmentView = 'front' | 'back';
+
+// Neckline geometry (px on the 640 working canvas) of each studio photo
+const NECK: Record<string, { cx: number; hw: number; top: number }> = {
+  tshirt_black: { cx: 316, hw: 66, top: 68 },
+  tshirt: { cx: 327, hw: 64, top: 68 },
+};
+
+/**
+ * The studio photos are front views. The back of a tee has the same silhouette
+ * but a high, shallow neckband, so the front scoop is covered with fabric taken
+ * from the chest and a shallow rib is redrawn.
+ */
+function paintBackNeck(ctx: CanvasRenderingContext2D, size: number, url: string) {
+  const key = url.includes('tshirt_black') ? 'tshirt_black' : 'tshirt';
+  const { cx, hw, top } = NECK[key];
+  const k = size / 640;
+  const px = (v: number) => v * k;
+
+  // Chest patch used as fabric
+  const patch = document.createElement('canvas');
+  const pw = Math.round(px(120));
+  const ph = Math.round(px(80));
+  patch.width = pw;
+  patch.height = ph;
+  const pctx = patch.getContext('2d');
+  if (!pctx) return;
+  pctx.drawImage(ctx.canvas, px(cx - 60), px(190), pw, ph, 0, 0, pw, ph);
+
+  // Colours sampled from the photo for the new neckband and the opening
+  const chest = pctx.getImageData(0, 0, pw, ph).data;
+  let r = 0, g = 0, b = 0;
+  const count = chest.length / 4;
+  for (let i = 0; i < chest.length; i += 4) { r += chest[i]; g += chest[i + 1]; b += chest[i + 2]; }
+  r /= count; g /= count; b /= count;
+  const ribColor = `rgb(${Math.round(r * 1.02)},${Math.round(g * 1.02)},${Math.round(b * 1.02)})`;
+  const innerColor = `rgb(${Math.round(r * 0.9)},${Math.round(g * 0.9)},${Math.round(b * 0.9)})`;
+
+  // 1. cover the whole scoop (below the top of the collar) with chest fabric
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(px(cx - hw - 10), px(top + 10), px(hw * 2 + 20), px(110));
+  ctx.clip();
+  ctx.beginPath();
+  ctx.ellipse(px(cx), px(top - 6), px(hw + 8), px(100), 0, 0, Math.PI * 2);
+  ctx.clip();
+  for (let x = cx - hw - 10; x < cx + hw + 10; x += 119) {
+    for (let y = top; y < top + 115; y += 79) {
+      ctx.drawImage(patch, px(x), px(y), pw, ph);
+    }
+  }
+  ctx.restore();
+
+  // 2. shallow opening of the back neck, 3. neckband
+  ctx.save();
+  ctx.beginPath();
+  ctx.rect(px(cx - hw), px(top + 4), px(hw * 2), px(60));
+  ctx.clip();
+  ctx.beginPath();
+  ctx.ellipse(px(cx), px(top - 2), px(hw - 12), px(22), 0, 0, Math.PI * 2);
+  ctx.fillStyle = innerColor;
+  ctx.fill();
+  ctx.lineWidth = px(11);
+  ctx.strokeStyle = ribColor;
+  ctx.beginPath();
+  ctx.ellipse(px(cx), px(top - 2), px(hw - 8), px(26), 0, 0, Math.PI * 2);
+  ctx.stroke();
+  ctx.lineWidth = px(1);
+  ctx.strokeStyle = 'rgba(0,0,0,0.08)';
+  ctx.beginPath();
+  ctx.ellipse(px(cx), px(top - 2), px(hw - 13.5), px(20.5), 0, 0, Math.PI);
+  ctx.stroke();
+  ctx.beginPath();
+  ctx.ellipse(px(cx), px(top - 2), px(hw - 2.5), px(31.5), 0, 0, Math.PI);
+  ctx.stroke();
+  ctx.restore();
+}
+
 export interface ProcessedGarmentResult {
   colorizedDataUrl: string;
   shadowMapDataUrl: string;
@@ -46,9 +124,10 @@ export function loadImg(url: string): Promise<HTMLImageElement> {
 export async function processRealisticGarment(
   baseImageUrl: string,
   targetHex: string,
-  isDarkGarment: boolean
+  isDarkGarment: boolean,
+  view: GarmentView = 'front'
 ): Promise<ProcessedGarmentResult> {
-  const cacheKey = `${baseImageUrl}_${targetHex.toLowerCase()}`;
+  const cacheKey = `${baseImageUrl}_${targetHex.toLowerCase()}_${view}`;
   if (cache.has(cacheKey)) {
     return cache.get(cacheKey)!;
   }
@@ -65,6 +144,7 @@ export async function processRealisticGarment(
 
   // Draw base studio photograph
   ctx.drawImage(img, 0, 0, size, size);
+  if (view === 'back') paintBackNeck(ctx, size, baseImageUrl);
   const imgData = ctx.getImageData(0, 0, size, size);
   const data = imgData.data;
 
