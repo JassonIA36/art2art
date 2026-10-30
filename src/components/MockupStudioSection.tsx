@@ -30,7 +30,7 @@ const EMPTY_SIDE: SideDesign = {
   offsetY: 0,
 };
 
-// Garments whose back view we can show next to the front
+// Garments whose back view we can show (front, back or both together)
 const TWO_SIDED: MockupGarmentId[] = ['camiseta', 'oversize'];
 
 const SIDE_LABEL: Record<Side, string> = { frente: 'Frente', espalda: 'Espalda' };
